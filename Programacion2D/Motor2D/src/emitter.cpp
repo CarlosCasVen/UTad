@@ -21,29 +21,23 @@ Emitter::Emitter(Image* image, bool autofade) : image( image ), autofade( autofa
 void Emitter::Update(double elapsed)
 {
 
-	Array <int> particlesToRemove ( 0 );
+	Array <int> particlesToRemove;
 	//eliminacion de particulas
 
 	for( unsigned int i = 0; i < particles.Size(); i++ )
 	{
-		particles[i].Update( elapsed );
-
-		if( particles[i].GetLifetime() <= 0 )
+		particles[i]->Update( elapsed );
+		
+		for( unsigned int a = 0; a < affectors.Size(); a++ ) affectors[a].AddParticles( particles[i] );
+			
+		if( particles[i]->GetLifetime() <= 0 )
 		{
 			particlesToRemove.Add( i );
+			delete particles[i];
+		
+			for( unsigned int a = 0; a < affectors.Size(); a++ ) affectors[a].DeleteParticles( particles[i] );			
 		}
 	}
-
-	if( affectors.Size() > 0 )
-	{
-		for( unsigned int i = 0; i < affectors.Size(); i++ )
-		{
-			affectors[i].ApplyAffector( &particles );
-		
-			affectors[i].DeleteParticles();
-		}	
-	}
-
 
 	for( int i = particlesToRemove.Size() - 1; i >= 0 ; i-- )
 	{
@@ -52,30 +46,29 @@ void Emitter::Update(double elapsed)
 
 	//fin eliminacion particulas
 
-
 	//creacion de particulas
 
 	int32 nParticles;
 	double velX, velY, velAng, life;
 	uint8 r, g, b;
 
-	IsEmitting() ? nParticles = (int32)MaxMinRand ( minrate, maxrate ) * elapsed : nParticles = 0;
+	IsEmitting() ? nParticles = (int32)(MaxMinRand ((int32)minrate, (int32)maxrate ) * elapsed) : (int32)nParticles = 0;
 
-	for( uint32 i = 0; i < nParticles; i++ )
+	for( uint32 i = 0; i < (uint32)nParticles; i++ )
 	{
-		velX = (double)MaxMinRand( minvelx, maxvelx );
-		velY = (double)MaxMinRand( minvely, maxvely ); 
-		velAng = (double)MaxMinRand( minangvel, maxangvel ); 
-		life = (double)MaxMinRand( minlifetime, maxlifetime) ;
-		r = (uint8)MaxMinRand( minr, maxr );
-		g = (uint8)MaxMinRand( ming, maxg );
-		b = (uint8)MaxMinRand( minb, maxb );
+		velX = (double)MaxMinRand( (int32)minvelx, (int32)maxvelx );
+		velY = (double)MaxMinRand( (int32)minvely, (int32)maxvely ); 
+		velAng = (double)MaxMinRand( (int32)minangvel, (int32)maxangvel ); 
+		life = (double)MaxMinRand( (int32)minlifetime, (int32)maxlifetime) ;
+		r = (uint8)MaxMinRand( (int32)minr, (int32)maxr );
+		g = (uint8)MaxMinRand( (int32)ming, (int32)maxg );
+		b = (uint8)MaxMinRand( (int32)minb, (int32)maxb );
 
-		Particle particle ( image, velX, velY, velAng, life, autofade );
+		Particle *particle = new Particle( image, velX, velY, velAng, life, autofade );
 
-		particle.SetPosition( x, y );
-		particle.SetColor( r, g, b, 255 );
-		particle.SetBlendMode( blendMode );
+		particle->SetPosition( x, y );
+		particle->SetColor( r, g, b, 255 );
+		particle->SetBlendMode( blendMode );
 
 		particles.Add( particle );
 	}
@@ -88,7 +81,7 @@ void Emitter::Render() const
 
 	for( unsigned int i = 0; i < particles.Size(); i++ )
 	{
-		particles[i].Render();
+		particles[i]->Render();
 	}
 }
 

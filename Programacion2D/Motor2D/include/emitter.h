@@ -48,7 +48,7 @@ private:
 	uint8 maxr, maxg, maxb;
 	Renderer::BlendMode blendMode;
 	bool emitting; 
-	Array<Particle> particles;
+	Array<Particle*> particles;
 	Array<Affector> affectors;
 };
 
