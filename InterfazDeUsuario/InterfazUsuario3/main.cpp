@@ -1,54 +1,89 @@
+#include "include/u-gine.h"
+
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "include/u-gine.h"
+#include "uGui/GUIManager.h"
+#include "UGui/Button.h"
+#include "uGui/Window.h"
+#include "uGui/IEventListener.h"
+#include "uGui/FirstMenu.h"
+#include "uGui/ConfigScreen.h"
+#include "uGui/CreditsScreen.h"
+#include "uGui/Slider.h"
+
+void MouseButtonCallback(int button, int action);
+void MousePosCallback(int x, int y);
 
 
-int	main(int	argc,	char*	argv[])	{	
-
-	Screen::Instance().Open( 800, 600, true );
-
-	//glfwDisable(GLFW_MOUSE_CURSOR);
-
-	Image* star = ResourceManager::Instance().LoadImage( "data/star.png" );
-
-	Scene scene;
-	Sprite* sprite = scene.CreateSprite( star );
-	Emitter* emitter = scene.CreateEmitter( star, true );
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+int main(int argc, char* argv[]) 
+{
+	Screen::Instance().Open( 1024, 768, false );
 	
-	emitter->SetRate( 500, 1000 );
-	emitter->SetVelocityX( -128, 128 );
-	emitter->SetVelocityY( -128, 128 );
-	emitter->SetAngularVelocity( 0, 360 );
-	emitter->SetLifetime( 1, 8 );
-	emitter->SetMinColor( 0, 0 ,0 );
-	emitter->SetMaxColor( 255, 255, 255 );
+	GUIManager::instance().init();
+	
+	ConfigScreen menu = ConfigScreen::instance();
+//	menu.Active();
 
 
 
-	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
-	{	
+	Slider* m_sound = new Slider();
+	m_sound->init( "Sonido", Vector2( 100, 100 ), "data/GUI/Slider_bar.png", "data/GUI/Slider_ball.png", "data/GUI/Slider_Right_PushNormal.png", "data/GUI/Slider_Right_Push.png",
+					"data/GUI/Slider_Left_Normal.png", "data/GUI/Slider_Left_Push.png" );
+	m_sound->setParent( GUIManager::instance().getRootControl() );
+/*	Label* l1 = new Label(); 
+	l1->init( "Label1", Vector2( 200, 300 ), "Prueba", "data/fonts/font.png" );   
+	
+	Button* m_exit = new Button(); 
+	m_exit->init( "Volver", Vector2( 250, 250 ), "data/GUI/Button_Normal.png", "data/GUI/Button_Push.png" );   
+	m_exit->setLabel(l1);
+	m_exit->setParent( GUIManager::instance().getRootControl() );
+	*/
+	glfwSetMouseButtonCallback(MouseButtonCallback);
+	glfwSetMousePosCallback(MousePosCallback);
 
-		Renderer::Instance().Clear();
+	while ( Screen::Instance().IsOpened()  &&  !Screen::Instance().KeyPressed(GLFW_KEY_ESC) ) 
+	{
+		GUIManager::instance().update();
 
-		if( Screen::Instance().MouseButtonPressed( GLFW_MOUSE_BUTTON_1 ) )
-		{
-			emitter->Start();
-		}
-		else
-		{
-			emitter->Stop();
-		}
+		Screen::Instance().SetTitle( String( "X: ") + String::FromFloat( Screen::Instance().GetMouseX()) + String( " Y: ") + String::FromFloat( Screen::Instance().GetMouseY()) );
 
-		emitter->SetX( Screen::Instance().GetMouseX() );
-		emitter->SetY( Screen::Instance().GetMouseY() );
-		sprite->SetX( Screen::Instance().GetMouseX() );
-		sprite->SetY( Screen::Instance().GetMouseY() );
-		
-		scene.Update( Screen::Instance().ElapsedTime() );
-		scene.Render();
-		
+		Renderer::Instance().Clear(0, 0, 0);
+		GUIManager::instance().render();
 		Screen::Instance().Refresh();
 	}
 
-	return	0;	
+	GUIManager::instance().end();
+
+	return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void MouseButtonCallback(int button, int action)
+{
+	int x, y;
+	glfwGetMousePos( &x, &y );
+
+	if( action == GLFW_PRESS )
+		GUIManager::instance().injectInput( MessagePointerButtonDown( button, (float)x, (float)y ) );
+	else if( action == GLFW_RELEASE )
+		GUIManager::instance().injectInput( MessagePointerButtonUp( button, (float)x, (float)y ) );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void MousePosCallback(int x, int y)
+{
+	GUIManager::instance().injectInput( MessagePointerMove( (float)x, (float)y ) ); 
 }

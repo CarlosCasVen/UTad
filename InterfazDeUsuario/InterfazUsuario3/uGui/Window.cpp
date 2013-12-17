@@ -1,5 +1,5 @@
-#include "../include/Window.h"
-#include "../include/GUIManager.h"
+#include "Window.h"
+#include "GUIManager.h"
 #include "../include/Renderer.h"
 #include "../include/Image.h"
 

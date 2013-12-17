@@ -1,114 +1,80 @@
 #include "../include/font.h"
-#include "../include/glyph.h"
 #include "../include/glinclude.h"
+#include "../include/renderer.h"
+#include <math.h>
 
-extern "C" unsigned	char *stbi_load(const char *filename, int *x, int *y, int *comp, int req_comp);
-extern "C" void	stbi_image_free(void *buffer);
+extern "C" unsigned char *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp);
+extern "C" void stbi_image_free(void *retval_from_stbi_load);
 
+Font::Font(const String &filename) : Image(filename, 16, 16) {
+	if ( IsValid() ) {
+		// Cargamos el buffer de imagen
+		int w, h, comp;
+        uint8* buffer = stbi_load(filename.ToCString(), &w, &h, &comp, 4);
 
-Font::Font(const String& filename) : Image(filename, 16, 16)
-{
-	int widthImage = 0;
-	int heightImage = 0;
-	int nComponents = 4;
-	unsigned int nFrames = 16 * 16;
-	uint16 widthFrame = GetWidth();
-	uint16 heightFrame = GetHeight();
-	uint16 nLine = -1;
+		// Obtenemos informacion de los glifos
+		for ( uint32 i = 0; i < 256; i++ ) {
+            // Encontramos el glifo dentro del frame
+            double xoffset = 0;
+            double yoffset = 0;
+            double width = GetWidth();
+            double height = GetHeight();
+            int row = (int)floor(i*1.0 / GetHFrames());
+            int column = i % GetHFrames();
+            for ( int y = row*GetHeight(); y < (row + 1)*GetHeight(); y++ ) {
+                for ( int x = column*GetWidth(); x < (column + 1)*GetWidth(); x++ ) {
+                    uint8 r, g, b, a;
+                    GetPixelColor(buffer, w, x, y, &r, &g, &b, &a);
+                    if ( r == 255  &&  g == 255  &&  b == 0 ) {
+                        xoffset = (x - column*GetWidth())*-1.0;
+                        yoffset = (y - row*GetHeight())*-1.0;
+                        SetPixelColor(buffer, w, x, y, 0, 0, 0, 0);
+                    } else if ( r == 255  &&  g == 0  &&  b == 0 ) {
+                        width = (x - column*GetWidth()) + xoffset;
+                        height = (y - row*GetHeight()) + yoffset;
+                        SetPixelColor(buffer, w, x, y, 0, 0, 0, 0);
+                    } else if ( r == 0  &&  g == 0  &&  b == 0 ) {
+                        SetPixelColor(buffer, w, x, y, 0, 0, 0, 0);
+                    }
+                }
+            }
 
-	unsigned char* pixels = stbi_load( filename.ToCString(), &widthImage, &heightImage, &nComponents, nComponents);
-
-	for(unsigned int n = 0; n < nFrames; n++)
-	{
-		Glyph glyph(0, 0, widthFrame, heightFrame);
-
-		uint16 row = n / 16;
-		uint16 column = n % 16;
-
-		for(unsigned int posY = row * heightFrame; posY < (row + 1) * heightFrame ; posY++ )
-		{
-			for(unsigned int posX = column * widthFrame; posX < (column + 1) * widthFrame; posX++)
-			{
-
-				unsigned char pixelR = pixels[(posY * widthImage + posX) * 4 + 0];
-				unsigned char pixelG = pixels[(posY * widthImage + posX) * 4 + 1];
-				unsigned char pixelB = pixels[(posY * widthImage + posX) * 4 + 2];
-				unsigned char* pixelA = &pixels[(posY * widthImage + posX) * 4 + 3];
-				
-
-
-				if( Glyph::IsYellow( pixelR, pixelG, pixelB))
-				{
-					glyph.SetInitialCoordinates(posX, posY);
-					*pixelA = 0;
-				}
-				else if( Glyph::IsRed( pixelR, pixelG, pixelB))
-				{
-					glyph.SetFinalCoordinates(posX, posY);
-					*pixelA = 0;				
-				}
-				else if( Glyph::IsBlack( pixelR, pixelG, pixelB))
-				{
-					*pixelA = 0;
-				}
-				else
-				{
-					*pixelA = 255;
-				}
-			}
+            // Aniadimos el glifo a la lista
+            glyphs.Add(Glyph(xoffset, yoffset, width, height));
 		}
 
-		glyphs.Add(glyph);
-		int x = glyph.GetWidth();
-	}
+		// Modificamos la textura (hemos convertido en transparentes los pixeles del glifo)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImage, heightImage, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-	stbi_image_free(pixels);
-
-}
-
-void Font::Render(const String& text, double x, double y)
-{
-	double xIncrement = x;
-	double increment = 0;
-	int index = 0;
-	Renderer::Instance().SetBlendMode(Renderer::BlendMode::ALPHA);
-
-	for(int i = 0; i < text.Length(); i++)
-	{
-		index = (unsigned char)text[i];
-		Renderer::Instance().DrawImage(this, xIncrement, y , (unsigned char)text[i]);
-		xIncrement += glyphs[(unsigned char)text[i]].GetWidth();
+		// Borramos el buffer
+		stbi_image_free(buffer);
 	}
 }
 
-
-uint32 Font::GetTextWidth(const String& text) const 
-{
-	uint16 widthText = 0;
-
-	for(int i = 0; i < text.Length(); i++)
-	{
-		widthText += glyphs[(unsigned char)text[i]].GetWidth();
-	}
-
-	return widthText;
+uint32 Font::GetTextWidth(const String &text) const {
+    uint32 width = 0;
+    for ( int i = 0; i < text.Length(); i++ ) width += (int)glyphs[text[i]].GetWidth();
+    return width;
 }
 
+void Font::Render(const String &text, double x, double y) const {
+    for ( int i = 0; i < text.Length(); i++ ) {
+        const Glyph& glyph = glyphs[text[i]];
+        Renderer::Instance().DrawImage(this, x + glyph.GetOffsetX(), y + glyph.GetOffsetY(), text[i]);
+        x += glyph.GetWidth();
+    }
+}
 
-uint32 Font::GetTextHeight(const String& text) const
-{
-	uint16 maxHeight = 0;
+void Font::GetPixelColor(uint8* buffer, uint16 width, uint16 x, uint16 y, uint8* r, uint8* g, uint8* b, uint8* a) const {
+	*r = buffer[(y*width + x)*4 + 0];
+	*g = buffer[(y*width + x)*4 + 1];
+	*b = buffer[(y*width + x)*4 + 2];
+	*a = buffer[(y*width + x)*4 + 3];
+}
 
-	for(int i = 0; i < text.Length(); i++)
-	{
-		if( maxHeight < glyphs[text[i]].GetHeight())
-		{
-			maxHeight = glyphs[text[i]].GetHeight();
-		}
-	}
-
-	return maxHeight;
-
+void Font::SetPixelColor(uint8* buffer, uint16 width, uint16 x, uint16 y, uint8 r, uint8 g, uint8 b, uint8 a) const {
+	buffer[(y*width + x)*4 + 0] = r;
+	buffer[(y*width + x)*4 + 1] = g;
+	buffer[(y*width + x)*4 + 2] = b;
+	buffer[(y*width + x)*4 + 3] = a;
 }

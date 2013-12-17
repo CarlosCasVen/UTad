@@ -1,6 +1,6 @@
-#include "../include/GUIManager.h"
-#include "../include/Control.h"
-#include "../include/Window.h"
+#include "GUIManager.h"
+#include "Control.h"
+#include "Window.h"
 #include <assert.h>
 #include "../include/Screen.h"
 

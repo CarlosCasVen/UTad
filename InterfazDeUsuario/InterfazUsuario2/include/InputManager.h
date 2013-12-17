@@ -312,6 +312,15 @@ struct VirtualAxis
 	double lastY;
 };
 
+struct Key
+{
+	eInputCode key;
+	bool wasPushed;
+
+public:
+	Key( eInputCode k){ key = k; wasPushed = false; }
+};
+
 
 class InputManager
 {
@@ -368,6 +377,7 @@ private:
 	Array<Button> actions;
 	Array<VirtualAxis> virtualAxis;
 	Array<eInputCode> buttonsPressed;
+	Array<Key> keys;
 	bool isOk;
 	static InputManager* manager;
 };

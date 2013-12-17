@@ -1,7 +1,7 @@
-#include "../include/Control.h"
+#include "Control.h"
 #include <list>
 #include <algorithm>
-#include "../include/GUIManager.h"
+#include "GUIManager.h"
 
 int Control::s_id = 1000;
 

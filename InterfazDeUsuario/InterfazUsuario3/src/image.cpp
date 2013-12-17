@@ -4,9 +4,9 @@
 #include <math.h>
 #include <stdlib.h>
 
-// TAREA: Declarar funciones de stb_image.c
-extern "C" unsigned	char *stbi_load(const char *filename, int *x, int *y, int *comp, int req_comp);
-extern "C" void	stbi_image_free(void *buffer);
+// Funciones de stb_image.c:
+extern "C" unsigned char *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp);
+extern "C" void stbi_image_free(void *retval_from_stbi_load);
 
 
 Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
@@ -21,90 +21,50 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	lastU = 1.0;
 	lastV = 1.0;
 
-	int pX = 0;
-	int pY = 0;
-	int nComponents = 4;
-
-	// TAREA: Cargar el buffer de la imagen
-	unsigned char* buffer = stbi_load(filename.ToCString(), &pX, &pY, &nComponents, 4);  
-	width = (int16)pX;
-	height = (int16)pY;
+	// Cargamos la imagen
+	int w, h, comp;
+    uint8* buffer = stbi_load(filename.ToCString(), &w, &h, &comp, 4);
 
 	// Generamos la textura
-	if (buffer)
-	{
+	if ( buffer ) {
+		// Si no es potencia de 2, generamos un nuevo buffer que lo sea
+		uint8* newBuffer = NULL;
+		int newWidth = (int)pow(2, ceil(Log2(w)));
+		int newHeight = (int)pow(2, ceil(Log2(h)));
+		if ( newWidth != w  ||  newHeight != h ) {
+			lastU = w*1.0 / newWidth;
+			lastV = h*1.0 / newHeight;
+			
+			newBuffer = (uint8*)malloc(4*newWidth*newHeight);
+			memset(newBuffer, 0, 4*newWidth*newHeight);
 
-		//PARTE AVANZADA
-		unsigned char* newBuffer = NULL;
-		bool supportedPowerOfTwo = glfwExtensionSupported("GL_ARB_texture_non_power_of_two") == 1;
-		bool newBufferNeeded = false;
-		uint16 newWidth = (uint16)pow(2,ceil(Log2(pX)));
-		uint16 newHeight = (uint16)pow(2,ceil(Log2(pY)));
-
-		if(!supportedPowerOfTwo)
-		{
-			if(pX != newWidth)
-			{
-				newBufferNeeded = true;
-			}
-	
-			if(pY != newHeight)
-			{
-				newBufferNeeded = true;
-			}
-		}
-
-		if(newBufferNeeded)
-		{
-			unsigned int sizeNewBuffer = newWidth * newHeight * 4;
-			unsigned char* newBuffer = new unsigned char [sizeNewBuffer];
-
-			memset(newBuffer, 0, sizeNewBuffer);
-
-			//COPIA EN EL NUEVO BUFFER
-			uint16 nElemBuffer = 0;
-
-			for(int i = 0; i < pY; i++)
-			{
-				for(int a = 0; a < pX; a++)
-				{
-					for(int k = 0; k < 4; k++)
-					{
-						newBuffer[(i * newWidth + a) * 4 + k] = buffer[nElemBuffer++];
-					}
+			for ( int y = 0; y < h; y++ ) {
+				for ( int x = 0; x < w; x++ ) {
+					newBuffer[4*(y*newWidth + x) + 0] = buffer[4*(y*w + x) + 0];
+					newBuffer[4*(y*newWidth + x) + 1] = buffer[4*(y*w + x) + 1];
+					newBuffer[4*(y*newWidth + x) + 2] = buffer[4*(y*w + x) + 2];
+					newBuffer[4*(y*newWidth + x) + 3] = buffer[4*(y*w + x) + 3];
 				}
 			}
-			//FIN COPIA 
-
-			lastU = (width * 1.0) / newWidth;
-			lastV = (height * 1.0) / newHeight;
-			pX = newWidth;
-			pY = newHeight;
-			stbi_image_free(buffer);
-			buffer = newBuffer;
 		}
-		//FIN PARTE AVANZADA
 
-		// TAREA: Generar la textura de OpenGL
-		glGenTextures(1, &gltex);
-
-		Bind();
-		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pX, pY, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-
-		if(!newBufferNeeded)
-		{
-			stbi_image_free(buffer);
-		}
+		GLuint handle;
+		glGenTextures(1, &handle);
+		glBindTexture(GL_TEXTURE_2D, handle);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		if ( newBuffer )
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newWidth, newHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, newBuffer);
 		else
-		{
-			delete []newBuffer;
-		}
-	}
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+		stbi_image_free(buffer);
+		if ( newBuffer)
+			free(newBuffer);
 
+		width = w;
+		height = h;
+		gltex = handle;
+	}
 }
 
 Image::~Image() {
@@ -112,8 +72,5 @@ Image::~Image() {
 }
 
 void Image::Bind() const {
-	// TAREA: Establecer la textura actual
 	glBindTexture(GL_TEXTURE_2D, gltex);
 }
-
-

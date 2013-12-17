@@ -1,23 +1,29 @@
-#include "../include/Button.h"
-#include "../include/GUIManager.h"
+#include "Button.h"
+#include "GUIManager.h"
 #include <iostream>
 #include <sstream>
 #include "../include/Renderer.h"
+#include "../include/ResourceManager.h"
 #include "../include/Image.h"
-
+#include "Label.h"
+#include "../include/math.h"
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
 Button::Button()
 {
+	m_normalImage = NULL;
+	m_pushImage	= NULL;
+	m_disabledImage = NULL;
 	m_pushed = false;
+	m_label = NULL;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Button::init( const std::string name, const Vector2& position, const std::string& normalImage, const std::string& pushImage )
+bool Button::init( const std::string name, const Vector2& position, const std::string& normalImage, const std::string& pushImage, const std::string& disabledImage )
 {
 	m_name				= name;
 	m_position			= position;
@@ -25,6 +31,10 @@ bool Button::init( const std::string name, const Vector2& position, const std::s
 	m_pushImage			= new Image( pushImage.c_str() );
 	m_size					= Vector2( (float)m_normalImage->GetWidth(), (float)m_normalImage->GetHeight() );
 
+	if( disabledImage != " " )
+	{
+		m_disabledImage =  new Image( disabledImage.c_str() );
+	}
 	return true;
 }
 
@@ -47,15 +57,25 @@ void Button::render()
 		Vector2 pos = getAbsolutePosition();
 
 		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
-		if( m_pushed )
+		
+		if( !isEnabled() && m_disabledImage )
 		{
-			Renderer::Instance().DrawImage( m_pushImage, pos.x, pos.y );
+			Renderer::Instance().DrawImage( m_disabledImage, pos.x, pos.y );
 		}
-		else if( !m_pushed )
+		else
 		{
-			Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y );
+			if( m_pushed )
+			{
+				Renderer::Instance().DrawImage( m_pushImage, pos.x, pos.y );
+			}
+			else
+			{
+				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y );
+			}
 		}
 	}
+
+	
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -92,4 +112,22 @@ void Button::destroy()
 		delete m_pushImage;
 		m_pushImage = NULL;
 	}
+	if( m_disabledImage )
+	{
+		delete m_disabledImage;
+		m_disabledImage = NULL;
+	}
 }
+
+
+void Button::setLabel( Label* label )
+{ 
+	m_label = label; 
+
+	Vector2 textSize = label->getSize();
+	Vector2 posInButton = Vector2( ( m_size.x - textSize.x ) / 2 , ( m_size.y - textSize.y ) / 2 );
+
+	label->setPosition( posInButton ); 
+	label->setParent( this ); 
+
+} 
