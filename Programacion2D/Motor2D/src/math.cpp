@@ -1,5 +1,7 @@
-#include "math.h"
+#include "../include/math.h"
 #include <math.h>
+#include <stdlib.h>
+#include <Windows.h>
 
 #define DEG2RAD 0.0174532925
 #define RAD2DEG 57.2957795
@@ -70,7 +72,8 @@ bool ValueInRange(double value, double min, double max) {
 
 bool PointInRect(double x, double y, double rectx, double recty, double width, double height) {
 	// TAREA: Implementar funcion
-	return false;
+	return x >= rectx && x <= rectx + width &&
+		y >= recty && y <= recty + height;
 }
 
 void ClosestPointToRect(double x, double y, double rectx, double recty, double width, double height, double* outx, double* outy) {
@@ -79,14 +82,87 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 }
 
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2) {
-	// TAREA: Implementar funcion
-	return false;
+	// TAREA: Implementar funcion	
+
+	bool rect1over2 = ( x1 >= x2 && x1 <= ( x2 + width2 ) ||( x1 + width1 ) >= x2 && ( x1 + width1 ) <= ( x2 + width2 ) ) &&
+		  ( y1 >= y2 && y1 <= ( y2 + height2 ) || ( y1 + height1 ) >= y2 &&  ( y1 + height1 ) <= ( y2 + height2 ) );
+	
+	bool rect2over1 = ( x2>= x1 && x2 <= ( x1 + width1 ) ||( x2 + width2 ) >= x1 && ( x2 + width2 ) <= ( x1 + width1 ) ) &&
+		  ( y2 >= y1 && y2 <= ( y1 + height1 ) || ( y2 + height2 ) >= y1 &&  ( y2 + height2 ) <= ( y1 + height1 ) );
+
+	return rect1over2 || rect2over1;
 }
 
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight) {
 	// TAREA: Implementar funcion
+
+	double right1 = x1 + width1;
+	double right2 = x2 + width2;
+
+	double down1 = y1 + height1;
+	double down2 = y2 + height2;
+
+	if( x1 >= x2 && x1 <= ( x2 + width2 ) )
+	{
+		*outx = x1;
+	}
+	else 
+	{
+		*outx = x2;
+	}
+
+	if( y1 >= y2 && y1 <= ( y2 + height2 ) )
+	{
+		*outy = y1;
+	}
+	else
+	{
+		*outy = y2;
+	}
+
+	if( right1 >= x2 && right1 <= ( x2 + width2 ) )
+	{
+		*outwidth = right1 - *outx;
+	}
+	else
+	{
+		*outwidth = right2 - *outx;
+	}
+
+	if( down1 >= y2 && down1 <= ( y2 + height2 ) )
+	{
+		*outheight = down1 - *outy;
+	}
+	else
+	{
+		*outheight = down2 - *outy;
+	}
+	/*
+	 si izquierda1 está dentro de los límites horizontales del segundo rectángulo 
+		outx = izquierda1 
+	 si no 
+		outx =  izquierda2
+	si arriba1 está dentro de los límites verticales del segundo rectángulo 
+		outy = arriba1 
+	si no 
+		outy = arriba2 
+	si derecha1 está dentro de los límites horizontales del segundo rectángulo 
+		outwidth = derecha1 -	outx 
+	si no 
+		outwidth = derecha2 - outx 
+	si abajo1 está dentro de los límites verticales del segundo rectángulo 
+		outheight = abajo1 - outy 
+	si no 
+		outheight = abajo2 - outy
+	*/
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
 	// TAREA: Implementar funcion
 }
+
+
+double RangeRand ( double minRange, double maxRange )
+{
+	return (double)minRange + (maxRange - minRange) * (double)rand() / RAND_MAX;
+} // 

@@ -17,7 +17,7 @@ public:
 	void SetVelocityY ( double velY ){ this->velocityy = velY; };
 	void SetVelocityAngle ( double velAngle){ this->angularVelocity = velAngle; };
 	void SetLifetTime ( double lifetime ){ this->lifetime = lifetime; };
-	void SetAutoFade ( bool autofade ){ this->autofade = autofade; };
+	void SetAutoFade ( double autofade ){ this->autofade = autofade; };
 
 private: 
 	double velocityx, velocityy;

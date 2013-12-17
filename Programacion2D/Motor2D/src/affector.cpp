@@ -1,5 +1,6 @@
 #include "../include/affector.h"
 #include "../include/particle.h"	
+#include "../include/math.h"
 
 Affector::Affector( double boundx0, double boundy0, double boundx1, double boundy1 ) : boundx0( boundx0 ), boundy0( boundy0 ), boundx1( boundx1 ), boundy1( boundy1 )
 {
@@ -9,6 +10,8 @@ Affector::Affector( double boundx0, double boundy0, double boundx1, double bound
 	minvely = maxvely = 0;
 	minangvel = maxangvel = 0;
 	mode = ALL_DESACTIVE;
+	blendMode = Renderer::BlendMode::ALPHA;
+	image = NULL;
 }
 	
 
@@ -44,23 +47,34 @@ void Affector::Apply( Particle* particle)
 {	
 	if( mode != 0 )
 	{
-		if( mode & VELX_ACTIVE == VELX_ACTIVE )
+		if( ( mode & VELX_ACTIVE ) == VELX_ACTIVE )
 		{
-			particle->SetVelocityX( RangeRand(minvelx, maxvelx ) );
+			particle->SetVelocityX( RangeRand( minvelx, maxvelx ) );
 		}
 		
-		if( mode & VELY_ACTIVE == VELY_ACTIVE )
+		if( ( mode & VELY_ACTIVE ) == VELY_ACTIVE )
 		{
-			particle->SetVelocityY( RangeRand(minvely, maxvely ) );
+			particle->SetVelocityY( RangeRand( minvely, maxvely ) );
 		}
 
-		if( mode & VELANG_ACTIVE == VELANG_ACTIVE )
+		if( ( mode & VELANG_ACTIVE ) == VELANG_ACTIVE )
 		{
-			particle->SetVelocityAngle( RangeRand(minangvel, maxangvel ) );
+			particle->SetVelocityAngle( RangeRand( minangvel, maxangvel ) );
 		}
-		if( mode & COLOR_ACTIVE == COLOR_ACTIVE )
+		
+		if( ( mode & COLOR_ACTIVE ) == COLOR_ACTIVE )
+ 		{
+			particle->SetColor( RangeRand(minr, maxr ), RangeRand( (double)ming, (double)maxg ), RangeRand( (double)minb, (double)maxb ), particle->GetAlpha() );
+		}
+
+		if( ( mode & BLEND_MODE_ACTIVE ) == BLEND_MODE_ACTIVE )
+ 		{
+			particle->SetBlendMode( blendMode );
+		}
+
+		if( ( mode & IMAGE_ACTIVE ) == IMAGE_ACTIVE && image )
 		{
-			particle->SetColor( RangeRand(minr, maxr ), RangeRand(ming, maxg ), RangeRand(minb, maxb ), particle->GetAlpha() );
+			particle->SetImage( image );
 		}
 	}
 }
@@ -73,16 +87,3 @@ void Affector::DeleteParticles( Particle* particle)
 }
 
 
-int32 Affector::RangeRand ( int32 minRange, int32 maxRange )
-{
-	int32 range = maxRange - minRange;
-	int32 randomValue = 0;
-	if( range != 0 )
-	{
-		randomValue = rand() % range;
-	}
-	
-	randomValue += minRange;
-
-	return randomValue;
-}

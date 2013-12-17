@@ -46,6 +46,5 @@ void Particle::Update(double elapsed)
 
 bool Particle::operator== ( const Particle& particle)
 {
-	return velocityx == particle.velocityx && velocityy == particle.velocityy && angularVelocity == particle.angularVelocity && lifetime == particle.lifetime && autofade == autofade
-		&& GetX() == particle.GetX() && GetY() == particle.GetY() && GetAngle() == particle.GetAngle() && GetBlendMode() == particle.GetBlendMode() && GetImage() == particle.GetImage();
+	return velocityx == particle.velocityx && velocityy == particle.velocityy && angularVelocity == particle.angularVelocity && lifetime == particle.lifetime && autofade == autofade;
 }

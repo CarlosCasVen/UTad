@@ -32,7 +32,6 @@ public:
 	virtual void Update(double elapsed); 
 	virtual void Render() const; 
 
-	int32 MaxMinRand( int32 minRange, int32 maxRange );
 	void AddAffector( Affector* affector );
 
 private:

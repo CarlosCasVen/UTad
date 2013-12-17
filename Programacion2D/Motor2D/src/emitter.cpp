@@ -1,6 +1,7 @@
 #include "../include/emitter.h"
 #include "../include/types.h"
 #include "../include/affector.h"
+#include "../include/math.h"
 
 Emitter::Emitter(Image* image, bool autofade) : image( image ), autofade( autofade )
 {
@@ -52,17 +53,17 @@ void Emitter::Update(double elapsed)
 	double velX, velY, velAng, life;
 	uint8 r, g, b;
 
-	IsEmitting() ? nParticles = (int32)(MaxMinRand ((int32)minrate, (int32)maxrate ) * elapsed) : (int32)nParticles = 0;
+	IsEmitting() ? nParticles = (int32)(RangeRand( (int32)minrate, (int32)maxrate ) * elapsed ) : (int32)nParticles = 0;
 
 	for( uint32 i = 0; i < (uint32)nParticles; i++ )
 	{
-		velX = (double)MaxMinRand( (int32)minvelx, (int32)maxvelx );
-		velY = (double)MaxMinRand( (int32)minvely, (int32)maxvely ); 
-		velAng = (double)MaxMinRand( (int32)minangvel, (int32)maxangvel ); 
-		life = (double)MaxMinRand( (int32)minlifetime, (int32)maxlifetime) ;
-		r = (uint8)MaxMinRand( (int32)minr, (int32)maxr );
-		g = (uint8)MaxMinRand( (int32)ming, (int32)maxg );
-		b = (uint8)MaxMinRand( (int32)minb, (int32)maxb );
+		velX = RangeRand( minvelx, maxvelx );
+		velY = RangeRand( minvely, maxvely ); 
+		velAng = RangeRand( minangvel, maxangvel ); 
+		life = RangeRand( minlifetime, maxlifetime) ;
+		r = (uint8)RangeRand( minr, maxr );
+		g = (uint8)RangeRand( ming, maxg );
+		b = (uint8)RangeRand( minb, maxb );
 
 		Particle *particle = new Particle( image, velX, velY, velAng, life, autofade );
 
@@ -83,21 +84,6 @@ void Emitter::Render() const
 	{
 		particles[i]->Render();
 	}
-}
-
-
-int32 Emitter::MaxMinRand ( int32 minRange, int32 maxRange )
-{
-	int32 range = maxRange - minRange;
-	int32 randomValue = 0;
-	if( range != 0 )
-	{
-		randomValue = rand() % range;
-	}
-	
-	randomValue += minRange;
-
-	return randomValue;
 }
 
 
