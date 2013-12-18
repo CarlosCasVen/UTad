@@ -3,14 +3,13 @@
 
 #include "types.h"
 #include "string.h"
-#include "../include/collisionPixelData.h"
+#include "collisionPixelData.h"
 
 class CollisionManager 
 {
 public:
 	static const CollisionManager& Instance(){ if( !manager ) manager = new CollisionManager(); return *manager; } 
 	virtual bool CircleToCircle(double x1, double y1, double r1, double x2, double y2, double r2) const;
-
 	virtual bool CircleToPixels(double cx, double cy, double cr, const CollisionPixelData* pixels, double px, double py) const;
 	virtual bool CircleToRect(double cx, double cy, double cr, double rx, double ry, double rw, double rh) const; 
 	virtual bool PixelsToPixels(const CollisionPixelData* p1, double x1, double y1, const CollisionPixelData* p2, double x2, double y2) const;

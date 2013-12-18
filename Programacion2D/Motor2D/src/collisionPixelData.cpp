@@ -30,14 +30,7 @@ CollisionPixelData::CollisionPixelData(const String& filename)
 				{
 					for(int k = 0; k < 4; k++)
 					{
-						if( buf[ ( i * width + a ) * 4 + 3 ] == 0 )
-						{
-							data[ i * width + a ] = false;
-						}
-						else
-						{
-							data[ i * width + a ] = true;
-						}
+						buf[ ( i * width + a ) * 4 + 3 ] == 0 ? data[ i * width + a ] = false : data[ i * width + a ] = true ;
 					}
 				}
 			}

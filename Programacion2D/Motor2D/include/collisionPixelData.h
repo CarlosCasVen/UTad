@@ -7,6 +7,7 @@
 class CollisionPixelData
 {
 public:
+	CollisionPixelData(){};
 	CollisionPixelData(const String& filename); 
 	virtual ~CollisionPixelData(); 
 	

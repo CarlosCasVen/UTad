@@ -15,7 +15,6 @@ public:
 
     virtual bool DoesCollide(const CollisionPixelData* pixels, double px, double py) const { return CollisionManager::Instance().PixelsToRect(pixels, px, py, *x, *y, *width, *height); }
 
-	//virtual bool DoesCollide(const CollisionPixelData* pixels, double px, double py) const { return CollisionManager::Instance().PixelsToRect(pixels, px, py, *x, *y, *width, *height); }
 
 private:
     double* x;

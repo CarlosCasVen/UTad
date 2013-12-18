@@ -1,6 +1,7 @@
 #ifndef UGINE_SPRITE_H
 #define UGINE_SPRITE_H
 
+#include "../include/pixelcollision.h"
 #include "renderer.h"
 #include "types.h"
 

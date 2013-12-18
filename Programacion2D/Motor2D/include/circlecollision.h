@@ -15,8 +15,6 @@ public:
 
     virtual bool DoesCollide(const CollisionPixelData* pixels, double px, double py) const { return CollisionManager::Instance().CircleToPixels(*x, *y, *radius, pixels, px, py); }
 
-	//virtual bool DoesCollide(const CollisionPixelData* pixels, double px, double py) const { return CollisionManager::Instance().CircleToPixels(*x, *y, *radius, pixels, px, py); }
-
 private:
     double* x;
     double* y;

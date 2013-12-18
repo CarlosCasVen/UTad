@@ -120,7 +120,7 @@ void Sprite::SetCollision(CollisionMode mode) {
 	case COLLISION_PIXEL:
 		{
 			delete collision; 
-			PixelCollision* pixelCollision = new PixelCollision ( &x, &y, colPixelData );
+			PixelCollision* pixel = new PixelCollision( &x, &y, colPixelData );
 			break;
 		}
 	case COLLISION_RECT:
