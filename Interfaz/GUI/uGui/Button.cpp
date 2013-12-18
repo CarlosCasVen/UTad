@@ -45,6 +45,15 @@ void Button::update()
 {
 	if( !m_pointerIsOver )
 		m_pushed = false;
+
+	if( ( !isVisible() || !isEnabled() ) && m_label )
+	{
+		m_label->setVisible( false );
+	}
+	else if ( m_label )
+	{
+		m_label->setVisible( true );
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

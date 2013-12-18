@@ -5,6 +5,7 @@
 #include "../include/Renderer.h"
 #include "../include/Image.h"
 #include "../include/resourcemanager.h"
+#include "../include/font.h"
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ bool Label::init( const std::string name, const Vector2& position, const std::st
 	m_name				= name;
 	m_position			= position;
 	m_text		= text;
-	m_size					= Vector2( m_font->GetTextWidth( text.c_str() ), m_font->GetHeight() );
+	m_size					= Vector2( (float)m_font->GetTextWidth( text.c_str() ), (float) m_font->GetHeight() );
 
 	return true;
 }
@@ -50,7 +51,7 @@ void Label::render()
 		Renderer::Instance().SetBlendMode( Renderer::BlendMode::ALPHA );
 		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
 		
-        m_font->Render(m_text.c_str(), pos.x, pos.y);
+		m_font->Render(m_text.c_str(), pos.x, pos.y);
 	}
 }
 
@@ -59,6 +60,7 @@ void Label::render()
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Label::onInputEvent( const Message& message )
 {
+	m_parent->onInputEvent( message );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

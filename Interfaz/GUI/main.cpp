@@ -25,15 +25,9 @@ int main(int argc, char* argv[])
 	
 	GUIManager::instance().init();
 	
-	ConfigScreen menu = ConfigScreen::instance();
-//	menu.Active();
-
-
-
-	Slider* m_sound = new Slider();
-	m_sound->init( "Sonido", Vector2( 100, 100 ), "data/GUI/Slider_bar.png", "data/GUI/Slider_ball.png", "data/GUI/Slider_Right_PushNormal.png", "data/GUI/Slider_Right_Push.png",
-					"data/GUI/Slider_Left_Normal.png", "data/GUI/Slider_Left_Push.png" );
-	m_sound->setParent( GUIManager::instance().getRootControl() );
+	FirstMenu menu = FirstMenu::instance();
+	menu.Active();
+	
 /*	Label* l1 = new Label(); 
 	l1->init( "Label1", Vector2( 200, 300 ), "Prueba", "data/fonts/font.png" );   
 	

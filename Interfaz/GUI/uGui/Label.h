@@ -19,7 +19,7 @@ public:
 	virtual void destroy();
 
 protected:
-    const Font *                                    m_font;
+    Font*                                    m_font;
 	std::string								m_text;
 	bool									m_pushed;
 };
