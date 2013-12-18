@@ -4,11 +4,12 @@
 #include "Control.h"
 #include "Button.h"
 #include "../include/image.h"
+#include "Vector2.h"
 
 class Slider : public Control, IEventListener
 {
 public:
-	Slider() : Control(){ m_bar = NULL; m_pointer = m_up = m_down = NULL; m_posPointer = 0; }
+	Slider() : Control(){ m_bar = NULL; m_pointer = m_up = m_down = NULL; m_posPointer = Vector2( 0, 0); }
 
 	virtual void update();
 	virtual void render();
@@ -25,7 +26,7 @@ private:
 	Button* m_pointer;
 	Button* m_up;
 	Button* m_down;
-	unsigned int m_posPointer;
+	Vector2 m_posPointer;
 	
 };
 
