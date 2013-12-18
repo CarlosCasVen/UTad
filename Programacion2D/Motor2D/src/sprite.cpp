@@ -3,9 +3,10 @@
 #include "../include/image.h"
 //#include "../include/map.h"
 #include "../include/math.h"
-//#include "../include/pixelcollision.h"
+#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
 #include "../include/circlecollision.h"
+#include "../include/collisionPixelData.h"
 #include <math.h>
 
 Sprite::Sprite(Image* image) {
@@ -102,16 +103,50 @@ Sprite::~Sprite() {
 
 void Sprite::SetCollision(CollisionMode mode) {
 	// TAREA: Implementar
+	switch( mode )
+	{
+	case COLLISION_NONE:
+		{
+			delete collision;
+			collision = NULL;
+			break;
+		}
+	case COLLISION_CIRCLE:
+		{
+			delete collision;
+			collision = new CircleCollision( &x, &y, &radius);
+			break;
+		}
+	case COLLISION_PIXEL:
+		{
+			delete collision; 
+			PixelCollision* pixelCollision = new PixelCollision ( &x, &y, colPixelData );
+			break;
+		}
+	case COLLISION_RECT:
+		{
+			delete collision;
+			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
+			break;
+		}
+	default:
+		collision = NULL;
+		break;
+	}
+
 }
 
 bool Sprite::CheckCollision(Sprite* sprite) {
 	// TAREA: Implementar
 	if( collision  && sprite->GetCollision() )
 	{
-		if( collision/*->Collision( sprite->GetCollision())*/ )
+		bool isCollision = collision->DoesCollide(sprite->collision);
+		if ( isCollision )
 		{
 			colSprite = sprite;
 			collided = true;
+			sprite->colSprite = this;
+			sprite->collided = true;
 			
 			return true;
 		}
@@ -120,23 +155,12 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 
 	return false;
 
-	/*
-	si this.collision no es null y other.collision no es null
-		si this.collision.collision(other.collision) es true
-			this.colSprite = other 
-			this.collided = true 
-			other.colSprite = this 
-			other.collided = true 
-			devolvemos true 
-		si no 
-			devolvemos false 
-		si no 
-			devolvemos false 
-			*/
 }
 
 bool Sprite::CheckCollision(const Map* map) {
 	// TAREA: Implementar
+
+
 	return true;
 }
 
@@ -286,14 +310,13 @@ void Sprite::Render() const {
 
 void Sprite::UpdateCollisionBox() {
 	// TAREA: Implementar
-	
-	/*
-		cx = coordX - handleXimagen * fabs(escalaX) 
-		cy = coordy - handleYimagen * fabs(escalaY) 
-		cw = anchoImagen * fabs(escalaX) 
-		ch = altoImagen * fabs(escalaY) 
-		UpdateCollisionBox(cx, cy, cw, ch) 
-	*/
+	double cx = x - image->GetHandleX() * fabs( scalex );
+	double cy = y - image->GetHandleY() * fabs( scaley );
+	double cw = image->GetWidth() * fabs( scalex );
+	double ch = image->GetHeight() * fabs( scaley );
+
+	UpdateCollisionBox( cx, cy, cw, ch );
+
 }
 
 void Sprite::UpdateCollisionBox(double x, double y, double w, double h) {
@@ -303,12 +326,6 @@ void Sprite::UpdateCollisionBox(double x, double y, double w, double h) {
 	colwidth = w;
 	colheight = h;
 
-	/*
-		colx = x 
-		coly = y 
-		colwidth = w 
-		colheight = h 
-	*/
 }
 
 void Sprite::ScaleTo(double scaleX, double scaleY, double scalingSpeedX, double scalingSpeedY)

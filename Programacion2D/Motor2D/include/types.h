@@ -10,14 +10,14 @@ typedef unsigned short uint16;
 typedef unsigned int uint32;
 typedef unsigned long uint64;
 
-
-//Define para activar effector
+//DEFINE PARA ACTIVAR EL AFFECTOR
 #define ALL_DESACTIVE 0
+#define ALL_ACTIVE 63
 #define VELX_ACTIVE 1
 #define VELY_ACTIVE 2
 #define VELANG_ACTIVE 4
 #define COLOR_ACTIVE 8
-#define BLEND_MODE_ACTIVE 16
-#define IMAGE_ACTIVE 32
-#define ALL_ACTIVE 63
+#define IMAGE_ACTIVE 16
+#define BLEND_MODE_ACTIVE 32
+
 #endif

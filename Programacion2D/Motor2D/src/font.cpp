@@ -18,16 +18,16 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 
 	unsigned char* pixels = stbi_load( filename.ToCString(), &widthImage, &heightImage, &nComponents, nComponents);
 
-	for(unsigned int n = 0; n < nFrames; n++)
+	for(unsigned int n = 0; n < (unsigned int)nFrames; n++)
 	{
 		Glyph glyph(0, 0, widthFrame, heightFrame);
 
 		uint16 row = n / 16;
 		uint16 column = n % 16;
 
-		for(unsigned int posY = row * heightFrame; posY < (row + 1) * heightFrame ; posY++ )
+		for(unsigned int posY = (unsigned int) (row * heightFrame); posY < (unsigned int) ((row + 1) * heightFrame) ; posY++ )
 		{
-			for(unsigned int posX = column * widthFrame; posX < (column + 1) * widthFrame; posX++)
+			for(unsigned int posX = (unsigned int)( column * widthFrame ); posX < (unsigned int)( (column + 1) * widthFrame ); posX++)
 			{
 
 				unsigned char pixelR = pixels[(posY * widthImage + posX) * 4 + 0];

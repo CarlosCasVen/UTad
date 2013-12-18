@@ -1,6 +1,8 @@
 #ifndef UGINE_COLLISION_H
 #define UGINE_COLLISION_H
 
+#include "../include/collisionPixelData.h"
+
 class CollisionPixelData;
 
 class Collision {

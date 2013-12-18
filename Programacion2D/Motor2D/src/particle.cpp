@@ -38,7 +38,7 @@ void Particle::Update(double elapsed)
 			lifetime = 0;
 		}
 
-		uint8 alpha = (lifetime * 255) / initialLifetime; 
+		uint8 alpha = (uint8) ((lifetime * 255) / initialLifetime); 
 		SetColor( GetRed(), GetGreen(), GetBlue(), alpha );
 	}
 }
@@ -46,5 +46,6 @@ void Particle::Update(double elapsed)
 
 bool Particle::operator== ( const Particle& particle)
 {
-	return velocityx == particle.velocityx && velocityy == particle.velocityy && angularVelocity == particle.angularVelocity && lifetime == particle.lifetime && autofade == autofade;
+	return velocityx == particle.velocityx && velocityy == particle.velocityy && angularVelocity == particle.angularVelocity && lifetime == particle.lifetime && autofade == autofade
+		&& GetX() == particle.GetX() && GetY() == particle.GetY() && GetAngle() == particle.GetAngle() && GetBlendMode() == particle.GetBlendMode() && GetImage() == particle.GetImage();
 }

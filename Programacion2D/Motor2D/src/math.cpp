@@ -84,13 +84,11 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2) {
 	// TAREA: Implementar funcion	
 
-	bool rect1over2 = ( x1 >= x2 && x1 <= ( x2 + width2 ) ||( x1 + width1 ) >= x2 && ( x1 + width1 ) <= ( x2 + width2 ) ) &&
-		  ( y1 >= y2 && y1 <= ( y2 + height2 ) || ( y1 + height1 ) >= y2 &&  ( y1 + height1 ) <= ( y2 + height2 ) );
-	
-	bool rect2over1 = ( x2>= x1 && x2 <= ( x1 + width1 ) ||( x2 + width2 ) >= x1 && ( x2 + width2 ) <= ( x1 + width1 ) ) &&
-		  ( y2 >= y1 && y2 <= ( y1 + height1 ) || ( y2 + height2 ) >= y1 &&  ( y2 + height2 ) <= ( y1 + height1 ) );
-
-	return rect1over2 || rect2over1;
+	if ( x1 > (x2 + width2) || (x1 + width1) < x2)
+		return false;
+	if (y1 > (y2 + height2) || (y1 + height1) < y2)
+		return false;
+	return true;
 }
 
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight) {
@@ -137,24 +135,7 @@ void OverlappingRect(double x1, double y1, double width1, double height1, double
 	{
 		*outheight = down2 - *outy;
 	}
-	/*
-	 si izquierda1 está dentro de los límites horizontales del segundo rectángulo 
-		outx = izquierda1 
-	 si no 
-		outx =  izquierda2
-	si arriba1 está dentro de los límites verticales del segundo rectángulo 
-		outy = arriba1 
-	si no 
-		outy = arriba2 
-	si derecha1 está dentro de los límites horizontales del segundo rectángulo 
-		outwidth = derecha1 -	outx 
-	si no 
-		outwidth = derecha2 - outx 
-	si abajo1 está dentro de los límites verticales del segundo rectángulo 
-		outheight = abajo1 - outy 
-	si no 
-		outheight = abajo2 - outy
-	*/
+
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
