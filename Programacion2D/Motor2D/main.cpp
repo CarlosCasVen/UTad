@@ -6,6 +6,7 @@
 int	main(int	argc,	char*	argv[])	{	
 
 	Screen::Instance().Open( 800, 600, false );
+	Screen::Instance().Refresh();
 	glfwSetMousePos(400, 300);
 	glfwDisable(GLFW_MOUSE_CURSOR);
 
@@ -30,25 +31,28 @@ int	main(int	argc,	char*	argv[])	{
 	
 	box->SetCollision( Sprite::CollisionMode::COLLISION_RECT );
 	box->SetPosition( 700, 500 );
+	
 	Sprite* alien = scene.CreateSprite( ResourceManager::Instance().LoadImage("data/alien.png"));
 	alien->SetPosition( 100, 500 );
-
-
-
+	alien->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
+	alien->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
 
 	Image* circle = ResourceManager::Instance().LoadImage( "data/circle.png" );
 	circle->SetMidHandle();
+	
 	Image* rect = ResourceManager::Instance().LoadImage( "data/rect.png" );
 	rect->SetMidHandle();
-	Image* alienImage =  ResourceManager::Instance().LoadImage( "data/rect.png" );
+
+	Image* alienImage =  ResourceManager::Instance().LoadImage( "data/alien.png" );
 	alienImage->SetMidHandle();
 
 	
 
-	Sprite* cursor = scene.CreateSprite( circle );
+	Sprite* cursor = scene.CreateSprite( alienImage );
 	cursor->SetRadius( ResourceManager::Instance().LoadImage( "data/circle.png" )->GetWidth() / 2 );
-	cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
-
+	cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
+	cursor->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
+	
 	unsigned int nCliks = 0;
 
 
@@ -71,15 +75,17 @@ int	main(int	argc,	char*	argv[])	{
 						cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
 						break;																										   
 					}																												   
-				case 1:																												   
+				case 2:																												   
 					{																												   
 						cursor->SetImage( rect );
 						cursor->SetCollision( Sprite::CollisionMode::COLLISION_RECT );
 						break;																											   
 					}																												   
-				case 2:																												   
+				case 1:																												   
 					{																												   
 						cursor->SetImage( alienImage );
+						cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
+						cursor->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
 						break;	
 					}
 			}
@@ -88,6 +94,7 @@ int	main(int	argc,	char*	argv[])	{
 		}
 		
 
+	
 		if( cursor->DidCollide() )
 		{
 			cursor->SetColor( 255, 0, 0 );
@@ -95,6 +102,26 @@ int	main(int	argc,	char*	argv[])	{
 		else
 		{
 			cursor->SetColor( 255, 255, 255 );
+		}
+
+
+		if( alien->DidCollide() )
+		{
+			alien->SetColor( 255, 0, 0 );
+		}
+		else if( box->DidCollide() )
+		{
+			box->SetColor( 255, 0, 0 );
+		}
+		else if ( ball->DidCollide() )
+		{
+			ball->SetColor( 255, 0, 0 );
+		}
+		else
+		{
+			alien->SetColor( 255, 255, 255 );
+			ball->SetColor( 255, 255, 255 );
+			box->SetColor( 255, 255, 255 );
 		}
 		
 		cursor->SetPosition( Screen::Instance().GetMouseX(), Screen::Instance().GetMouseY() ); 

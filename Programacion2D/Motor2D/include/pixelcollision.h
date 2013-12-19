@@ -8,8 +8,7 @@
 
 class PixelCollision : public Collision {
 public:
-	PixelCollision( double* x, double* y, CollisionPixelData* pixels ){ }
-	PixelCollision( double* x, double* y, CollisionPixelData* pixels ) : x( x ), y( y ), pixels( pixels ) { }
+	PixelCollision( double* x, double* y, const CollisionPixelData* pixels ) : x( x ), y( y ), pixels( pixels ) { }
 
 	virtual bool DoesCollide(const Collision* other) const { return other->DoesCollide( pixels, *x, *y); }
 	virtual bool DoesCollide(double cx, double cy, double cradius) const { return CollisionManager::Instance().CircleToPixels( cx, cy, cradius, pixels, *x, *y ); }
@@ -20,7 +19,7 @@ public:
 private:
     double* x;
     double* y;
-	CollisionPixelData* pixels;
+	const CollisionPixelData* pixels;
 };
 
 #endif

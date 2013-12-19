@@ -15,9 +15,9 @@ CollisionPixelData::CollisionPixelData(const String& filename)
 	data = NULL;
 	int nComp = 4;
 	int x = 0, y = 0;
-	unsigned char* buf = stbi_load( filename.ToCString() , &x, &y, &nComp, nComp );
+	unsigned char* buf = stbi_load( filename.ToCString() , &x, &y, NULL, 4 );
 
-	if( data )
+	if( buf )
 	{
 		width = x;
 		height = y;

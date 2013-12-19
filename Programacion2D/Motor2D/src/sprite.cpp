@@ -114,13 +114,15 @@ void Sprite::SetCollision(CollisionMode mode) {
 	case COLLISION_CIRCLE:
 		{
 			delete collision;
+			collision = NULL;
 			collision = new CircleCollision( &x, &y, &radius);
 			break;
 		}
 	case COLLISION_PIXEL:
 		{
 			delete collision; 
-			PixelCollision* pixel = new PixelCollision( &x, &y, colPixelData );
+			collision = NULL;
+			collision = new PixelCollision( &colx, &coly, colPixelData );
 			break;
 		}
 	case COLLISION_RECT:
@@ -129,9 +131,6 @@ void Sprite::SetCollision(CollisionMode mode) {
 			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
 			break;
 		}
-	default:
-		collision = NULL;
-		break;
 	}
 
 }

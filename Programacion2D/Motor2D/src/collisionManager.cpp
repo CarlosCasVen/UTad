@@ -18,18 +18,29 @@ bool CollisionManager::CircleToCircle(double x1, double y1, double r1, double x2
 
 bool CollisionManager::CircleToPixels(double cx, double cy, double cr, const CollisionPixelData* pixels, double px, double py) const
 {
-	bool isCollision = false;
 	
-	for( int i = 0; i < pixels->GetHeight() && isCollision; i++ )
+	bool isCollision = false;
+
+	if( CircleToRect( cx, cy, cr, px, py, pixels->GetWidth(), pixels->GetHeight() ) )
 	{
-		for( int a = 0; a < pixels->GetWidth() && isCollision; a++ )
+	
+		double outx = 0.0, outy = 0.0, outw = 0.0, outh = 0.0;
+		OverlappingRect( cx - cr, cy - cr, 2 * cr, 2 * cr, px, py, pixels->GetWidth(), pixels->GetHeight(), &outx, &outy, &outw, &outh );
+		double xP1 = outx - px;
+		double yP1 = outy - py;		
+
+		for( unsigned int i = 0; i < outh && !isCollision; i++ )
 		{
-			if( pixels->GetData( px + a, py + i ) )
+			for( unsigned int a = 0; a < outw && !isCollision; a++ )
 			{
-				isCollision = Distance( px + i, py + a, cx, cy ) <= cr; 
+				if( pixels->GetData( xP1 + a, yP1 + i ) )
+				{
+					isCollision = Distance( outx + a, outy + i, cx, cy ) <= cr;
+				}
 			}
 		}
 	}
+
 	return isCollision;
 }
 
