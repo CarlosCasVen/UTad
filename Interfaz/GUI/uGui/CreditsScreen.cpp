@@ -26,19 +26,20 @@ void CreditsScreen::CreateGUI()
 	m_exit->setEventListener( this );
 	m_exit->setParent( m_window );
 	m_exit->setLabel( l1 );
+	
 
 
 	m_credits = Array<Label*> (2);
 	m_credits[0] = new Label();
 	m_credits[0]->init( "Autor", Vector2( 300, 100), "Autor","data/fonts/font.png");
 	m_credits[0]->setParent( m_window );
-
+	m_credits[0]->setPosition( Vector2( m_window->getSize().x / 2 - m_credits[0]->getSize().x / 2, m_window->getSize().y / 2 - m_credits[0]->getSize().y / 2 ) );
 
 	m_credits = Array<Label*> (2);
 	m_credits[1] = new Label();
 	m_credits[1]->init( "Creditos", Vector2( 300, 200), "Carlos Castillo Venegas","data/fonts/font.png");
 	m_credits[1]->setParent( m_window );
-
+	m_credits[1]->setPosition( Vector2( m_window->getSize().x / 2 - m_credits[1]->getSize().x / 2, m_window->getSize().y / 2 - m_credits[1]->getSize().y / 2 + m_credits[1]->getSize().y * 2 ) );
 }
 
 

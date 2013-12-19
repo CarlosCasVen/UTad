@@ -19,6 +19,7 @@ public:
 	virtual void destroy();
 
 	void setLabel( Label* label );
+	bool getIsPushed(){ return m_pushed; }
 
 protected:
 	Image*								m_normalImage;

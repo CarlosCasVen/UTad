@@ -3,6 +3,21 @@
 #include "../include/renderer.h"
 
 
+
+bool Checkbox::init( const std::string& name, const Vector2& position, const std::string& imageEnabled,  const std::string& imageDisabled, bool pushed)
+{
+	m_name = name;
+	m_position = position;
+	m_imageDisabled = new Image( imageDisabled.c_str() );
+	m_imageEnabled = new Image( imageEnabled.c_str() );
+	m_pushed = pushed;
+	m_size = Vector2( (float)m_imageEnabled->GetWidth(), (float)m_imageEnabled->GetHeight() );
+
+	return m_imageEnabled && m_imageDisabled;
+}
+
+
+
 void Checkbox::update()
 {
 	
@@ -34,37 +49,47 @@ void Checkbox::render()
 
 void Checkbox::onInputEvent( const Message& message )
 {
-	switch( message.type )
+	const MessagePointerButtonDown* messagePointer = static_cast<const MessagePointerButtonDown*>(&message);
+	if( isPointInside(  Vector2(messagePointer->x, messagePointer->y ) ) )
 	{
-	case mtPointerButtonDown:
-		m_pushed = !m_pushed;
-		break;
-
+		switch( message.type )
+		{
+		case mtPointerButtonDown:
+			m_pushed = !m_pushed;
+			break;
+		}
 	}
 }
 
 
 void Checkbox::destroy()
 {
-	delete m_imageDisabled;
-	delete m_imageEnabled;
+	if( m_imageDisabled )
+	{
+		delete m_imageDisabled;
+		m_imageDisabled = NULL;
+	}
+
+	if( m_imageEnabled )
+	{
+		delete m_imageEnabled;
+		m_imageEnabled = NULL;
+	}
 }
 
 
-bool Checkbox::init( const std::string& name, const Vector2& position, const std::string& imageEnabled,  const std::string& imageDisabled, bool pushed)
+void Checkbox::setLabel( Label* label, bool labelInRight, int numberSpaces )
 {
-	m_name = name;
-	m_position = position;
-	m_imageDisabled = new Image( imageDisabled.c_str() );
-	m_imageEnabled = new Image( imageEnabled.c_str() );
-	m_pushed = pushed;
-	m_size = Vector2( (float)m_imageEnabled->GetWidth(), (float)m_imageEnabled->GetHeight() );
-
-	return true;
+	if( labelInRight && label )
+	{
+		m_label = label;
+		m_label->setParent( this );
+		m_label->setPosition( Vector2( m_size.x + numberSpaces , m_size.y / 2 - label->getSize().y / 2) );		
+	}
+	else
+	{
+		m_label = label;
+		m_label->setParent( this );
+		m_label->setPosition( Vector2(  - ( label->getSize().x + numberSpaces ), label->getSize().y / 2) );
+	}
 }
-
-/*
-void Checkbox::setLabel( Label* label, bool labelInRight = true, int numberSpaces = 20 )
-{
-	m_label = label;
-}*/

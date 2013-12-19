@@ -16,7 +16,7 @@ public:
 	virtual void destroy();
 
 	bool init( const std::string& name, const Vector2& position,  const std::string& imageEnabled,  const std::string& imageDisabled, bool pushed);
-//	void setLabel( Label* label, bool labelInRight = true, int numberSpaces = 20 );
+	void setLabel( Label* label, bool labelInRight = true, int numberSpaces = 20 );
 
 private:
 	Image* m_imageEnabled;

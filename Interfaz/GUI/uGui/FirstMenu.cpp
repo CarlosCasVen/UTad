@@ -28,6 +28,7 @@ void FirstMenu::CreateGUI()
 	m_start->setEventListener( this );
 	m_start->setParent( m_window );
 	m_start->setLabel( l1 );
+	m_start->setPosition( Vector2( m_window->getSize().x / 2 - m_start->getSize().x / 2 , 100 ) );
 
 	// Crea un label 
 	Label* l2 = new Label();
@@ -39,6 +40,7 @@ void FirstMenu::CreateGUI()
 	m_config->setEventListener( this );
 	m_config->setParent( m_window );
 	m_config->setLabel( l2 );
+	m_config->setPosition( Vector2( m_window->getSize().x / 2 - m_config->getSize().x / 2 , 150 ) );
 
 	// Crea un label 
 	Label* l3 = new Label();
@@ -50,6 +52,7 @@ void FirstMenu::CreateGUI()
 	m_credits->setEventListener( this );
 	m_credits->setParent( m_window );
 	m_credits->setLabel( l3 );
+	m_credits->setPosition( Vector2( m_window->getSize().x / 2 - m_credits->getSize().x / 2 , 200 ) );
 
 	// Crea un label 
 	Label* l4 = new Label();
@@ -61,6 +64,7 @@ void FirstMenu::CreateGUI()
 	m_exit->setEventListener( this );
 	m_exit->setParent( m_window );
 	m_exit->setLabel( l4 );
+	m_exit->setPosition( Vector2( m_window->getSize().x / 2 - m_exit->getSize().x / 2 , 250 ) );
 
 	// Crea un label 
 	Label* l5 = new Label();
@@ -73,6 +77,7 @@ void FirstMenu::CreateGUI()
 	m_yes->setParent( m_window );
 	m_yes->setVisible( false );
 	m_yes->setLabel( l5 );
+	m_yes->setPosition( Vector2( m_window->getSize().x / 4 - m_yes->getSize().x / 2 , m_window->getSize().y / 2 - m_yes->getSize().y / 2 ) );
 
 	// Crea un label 
 	Label* l6 = new Label();
@@ -85,7 +90,7 @@ void FirstMenu::CreateGUI()
 	m_no->setParent( m_window );
 	m_no->setVisible( false );
 	m_no->setLabel( l6 );
-
+	m_no->setPosition( Vector2( 3 * m_window->getSize().x / 4 - m_no->getSize().x / 2 , m_window->getSize().y / 2 - m_no->getSize().y / 2 ) );
 }
 
 

@@ -35,7 +35,7 @@ bool Button::init( const std::string name, const Vector2& position, const std::s
 	{
 		m_disabledImage =  new Image( disabledImage.c_str() );
 	}
-	return true;
+	return m_normalImage && m_pushImage;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

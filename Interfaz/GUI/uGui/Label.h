@@ -18,8 +18,10 @@ public:
 	virtual void onInputEvent( const Message& message );
 	virtual void destroy();
 
+	void setText( const std::string& text ){ m_text = text; }
+
 protected:
-    Font*                                    m_font;
+    Font *                                    m_font;
 	std::string								m_text;
 	bool									m_pushed;
 };
