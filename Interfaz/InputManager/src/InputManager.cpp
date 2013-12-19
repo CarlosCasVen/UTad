@@ -1,7 +1,7 @@
 #include "..\include\InputManager.h"
 #include "..\include\glinclude.h"
 #include "..\include\screen.h"
-
+#include "windows.h"
 
 InputManager* InputManager::manager = NULL;
 
@@ -167,9 +167,9 @@ bool InputManager::Init()
 	keys.Add(Key( Key_Underscore) );
 
 
+	xMouse = yMouse = 0;
 
-
-	return actions.Size() == 0;
+	return isOk = virtualButtons.Size() == 0;
 }
 
 // Cierre
@@ -180,23 +180,60 @@ void InputManager::End()
 // Función de actualización, actualización de estados entre frames
 void InputManager::Update()
 {
-	bool returned = false;
 
-	for(unsigned int i = 0; i < actions.Size(); i++)
+	for( unsigned int i = 0; i < virtualButtons.Size(); i++ )
 	{
-		returned = actions[i].wasPreesedLastFrame = IsVirtualButtonPressed(actions[i].action);
+		if( virtualButtons[i].buttonsAssigned > Mouse_Right )
+		{
+			virtualButtons[i].isDown = !virtualButtons[i].pressed && IsKeyPressed( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].isUp = virtualButtons[i].pressed && !IsKeyPressed( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].pressed = IsKeyPressed( virtualButtons[i].buttonsAssigned );
+		}
+		else
+		{
+			virtualButtons[i].isDown = !virtualButtons[i].pressed && IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].isUp = virtualButtons[i].pressed && !IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].pressed = IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
+		}
 	}
 
-	for(unsigned int i = 0; i < virtualAxis.Size(); i++)
+	for( unsigned int i = 0; i < virtualAxis.Size(); i++ )
 	{
-		int posRange;
-		Screen::Instance().KeyPressed( virtualAxis[i].positiveAxis) ? posRange = 1 : posRange = 0;
-		
-		int negRange;
-		Screen::Instance().KeyPressed( virtualAxis[i].negativeAxis) ? negRange = -1 : negRange = 0;
+	
+		if( virtualAxis[i].positiveAxis > Mouse_Right )
+		{
+			IsKeyPressed( virtualAxis[i].positiveAxis ) ? 	virtualAxis[i].movement = 1.0 : virtualAxis[i].movement = 0;
+		}
+		else
+		{
+			IsMouseButtonPressed( virtualAxis[i].positiveAxis ) ? 	virtualAxis[i].movement = 1.0 : virtualAxis[i].movement = 0;
+		}
 
-		virtualAxis[i].movement = negRange + posRange;
+		if( virtualAxis[i].negativeAxis > Mouse_Right )
+		{
+			IsKeyPressed( virtualAxis[i].negativeAxis ) ? 	virtualAxis[i].movement += -1.0 : virtualAxis[i].movement += 0;
+		}
+		else
+		{
+			IsMouseButtonPressed( virtualAxis[i].negativeAxis ) ? 	virtualAxis[i].movement += -1.0 : virtualAxis[i].movement += 0;
+		}
 	}
+
+
+	for( unsigned int i = 0; i < keys.Size(); i++ )
+	{
+		if( keys[i].key > Mouse_Right )
+		{
+			keys[i].wasPushed = IsKeyPressed( keys[i].key );
+		}
+		else
+		{
+			keys[i].wasPushed = IsMouseButtonPressed( keys[i].key );		
+		}
+	}
+
+	xMouse = Screen::Instance().GetMouseX();
+	yMouse = Screen::Instance().GetMouseY();
 }
     
 // Crea un botón virtual
@@ -204,9 +241,9 @@ void InputManager::CreateVirtualButton( const String& name, eInputCode button )
 {
 	bool found = false;
 
-	for(unsigned int i = 0; i < actions.Size() && !found; i++)
+	for(unsigned int i = 0; i < virtualButtons.Size() && !found; i++)
 	{
-		if(actions[i].action == name)
+		if(virtualButtons[i].action == name)
 		{
 			found = true;
 		}
@@ -214,12 +251,12 @@ void InputManager::CreateVirtualButton( const String& name, eInputCode button )
 
 	if(!found)
 	{
-		Button newButton;
+		VirtualButton newButton;
 		newButton.action = name;
 		newButton.buttonsAssigned = button;
-		newButton.wasPreesedLastFrame = false;
+		newButton.pressed = newButton.isDown = newButton.isUp = false;
 
-		actions.Add(newButton);
+		virtualButtons.Add(newButton);
 	}
 }
 
@@ -243,6 +280,8 @@ void InputManager::CreateVirtualAxis( const String& name, eInputCode positiveAxi
 		newAxis.positiveAxis = positiveAxis;
 		newAxis.negativeAxis = negativeAxis;
 		newAxis.movement = 0;
+
+		virtualAxis.Add( newAxis );
 	}
 
 }
@@ -253,18 +292,13 @@ bool InputManager::IsVirtualButtonPressed( const String& name ) const
 	bool pressed = false;
 	bool found = false;
 
-	for(unsigned int i = 0; i < actions.Size() && !found; i++)
+	for(unsigned int i = 0; i < virtualButtons.Size() && !found; i++)
 	{
-		if(actions[i].action == name && actions[i].buttonsAssigned >  Mouse_Right)
+		if( virtualButtons[i].action == name )
 		{
 			found = true;
-			pressed = Screen::Instance().KeyPressed(actions[i].buttonsAssigned);
-		}
-		else if(actions[i].action == name && actions[i].buttonsAssigned <=  Mouse_Right)
-		{
-			found = true;
-			pressed = Screen::Instance().MouseButtonPressed(actions[i].buttonsAssigned);
-		}
+			pressed = virtualButtons[i].pressed;
+		}	
 	}
 
 	return pressed;
@@ -276,18 +310,12 @@ bool InputManager::IsVirtualButtonDown( const String& name ) const
 	bool pressed = false;
 	bool found = false;
 
-	for(unsigned int i = 0; i < actions.Size() && !found; i++)
+	for(unsigned int i = 0; i < virtualButtons.Size() && !found; i++)
 	{
-		if(actions[i].action == name && actions[i].buttonsAssigned >  Mouse_Right)
+		if( virtualButtons[i].action == name )
 		{
 			found = true;
-			pressed = Screen::Instance().KeyPressed(actions[i].buttonsAssigned) && !actions[i].wasPreesedLastFrame;
-			
-		}
-		else if(actions[i].action == name && actions[i].buttonsAssigned <=  Mouse_Right)
-		{
-			found = true;
-			pressed = Screen::Instance().MouseButtonPressed(actions[i].buttonsAssigned) && !actions[i].wasPreesedLastFrame;
+			pressed = virtualButtons[i].isDown;
 		}
 	}
 
@@ -297,25 +325,19 @@ bool InputManager::IsVirtualButtonDown( const String& name ) const
 // Devuelve true durante el frame que que el usuario ha dejado de pulsar un botón
 bool InputManager::IsVirtualButtonUp( const String& name ) const
 {
+	bool result = false;
 	bool found = false;
-	bool pressed = false;
 
-	for(unsigned int i = 0; i < actions.Size() && !found; i++)
+	for(unsigned int i = 0; i < virtualButtons.Size() && !found; i++)
 	{
-		if(actions[i].action == name && actions[i].buttonsAssigned >  Mouse_Right)
+		if( virtualButtons[i].action == name )
 		{
 			found = true;
-			pressed = !Screen::Instance().KeyPressed(actions[i].buttonsAssigned) && actions[i].wasPreesedLastFrame;
+			result = virtualButtons[i].isUp;
 		}
-		else if(actions[i].action == name && actions[i].buttonsAssigned <=  Mouse_Right)
-		{
-			found = true;
-			pressed = !Screen::Instance().MouseButtonPressed(actions[i].buttonsAssigned) && actions[i].wasPreesedLastFrame;
-		}
-
 	}
 
-	return pressed;
+	return result;
 }
 
 // Estado de ejes virtuales normalizado de -1 a +1
@@ -324,22 +346,19 @@ float InputManager::GetVirtualAxis( String name ) const
 	bool found = false;
 	unsigned int i = 0;
 
-	for( i; i < virtualAxis.Size() && !found; i++)
+	while( !found && i < virtualAxis.Size() )
 	{
-		if( virtualAxis[i].nameAxis == name)
+		if( virtualAxis[i].nameAxis == name )
 		{
 			found = true;
 		}
+		else
+		{
+			i++;
+		}
 	}
 
-	if(found)
-	{
-		return virtualAxis[i].movement;
-	}
-	else
-	{
-		return 0;
-	}
+	return found ? virtualAxis[i].movement : false;
 }
 
 
@@ -353,101 +372,110 @@ bool InputManager::IsKeyPressed( eInputCode vkCode )
 bool InputManager::IsKeyDown( eInputCode vkCode )
 {
 	bool found = false;
-	unsigned int i = 0;
+	bool isDown = false;
 
-	while( i < buttonsPressed.Size() && !found)
+	for( unsigned int i = 0; i < keys.Size() && !found; i++ )
 	{
-		if( buttonsPressed[i] == vkCode )
+		if( keys[i].key == vkCode )
 		{
 			found = true;
+			isDown = !keys[i].wasPushed && IsKeyPressed( vkCode ); 
 		}
 	}
-
-	if( !found )
-	{
-		return false;
-	}
-	else
-	{
-		return IsKeyPressed( vkCode );
-	}
 	
+	return isDown;
 }
 
 
 bool InputManager::IsKeyUp( eInputCode vkCode )
 {
 	bool found = false;
-	unsigned int i = 0;
+	bool isUp = false;
 
-	while( i < buttonsPressed.Size() && !found)
+	if( vkCode > Mouse_Right )
 	{
-		if( buttonsPressed[i] == vkCode )
+		for( unsigned int i = 0; i < keys.Size() && !found; i++ )
 		{
-			found = true;
+			if( keys[i].key == vkCode )
+			{
+				found = true;
+				isUp = keys[i].wasPushed && !IsKeyPressed( vkCode ); 
+			}
 		}
 	}
 
-	if( !found )
-	{
-		return false;
-	}
-	else
-	{
-		return !IsKeyPressed( vkCode );
-	}	
+	return isUp;
 }
 
 
 bool InputManager::IsMouseButtonPressed( eInputCode button )
 {
-	return Screen::Instance().MouseButtonPressed(button);
+	bool result = false;
+	switch( button )
+	{
+		case Mouse_Down:
+		{
+			result = Screen::Instance().GetMouseY() > yMouse;
+			break;
+		}
+		case Mouse_Up:
+		{
+			result = Screen::Instance().GetMouseY() < yMouse;
+			break;
+		}
+		case Mouse_Left:
+		{
+			result = Screen::Instance().GetMouseX() < xMouse;
+			break;
+		}
+		case Mouse_Right:
+		{
+			result = Screen::Instance().GetMouseX() > xMouse;
+			break;
+		}
+		default:
+		{
+			result = Screen::Instance().MouseButtonPressed(button);
+		}
+	}
+	return result;
 }
 
 
 bool InputManager::GetMouseButtonDown( eInputCode button )
 {
 	bool found = false;
-	unsigned int i = 0;
+	bool isDown = false;
 
-	while( i < buttonsPressed.Size() && !found)
+	for( unsigned int i = 0; i < keys.Size() && !found; i++ )
 	{
-		if( buttonsPressed[i] == button )
+		if( keys[i].key == button )
 		{
 			found = true;
-		}
+			isDown = !keys[i].wasPushed && IsMouseButtonPressed( button ); 
+		}	
 	}
-
-	if( !found )
-	{
-		return false;
-	}
-	else
-	{
-		return IsMouseButtonPressed( button );
-	}	
+	
+	return isDown;	
+	
 }
 
 
 bool InputManager::GetMouseButtonUp( eInputCode button )
 {
 	bool found = false;
-	unsigned int i = 0;
+	bool isUp = false;
 
-	while( i < buttonsPressed.Size() && !found)
+	for( unsigned int i = 0; i < keys.Size() && !found; i++ )
 	{
-		if( buttonsPressed[i] == button )
+		if( keys[i].key == button )
 		{
 			found = true;
-		}
+			isUp = keys[i].wasPushed && !IsMouseButtonPressed( button ); 
+		}	
 	}
-
-	if( !found )
-	{
-		return false;
-	}
-	else
-	{
-		return !IsMouseButtonPressed( button );
-	}	
+	
+	return isUp;	
 }
+
+

@@ -18,16 +18,16 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 
 	unsigned char* pixels = stbi_load( filename.ToCString(), &widthImage, &heightImage, &nComponents, nComponents);
 
-	for(unsigned int n = 0; n < nFrames; n++)
+	for(unsigned int n = 0; n < (unsigned int)nFrames; n++)
 	{
 		Glyph glyph(0, 0, widthFrame, heightFrame);
 
 		uint16 row = n / 16;
 		uint16 column = n % 16;
 
-		for(unsigned int posY = row * heightFrame; posY < (row + 1) * heightFrame ; posY++ )
+		for(unsigned int posY = (unsigned int) (row * heightFrame); posY < (unsigned int) ((row + 1) * heightFrame) ; posY++ )
 		{
-			for(unsigned int posX = column * widthFrame; posX < (column + 1) * widthFrame; posX++)
+			for(unsigned int posX = (unsigned int)( column * widthFrame ); posX < (unsigned int)( (column + 1) * widthFrame ); posX++)
 			{
 
 				unsigned char pixelR = pixels[(posY * widthImage + posX) * 4 + 0];
@@ -51,15 +51,10 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 				{
 					*pixelA = 0;
 				}
-				else
-				{
-					*pixelA = 255;
-				}
 			}
 		}
-
+	
 		glyphs.Add(glyph);
-		int x = glyph.GetWidth();
 	}
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImage, heightImage, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
@@ -71,13 +66,9 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 void Font::Render(const String& text, double x, double y)
 {
 	double xIncrement = x;
-	double increment = 0;
-	int index = 0;
-	Renderer::Instance().SetBlendMode(Renderer::BlendMode::ALPHA);
 
 	for(int i = 0; i < text.Length(); i++)
 	{
-		index = (unsigned char)text[i];
 		Renderer::Instance().DrawImage(this, xIncrement, y , (unsigned char)text[i]);
 		xIncrement += glyphs[(unsigned char)text[i]].GetWidth();
 	}
@@ -103,9 +94,9 @@ uint32 Font::GetTextHeight(const String& text) const
 
 	for(int i = 0; i < text.Length(); i++)
 	{
-		if( maxHeight < glyphs[text[i]].GetHeight())
+		if( maxHeight < glyphs[(unsigned char)text[i]].GetHeight())
 		{
-			maxHeight = glyphs[text[i]].GetHeight();
+			maxHeight = glyphs[(unsigned char)text[i]].GetHeight();
 		}
 	}
 

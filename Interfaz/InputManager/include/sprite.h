@@ -1,6 +1,7 @@
 #ifndef UGINE_SPRITE_H
 #define UGINE_SPRITE_H
 
+#include "../include/pixelcollision.h"
 #include "renderer.h"
 #include "types.h"
 
@@ -51,7 +52,7 @@ public:
 	virtual void SetCurrentFrame(uint16 frame) { /* TAREA: Implementar */ this->currentFrame = currentFrame; }
 	virtual uint16 GetCurrentFrame() const { /* TAREA: Implementar */ return (uint16)this->currentFrame; }
 
-	virtual void SetBlendMode(Renderer::BlendMode blend) { /* TAREA: Implementar */ this->blendMode = blendMode; }
+	virtual void SetBlendMode(Renderer::BlendMode blend) { /* TAREA: Implementar */ this->blendMode = blend; }
 	virtual Renderer::BlendMode GetBlendMode() const { /* TAREA: Implementar */ return this->blendMode; }
     virtual void SetColor(uint8 r, uint8 g, uint8 b, uint8 alpha = 255) { /* TAREA: Implementar */ this->r = r; this->g = g; this->b = b; this->a = alpha; }
 	virtual uint8 GetRed() const { /* TAREA: Implementar */ return this->r; }

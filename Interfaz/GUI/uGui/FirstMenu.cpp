@@ -5,6 +5,9 @@
 #include "Button.h"
 #include "Window.h"
 #include "Label.h"
+#include "../include/scene.h"
+#include "../include/sprite.h"
+#include "../include/emitter.h"
 #include "../include/font.h"
 #include "../include/resourceManager.h"
 
@@ -16,7 +19,7 @@ void FirstMenu::CreateGUI()
 {
 	m_window = new Window();
 	m_window->init( "Pantalla Principal", Vector2( 100, 200 ), "data/GUI/Window4.png" );
-
+	m_window->setEventListener( this );
 
 	// Crea un label 
 	Label* l1 = new Label();
@@ -112,6 +115,8 @@ void FirstMenu::onClick( Control* sender )
 {
 	if( sender == m_start )
 	{
+	
+		StartGame();
 	}
 	else if( sender == m_config )
 	{
@@ -133,7 +138,7 @@ void FirstMenu::onClick( Control* sender )
 	}
 	else if( sender == m_yes )
 	{
-		return;
+		exit(0);
 	}
 	else if( sender == m_no )
 	{
@@ -145,5 +150,30 @@ void FirstMenu::onClick( Control* sender )
 		m_yes->setVisible( false );
 		m_no->setVisible( false );
 	}
+
+}
+
+
+void FirstMenu::onKeyDown( Control* sender, int keyCode )
+{
+	if( sender == m_window && keyCode == 27)
+	{
+		m_window->setVisible( true );
+		m_start->setVisible( true );
+		m_config->setVisible( true );
+		m_credits->setVisible( true );
+		m_exit->setVisible( true );
+		m_yes->setVisible( true );
+		m_no->setVisible( true );
+	}
+}
+
+
+void FirstMenu::StartGame()
+{
+
+	Scene scene( ResourceManager::Instance().LoadImage(   "data/background.png" ) );
+	scene.Render();
+	
 
 }

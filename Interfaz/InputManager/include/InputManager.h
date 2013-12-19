@@ -9,125 +9,12 @@
 #include "array.h"
 #include "string.h"
 
-/*
-enum eInputCode2
-{
+#define NUM_DEVICES 2
 
-
-KEY_UNKNOWN = -1,
-KEY_SPACE = 32,
-KEY_SPECIAL = 256,
-KEY_ESC,
-KEY_F1,
-KEY_F2,
-KEY_F3,
-KEY_F4,
-KEY_F5,
-KEY_F6,
-KEY_F7,
-KEY_F8,
-KEY_F9,
-KEY_F1,
-KEY_F11,
-KEY_F12,
-KEY_F13,
-KEY_F14,
-KEY_F15,
-KEY_F17,
-KEY_F18,
-KEY_F19,
-KEY_F20,
-KEY_F21,
-KEY_F22,
-KEY_F23,
-KEY_F24,
-KEY_F25,
-KEY_UP,
-KEY_DOWN,
-KEY_LEFT,
-KEY_RIGHT,
-KEY_LSHIFT,
-KEY_RSHIFT,
-KEY_LCTRL,
-KEY_RCTRL,
-KEY_LALT,
-KEY_RALT,
-KEY_TAB,
-KEY_ENTER,
-KEY_BACKSPACE,
-KEY_INSERT,
-KEY_DEL,
-KEY_PAGEUP,
-KEY_PAGEDOWN,
-KEY_HOME,
-KEY_END,
-KEY_KP_0,
-KEY_KP_1,
-KEY_KP_2,
-KEY_KP_3,
-KEY_KP_4,
-KEY_KP_5,
-KEY_KP_6,
-KEY_KP_7,
-KEY_KP_8,
-KEY_KP_9,
-KEY_KP_DIVIDE,
-KEY_KP_MULTIPLY,
-_KEY_KP_SUBTRACT,
-_KEY_KP_ADD,
-KEY_KP_DECIMAL,
-KEY_KP_EQUAL,
-KEY_KP_ENTER,
-KEY_KP_NUM_LOCK,
-KEY_CAPS_LOCK,
-KEY_SCROLL_LOCK,
-KEY_PAUSE,
-KEY_LSUPER,
-KEY_RSUPER,
-KEY_MENU,
-//KEY_LAST GLFW_KEY_MENU,
-
-
-GLFW_MOUSE_BUTTON_1 = 0,
-MOUSE_BUTTON_2,
-MOUSE_BUTTON_3,
-MOUSE_BUTTON_4,
-MOUSE_BUTTON_5,
-MOUSE_BUTTON_6,
-MOUSE_BUTTON_7,
-MOUSE_BUTTON_8,
-//MOUSE_BUTTON_LAST   GLFW_MOUSE_BUTTON_8,
-
-
-
-MOUSE_BUTTON_LEFT   GLFW_MOUSE_BUTTON_1,
-MOUSE_BUTTON_RIGHT  GLFW_MOUSE_BUTTON_2,
-MOUSE_BUTTON_MIDDLE GLFW_MOUSE_BUTTON_3,
-
-
-
-
-
-JOYSTICK_1 = 0,
-JOYSTICK_2          1,
-JOYSTICK_3          2,
-JOYSTICK_4          3,
-JOYSTICK_5          4,
-JOYSTICK_6          5,
-JOYSTICK_7          6,
-JOYSTICK_8          7,
-JOYSTICK_9          8,
-JOYSTICK_10         9,
-JOYSTICK_11         10,
-JOYSTICK_12         11,
-JOYSTICK_13         12,
-JOYSTICK_14         13,
-JOYSTICK_15         14,
-JOYSTICK_16         15,
-JOYSTICK_LAST       GLFW_JOYSTICK_16
-}*/
-
-
+enum DeviceType{
+	Keyboard,
+	Mouse
+};
 
 // códigos que representan los distintos tipos de inputs posibles
 enum eInputCode
@@ -295,11 +182,13 @@ enum eInputCode
   Key_Underscore, 
 };
 
-struct Button 
+struct VirtualButton 
 {
 	eInputCode buttonsAssigned;
 	String action;
-	bool wasPreesedLastFrame;
+	bool pressed;
+	bool isUp;
+	bool isDown;
 };
 
 struct VirtualAxis 
@@ -307,10 +196,9 @@ struct VirtualAxis
 	eInputCode positiveAxis;
 	eInputCode negativeAxis;
 	String nameAxis;
-	int movement;
-	double lastX;
-	double lastY;
+	double movement;
 };
+
 
 struct Key
 {
@@ -318,8 +206,10 @@ struct Key
 	bool wasPushed;
 
 public:
+	Key(){};
 	Key( eInputCode k){ key = k; wasPushed = false; }
 };
+
 
 
 class InputManager
@@ -327,7 +217,7 @@ class InputManager
   public:
 	  static InputManager& Instance() {if ( !manager ) manager = new InputManager(); return *manager; }
 
-	  InputManager(){ isOk = Init(); }
+	  
 	  ~InputManager(){}
 
 	// Inicialición: deteccción de dispostivos, inicialización de los mismos... etc
@@ -374,12 +264,16 @@ class InputManager
     bool            GetMouseButtonUp( eInputCode button );
 
 private:
-	Array<Button> actions;
+	InputManager(){ isOk = Init(); }
+
+	Array<VirtualButton> virtualButtons;
 	Array<VirtualAxis> virtualAxis;
-	Array<eInputCode> buttonsPressed;
+	Array<eInputCode> pressed;
 	Array<Key> keys;
+	bool devicesOn[ NUM_DEVICES ];
 	bool isOk;
 	static InputManager* manager;
+	double xMouse, yMouse;
 };
 
 

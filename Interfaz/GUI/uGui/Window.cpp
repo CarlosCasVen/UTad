@@ -62,9 +62,15 @@ void Window::onInputEvent( const Message& message )
 {
 	switch( message.type )
 	{
+	case mtKeyDown:
+		{
+			const MessageKeyDown* messagePointer = static_cast<const MessageKeyDown*>(&message);				
+			NOTIFY_LISTENERS( onKeyDown( this, messagePointer->keyCode ) );
+			break;
+		}
 	case mtPointerButtonUp:
-		NOTIFY_LISTENERS( onClick( this ) );
-		break;
+			NOTIFY_LISTENERS( onClick( this ) );
+			break;
 	}	
 }
 

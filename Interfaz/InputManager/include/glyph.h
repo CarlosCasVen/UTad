@@ -9,7 +9,7 @@
 class Glyph{
 public:
 	Glyph(){};
-	Glyph(uint16 x0, uint16 y0, uint16 x1, uint16 y1){ this->x0 = this->x0; this->y0 = y0; this->x1 = x1; this->y1 = y1; };
+	Glyph(uint16 x0, uint16 y0, uint16 x1, uint16 y1){ this->x0 = x0; this->y0 = y0; this->x1 = x1; this->y1 = y1; };
 	void SetInitialCoordinates( uint16 x, uint16 y){ x0 = x; y0 = y; };
 	void SetFinalCoordinates( uint16 x, uint16 y){ x1 = x; y1 = y; };
 	static bool IsRed(uint8 r, uint8 g, uint8 b){ return  r == 255 && g == 0 && b == 0; }

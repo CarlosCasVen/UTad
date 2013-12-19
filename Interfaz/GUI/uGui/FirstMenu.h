@@ -14,11 +14,14 @@ public:
 	void Active();
 
 	virtual void onClick( Control* sender);
+	virtual void onKeyDown( Control* sender, int keyCode );
 
 private:
 	FirstMenu(){  m_window = NULL; m_start = NULL; m_config = NULL; m_credits = NULL; m_exit = NULL; m_yes = NULL; m_no = NULL; }
 
 	void CreateGUI();
+
+	void StartGame();
 
 	static FirstMenu* firstMenu;
 

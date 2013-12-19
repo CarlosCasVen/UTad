@@ -165,6 +165,14 @@ bool Control::injectInput( const Message& message )
 				}
 			}
 			break;
+		case mtKeyDown:
+			{
+				const MessageKeyDown* messagePointer = static_cast<const MessageKeyDown*>(&message);	
+				onInputEvent( message );
+				messageHandled = true;
+				
+			}
+			break;
 		}
 	}
 
