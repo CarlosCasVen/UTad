@@ -9,7 +9,7 @@
 class Slider : public Control, public IEventListener
 {
 public:
-	Slider() : Control(){ m_bar = NULL; m_pointer = m_up = m_down = NULL; m_posPointer = Vector2( 0, 0); }
+	Slider() : Control(){ m_bar = NULL; m_pointer = m_up = m_down = NULL; m_posPointer = Vector2( 0, 0); xMouse = 0; }
 
 	virtual void update();
 	virtual void render();
@@ -33,6 +33,7 @@ private:
 	Vector2 m_posPointer;
 	Label* m_label;
 	Label* m_labelPercent;
+	double xMouse;
 	
 };
 

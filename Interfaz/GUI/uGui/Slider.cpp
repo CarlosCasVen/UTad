@@ -5,6 +5,8 @@
 #include "../include/renderer.h"
 #include "Vector2.h"
 #include "../include/math.h"
+#include "../include/screen.h"
+
 
 bool Slider::init( const std::string name, const Vector2& position, const std::string& barImage, const std::string& pointerImage, const std::string& addImage,
 				  const std::string& addImagePushed, const std::string& substractImage, const std::string& substractImagePushed, const std::string& font )
@@ -44,7 +46,7 @@ bool Slider::init( const std::string name, const Vector2& position, const std::s
 
 
 	m_labelPercent = new Label();
-	m_labelPercent->init( "Porcentaje", Vector2( 0, 0 ), String::FromInt( m_posPointer.x ).ToCString(), font.c_str() );
+	m_labelPercent->init( "Porcentaje", Vector2( 0, 0 ), String::FromInt( (int)m_posPointer.x ).ToCString(), font.c_str() );
 	m_labelPercent->setParent( this );
 	m_labelPercent->setVisible( false );
 
@@ -71,11 +73,13 @@ void Slider::update()
 
 	if( m_labelPercent )
 	{
-		m_labelPercent->setText( String::FromInt( m_posPointer.x ).ToCString() );
+		m_labelPercent->setText( String::FromInt( (int)m_posPointer.x ).ToCString() );
+	
 	}
 
 	Vector2 pos( ( m_posPointer.x * m_bar->GetWidth() / 100 ) - m_pointer->getSize().x / 2, m_posPointer.y );
 	m_pointer->setPosition( pos );
+	xMouse = Screen::Instance().GetMouseX();
 }
 
 void Slider::render()
@@ -131,7 +135,7 @@ void Slider::destroy()
 	 }
 	 else if( sender == m_pointer )
 	 {
-
+		 
 	 }
  }
 

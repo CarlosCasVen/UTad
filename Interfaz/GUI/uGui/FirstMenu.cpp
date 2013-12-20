@@ -10,6 +10,7 @@
 #include "../include/emitter.h"
 #include "../include/font.h"
 #include "../include/resourceManager.h"
+#include "../include/glinclude.h"
 
 
 FirstMenu* FirstMenu::firstMenu = NULL;
@@ -115,7 +116,13 @@ void FirstMenu::onClick( Control* sender )
 {
 	if( sender == m_start )
 	{
-	
+		m_window->setVisible( false );
+		m_start->setEnabled( false );
+		m_config->setEnabled( false );
+		m_credits->setEnabled( false );
+		m_exit->setEnabled( false );
+		m_yes->setVisible( false );
+		m_no->setVisible( false );
 		StartGame();
 	}
 	else if( sender == m_config )
@@ -172,8 +179,5 @@ void FirstMenu::onKeyDown( Control* sender, int keyCode )
 void FirstMenu::StartGame()
 {
 
-	Scene scene( ResourceManager::Instance().LoadImage(   "data/background.png" ) );
-	scene.Render();
 	
-
 }

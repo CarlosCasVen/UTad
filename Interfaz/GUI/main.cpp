@@ -34,11 +34,16 @@ int main(int argc, char* argv[])
 	glfwSetMousePosCallback(MousePosCallback);
 	glfwSetKeyCallback(KeyboardCallback);
 
-	while ( Screen::Instance().IsOpened() ) 
+	Scene scene;
+	scene.CreateSprite( ResourceManager::Instance().LoadImage("data/alien.png") );
+
+	while ( Screen::Instance().IsOpened() && !Screen::Instance().KeyPressed( GLFW_KEY_ESC )) 
 	{
 		GUIManager::instance().update();
 
 		Renderer::Instance().Clear(0, 0, 0);
+		scene.Update( Screen::Instance().ElapsedTime() );
+		scene.Render();
 		GUIManager::instance().render();
 		Screen::Instance().Refresh();
 	}
