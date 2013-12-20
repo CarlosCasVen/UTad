@@ -16,7 +16,8 @@ int	main(int	argc,	char*	argv[])	{
 
 	Scene scene;
 
-
+	InputManager manager = InputManager::Instance();
+	manager.CreateVirtualButton( "Change cursor", eInputCode::Mouse_Button1 );
 
 	///////////////////////
 	Image* ballImage = ResourceManager::Instance().LoadImage("data/ball.png");
@@ -46,8 +47,6 @@ int	main(int	argc,	char*	argv[])	{
 	Image* alienImage =  ResourceManager::Instance().LoadImage( "data/alien.png" );
 	alienImage->SetMidHandle();
 
-	
-
 	Sprite* cursor = scene.CreateSprite( alienImage );
 	cursor->SetRadius( ResourceManager::Instance().LoadImage( "data/circle.png" )->GetWidth() / 2 );
 	cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
@@ -63,7 +62,7 @@ int	main(int	argc,	char*	argv[])	{
 
 
 
-		if( Screen::Instance().MouseButtonPressed( GLFW_MOUSE_BUTTON_2 ) )
+		if( manager.IsVirtualButtonDown("Change cursor") )
 		{
 			int x = 1;
 			nCliks = ++nCliks % 3;
@@ -75,13 +74,13 @@ int	main(int	argc,	char*	argv[])	{
 						cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
 						break;																										   
 					}																												   
-				case 2:																												   
+				case 1:																												   
 					{																												   
 						cursor->SetImage( rect );
 						cursor->SetCollision( Sprite::CollisionMode::COLLISION_RECT );
 						break;																											   
 					}																												   
-				case 1:																												   
+				case 2:																												   
 					{																												   
 						cursor->SetImage( alienImage );
 						cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
@@ -126,7 +125,7 @@ int	main(int	argc,	char*	argv[])	{
 		
 		cursor->SetPosition( Screen::Instance().GetMouseX(), Screen::Instance().GetMouseY() ); 
 
-
+		manager.Update();
 		scene.Update( Screen::Instance().ElapsedTime() );
 		scene.Render();
 

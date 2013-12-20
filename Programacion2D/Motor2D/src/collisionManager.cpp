@@ -9,9 +9,10 @@ CollisionManager* CollisionManager::manager;
 
 bool CollisionManager::CircleToCircle(double x1, double y1, double r1, double x2, double y2, double r2) const
 {
-	double distanceC1C2 = Distance( x1, y1, x2, y2 );
+	double distanceC1C2 = PowDistance( x1, y1, x2, y2 );
 	double distanceBetweenRadious = r1 + r2;
-
+	distanceBetweenRadious *= distanceBetweenRadious;
+	
 	return distanceC1C2 <= distanceBetweenRadious; 
 }
 
@@ -35,7 +36,7 @@ bool CollisionManager::CircleToPixels(double cx, double cy, double cr, const Col
 			{
 				if( pixels->GetData( xP1 + a, yP1 + i ) )
 				{
-					isCollision = Distance( outx + a, outy + i, cx, cy ) <= cr;
+					isCollision = PowDistance( outx + a, outy + i, cx, cy ) <= ( cr * cr );
 				}
 			}
 		}
@@ -47,14 +48,13 @@ bool CollisionManager::CircleToPixels(double cx, double cy, double cr, const Col
 
 bool  CollisionManager::CircleToRect(double cx, double cy, double cr, double rx, double ry, double rw, double rh) const
 {
-	
 	double outx = 0;
 	double outy = 0;
 
 	ClosestPointToRect( cx, cy, rx, ry, rw, rh, &outx, &outy );
 
-	double distance = Distance( cx, cy, outx, outy );
-	return cr >= distance;
+	double distance = PowDistance( cx, cy, outx, outy );
+	return ( cr * cr ) >= distance;
 }
 
 

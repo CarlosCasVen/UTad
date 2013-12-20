@@ -146,4 +146,16 @@ void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, 
 double RangeRand ( double minRange, double maxRange )
 {
 	return (double)minRange + (maxRange - minRange) * (double)rand() / RAND_MAX;
-} // 
+} 
+
+
+double PowDistance(double x1, double y1, double x2, double y2)
+{
+	double xCuad = x2 - x1;
+	double yCuad = y2 - y1;
+	
+	xCuad *= xCuad;
+	yCuad *= yCuad;
+
+	return xCuad + yCuad;
+}
