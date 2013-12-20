@@ -17,7 +17,8 @@ Map::Map(const String &filename, uint16 firstColId) {
 	this->valid = false;
 
 	String file = String::Read( filename );
-	xml_document<> map = map.parse<0>( file.ToCString() );
+	xml_document<> map;
+	map.parse<0>( (char*) file.ToCString() );
 	
 	xml_node<>* firstNode = map.first_node( file.ToCString() );
 	this->width = atoi( map.first_attribute( "width" )->value() );

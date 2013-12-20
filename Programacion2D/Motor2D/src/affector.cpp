@@ -64,7 +64,7 @@ void Affector::Apply( Particle* particle)
 		
 		if( ( mode & COLOR_ACTIVE ) == COLOR_ACTIVE )
  		{
-			particle->SetColor( RangeRand(minr, maxr ), RangeRand( (double)ming, (double)maxg ), RangeRand( (double)minb, (double)maxb ), particle->GetAlpha() );
+			particle->SetColor( (uint8)RangeRand(minr, maxr ), (uint8)RangeRand( (double)ming, (double)maxg ), (uint8)RangeRand( (double)minb, (double)maxb ), particle->GetAlpha() );
 		}
 
 		if( ( mode & BLEND_MODE_ACTIVE ) == BLEND_MODE_ACTIVE )

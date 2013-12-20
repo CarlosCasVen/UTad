@@ -47,20 +47,18 @@ int	main(int	argc,	char*	argv[])	{
 	Image* alienImage =  ResourceManager::Instance().LoadImage( "data/alien.png" );
 	alienImage->SetMidHandle();
 
-	Sprite* cursor = scene.CreateSprite( alienImage );
+	Sprite* cursor = scene.CreateSprite( circle );
 	cursor->SetRadius( ResourceManager::Instance().LoadImage( "data/circle.png" )->GetWidth() / 2 );
 	cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
-	cursor->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
+	cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
 	
 	unsigned int nCliks = 0;
 
 
 	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
-	{	
-
+	{			
+		Screen::Instance().Refresh();
 		Renderer::Instance().Clear();
-
-
 
 		if( manager.IsVirtualButtonDown("Change cursor") )
 		{
@@ -128,8 +126,6 @@ int	main(int	argc,	char*	argv[])	{
 		manager.Update();
 		scene.Update( Screen::Instance().ElapsedTime() );
 		scene.Render();
-
-		Screen::Instance().Refresh();
 	}
 
 	return	0;	

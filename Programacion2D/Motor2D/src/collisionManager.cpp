@@ -34,7 +34,7 @@ bool CollisionManager::CircleToPixels(double cx, double cy, double cr, const Col
 		{
 			for( unsigned int a = 0; a < outw && !isCollision; a++ )
 			{
-				if( pixels->GetData( xP1 + a, yP1 + i ) )
+				if( pixels->GetData( (uint32) ( xP1 + a ), (uint32) ( yP1 + i ) ) )
 				{
 					isCollision = PowDistance( outx + a, outy + i, cx, cy ) <= ( cr * cr );
 				}
@@ -79,7 +79,7 @@ bool CollisionManager::PixelsToPixels(const CollisionPixelData* p1, double x1, d
 		{
 			for( unsigned int a = 0; a < outw && !isCollision; a++ )
 			{
-				if( p1->GetData( xP1 + a, yP1 + i ) && p2->GetData( xP2 + a, yP2 + i ) )
+				if( p1->GetData( (uint32) ( xP1 + a ), (uint32) ( yP1 + i ) ) && p2->GetData( (uint32) ( xP2 + a ), (uint32) ( yP2 + i ) ) )
 				{
 					isCollision = true;
 				}
@@ -110,7 +110,7 @@ bool CollisionManager::PixelsToRect(const CollisionPixelData* pixels, double px,
 		{
 			for( unsigned int a = 0; a < outw && !isCollision; a++ )
 			{
-				if( pixels->GetData( xP1 + a, yP1 + i ) )
+				if( pixels->GetData( (uint32) ( xP1 + a ), ( uint32) ( yP1 + i ) ) )
 				{
 					isCollision = true;
 				}
