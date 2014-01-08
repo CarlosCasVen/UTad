@@ -15,7 +15,7 @@ public:
 	virtual double GetX() const{ return x; };
 	virtual double GetY() const{ return y; };
 	virtual void SetBounds(double bx0, double by0, double bx1, double by1);
-	virtual bool HasBounds() const{ return boundx0 != boundx1; };
+	virtual bool HasBounds() const{ return boundx0 != boundx1 && boundy0 != boundy1; };
 	virtual double GetMinX() const{ return boundx0; };
 	virtual double GetMinY() const{ return boundy0; };
 	virtual double GetMaxX() const{ return boundx1; };

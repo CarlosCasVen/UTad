@@ -58,7 +58,7 @@ SkeletonSprite::~SkeletonSprite() {
 void SkeletonSprite::Update(double elapsed, Map* map) {
 	// TAREA: Implementar la especificacion del enunciado
 	Sprite::Update( elapsed, map );
-	root->Update( GetFPS() );
+	root->Update( GetCurrentFrame() );
 
 }
 

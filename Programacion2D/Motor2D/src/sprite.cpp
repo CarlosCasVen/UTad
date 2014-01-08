@@ -222,10 +222,15 @@ void Sprite::Update(double elapsed, const Map* map) {
 
 	// TAREA: Actualizar animacion
 	currentFrame += animFPS * elapsed;
-	if( currentFrame >= lastFrame )
-	{
+	//if( currentFrame >= lastFrame )
+	//{
+	//	currentFrame = firstFrame;
+	//}
+
+	if (lastFrame < currentFrame)
 		currentFrame = firstFrame;
-	}
+	if (currentFrame < firstFrame)
+		currentFrame = lastFrame;
 
 
 	// TAREA: Actualizar rotacion animada

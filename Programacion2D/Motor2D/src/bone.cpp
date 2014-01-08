@@ -129,7 +129,7 @@ void Bone::Render() {
 
 	if( image )
 	{
-		image->SetHandle( handleX * image->GetWidth() , handleY * image->GetHeight() );
+		image->SetHandle( (int32) ( handleX * image->GetWidth() ) , (int32) ( handleY * image->GetHeight() ) );
 		Renderer::Instance().DrawImage( image, 0, 0, 0, image->GetWidth() * currentScaleX, image->GetHeight() * currentScaleY );
 		glTranslated( pivotX * image->GetWidth(), pivotY * image->GetHeight(), 0 );
 	}
@@ -158,5 +158,6 @@ void Bone::GetFrame(int32 f, const Frame** frame, const Frame** prevFrame, const
 
 double Bone::Interpolate(int32 id, int32 prevId, int32 nextId, double prevVal, double nextVal) const {
 	// TAREA: Implementar la especificacion del enunciado
-	return (double)prevVal + 1.0 * ( nextVal - prevVal ) * ( id - prevId ) / ( 1.0 * ( nextId - prevId ) );
+	double fraction =   ( nextVal - prevVal ) * ( id - prevId ) / ( nextId - prevId ) * 1.0;
+	return ( prevVal + fraction ) *1.0;
 }

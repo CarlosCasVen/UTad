@@ -49,10 +49,30 @@ void Camera::SetY(double y)
 
 void Camera::SetBounds(double bx0, double by0, double bx1, double by1)
 {
-	boundx0 = bx0; 
-	boundy0 = by0; 
-	boundx1 = bx1 - Screen::Instance().GetWidth(); 
-	boundy1 = by1 - Screen::Instance().GetHeight();
+	if( bx0 > bx1 )
+	{
+		boundx0 = bx1; 
+		boundx1 = bx0; 
+	}
+	else
+	{
+		boundx0 = bx0; 
+		boundx1 = bx1;
+	}
+
+	if( by0 > by1 )
+	{
+		boundy0 = by1;
+		boundy1 = by0;
+	}
+	else
+	{
+		boundy0 = by0;
+		boundy1 = by1;
+	}
+	
+	boundx1 -= Screen::Instance().GetWidth(); 
+	boundy1 -= Screen::Instance().GetHeight();
 }
 
 
