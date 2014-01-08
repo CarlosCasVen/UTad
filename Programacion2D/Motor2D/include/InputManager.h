@@ -4,11 +4,12 @@
 #include "array.h"
 #include "string.h"
 
-#define NUM_DEVICES 2
+#define NUM_DEVICES 3
 
 enum DeviceType{
 	Keyboard,
-	Mouse
+	Mouse,
+	XboxPad
 };
 
 // códigos que representan los distintos tipos de inputs posibles
@@ -25,7 +26,7 @@ enum eInputCode
   Mouse_Left,
   Mouse_Right,
 
-  //JOYSTICK
+   //JOYSTICK
   JOYSTICK_1,
   JOYSTICK_2,
   JOYSTICK_3,
@@ -175,6 +176,30 @@ enum eInputCode
   Key_SysReq,
   Key_Tab,
   Key_Underscore, 
+
+  //XBOX
+  Button_Up,
+  Button_Down,
+  Button_Left,
+  Button_Right,
+  Button_Start,
+  Button_Back,
+  Button_LB,
+  Button_RB, 
+  Button_A,
+  Button_B,
+  Button_X,
+  Button_Y,
+  Button_LT,
+  Button_RT,
+  Button_LX_POS,
+  Button_LX_NEG,
+  Button_LY_POS,
+  Button_LY_NEG,
+  Button_RX_POS,
+  Button_RX_NEG,
+  Button_RY_POS,
+  Button_RY_NEG,
 };
 
 struct VirtualButton 
@@ -198,11 +223,28 @@ struct VirtualAxis
 struct Key
 {
 	eInputCode key;
+	DeviceType device;
 	bool wasPushed;
 
 public:
 	Key(){};
-	Key( eInputCode k){ key = k; wasPushed = false; }
+	Key( eInputCode k )
+	{ 
+		key = k; wasPushed = false;
+
+		if( k <= Mouse_Right ) 
+		{
+			device = Mouse;
+		}
+		else if( k > Mouse_Right  && k <=  Key_Underscore )
+		{
+			device = Keyboard;
+		}
+		else
+		{
+			device = XboxPad;
+		}
+	}
 };
 
 
@@ -258,8 +300,16 @@ class InputManager
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar el botón del ratón dado
     bool            GetMouseButtonUp( eInputCode button );
 
+    // Está el boton del GamePAd pulsada en este momento?
+    bool            IsXboxPressed( eInputCode vkCode );
+	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación boton del GamePAd (***OPCIONAL***)
+    bool            IsXboxDown( eInputCode vkCode );
+	// Devuelve true durante el frame que que el usuario ha dejado de pulsar boton del GamePAd  (***OPCIONAL***)
+    bool            IsXboxUp( eInputCode vkCode );
+
 private:
 	InputManager(){ isOk = Init(); }
+	int FromKeyToXboxStruct ( eInputCode key );
 
 	Array<VirtualButton> virtualButtons;
 	Array<VirtualAxis> virtualAxis;

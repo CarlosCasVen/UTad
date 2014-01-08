@@ -49,7 +49,7 @@ public:
 	virtual void SetFrameRange(uint16 firstFrame, uint16 lastFrame) { /* TAREA: Implementar */ this->firstFrame = firstFrame; this->lastFrame = lastFrame; }
 	virtual uint16 GetFirstFrame() const { /* TAREA: Implementar */ return this->firstFrame; }
 	virtual uint16 GetLastFrame() { /* TAREA: Implementar */ return this->lastFrame; }
-	virtual void SetCurrentFrame(uint16 frame) { /* TAREA: Implementar */ this->currentFrame = currentFrame; }
+	virtual void SetCurrentFrame(uint16 frame) { /* TAREA: Implementar */ this->currentFrame = frame; }
 	virtual uint16 GetCurrentFrame() const { /* TAREA: Implementar */ return (uint16)this->currentFrame; }
 
 	virtual void SetBlendMode(Renderer::BlendMode blend) { /* TAREA: Implementar */ this->blendMode = blend; }
@@ -105,6 +105,7 @@ private:
     uint16 toAngle;
     double rotatingSpeed;
     double anglesToRotate;
+	double prevAngle;
 
     bool moving;
     double toX, toY;

@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+/*#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "include/u-gine.h"
 
@@ -6,143 +6,72 @@
 int	main(int	argc,	char*	argv[])	{	
 
 	Screen::Instance().Open( 800, 600, false );
-	Screen::Instance().Refresh();
+
 	glfwSetMousePos(400, 300);
-	glfwDisable(GLFW_MOUSE_CURSOR);
+	//glfwDisable(GLFW_MOUSE_CURSOR);
 
-	Image* star = ResourceManager::Instance().LoadImage( "data/star.png" );
+	InputManager& input = InputManager::Instance();
+	input.CreateVirtualAxis( "LeftRight", Key_D, Key_A );
+	input.CreateVirtualAxis( "UpDown", Key_S, Key_W );
 
-	star->SetMidHandle();
+	Map* map = ResourceManager::Instance().LoadMap( "data/map.tmx" );
+	MapScene scene ( map );	
 
-	Scene scene;
+	Sprite* alien = scene.CreateSprite( ResourceManager::Instance().LoadImage( "data/alien.png" ) );
+	alien->SetCollisionPixelData( &CollisionPixelData( "data/aliencol.png" ) );
+	alien->SetCollision( Sprite::COLLISION_PIXEL );
+	//Sprite* alien = scene.CreateSprite( ResourceManager::Instance().LoadImage( "data/alienanim.png", 8, 1 ) );
+	//alien->SetFPS( 16 );
+	//alien->SetFrameRange( 0 , 8 );
+	//alien->SetScaleX( 6.0 );
+	//alien->SetScaleY( 6.0 );
 
-	InputManager manager = InputManager::Instance();
-	manager.CreateVirtualButton( "Change cursor", eInputCode::Mouse_Button1 );
-
-	///////////////////////
-	Image* ballImage = ResourceManager::Instance().LoadImage("data/ball.png");
-	ballImage->SetMidHandle();
-
-	Sprite* ball = scene.CreateSprite( ballImage );
-	ball->SetPosition( 100, 100 );
-	ball->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
-	ball->SetRadius( ResourceManager::Instance().LoadImage("data/ball.png")->GetWidth() / 2);
-
-	Sprite* box = scene.CreateSprite( ResourceManager::Instance().LoadImage("data/box.jpg"));
-	
-	box->SetCollision( Sprite::CollisionMode::COLLISION_RECT );
-	box->SetPosition( 700, 500 );
-	
-	Sprite* alien = scene.CreateSprite( ResourceManager::Instance().LoadImage("data/alien.png"));
-	alien->SetPosition( 100, 500 );
-	alien->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
-	alien->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
-
-	Image* circle = ResourceManager::Instance().LoadImage( "data/circle.png" );
-	circle->SetMidHandle();
-	
-	Image* rect = ResourceManager::Instance().LoadImage( "data/rect.png" );
-	rect->SetMidHandle();
-
-	Image* alienImage =  ResourceManager::Instance().LoadImage( "data/alien.png" );
-	alienImage->SetMidHandle();
-
-	Sprite* cursor = scene.CreateSprite( circle );
-	cursor->SetRadius( ResourceManager::Instance().LoadImage( "data/circle.png" )->GetWidth() / 2 );
-	cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
-	cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
-	
-	unsigned int nCliks = 0;
-
+	scene.GetCamera().SetBounds( 0, 0, scene.GetMap()->GetWidth(), scene.GetMap()->GetHeight() );
+	scene.GetCamera().FollowSprite( alien );
 
 	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
-	{			
-		Screen::Instance().Refresh();
+	{	
+
 		Renderer::Instance().Clear();
-
-		if( manager.IsVirtualButtonDown("Change cursor") )
-		{
-			int x = 1;
-			nCliks = ++nCliks % 3;
-			switch( nCliks )
-			{
-				case 0:
-					{
-						cursor->SetImage( circle );
-						cursor->SetCollision( Sprite::CollisionMode::COLLISION_CIRCLE );
-						break;																										   
-					}																												   
-				case 1:																												   
-					{																												   
-						cursor->SetImage( rect );
-						cursor->SetCollision( Sprite::CollisionMode::COLLISION_RECT );
-						break;																											   
-					}																												   
-				case 2:																												   
-					{																												   
-						cursor->SetImage( alienImage );
-						cursor->SetCollisionPixelData( ResourceManager::Instance().LoadCollisionPixelData( "data/aliencol.png") );
-						cursor->SetCollision( Sprite::CollisionMode::COLLISION_PIXEL );
-						break;	
-					}
-			}
-
-			cursor->SetColor(  cursor->GetRed(), cursor->GetGreen(), cursor->GetBlue(), 255 );
-		}
 		
+	//	Screen::Instance().SetTitle( String::FromFloat( input.GetVirtualAxis( "LeftRight" ) ) + "/" + String::FromFloat( input.GetVirtualAxis( "UpDown" ) ) );
 
-	
-		if( cursor->DidCollide() )
-		{
-			cursor->SetColor( 255, 0, 0 );
-		}
-		else
-		{
-			cursor->SetColor( 255, 255, 255 );
-		}
-
+		alien->SetPosition( alien->GetX() + 10 * input.GetVirtualAxis( "LeftRight" ), alien->GetY() + 10 * input.GetVirtualAxis( "UpDown" ) );
+		
+		if( Screen::Instance().KeyPressed( GLFW_KEY_RIGHT ) )
+			alien->MoveTo( alien->GetX() + 500, alien->GetY() + 500, 15 );
+		if( Screen::Instance().KeyPressed( GLFW_KEY_DOWN ) )
+			alien->RotateTo( -60, 15 );
 
 		if( alien->DidCollide() )
 		{
-			alien->SetColor( 255, 0, 0 );
-		}
-		else if( box->DidCollide() )
-		{
-			box->SetColor( 255, 0, 0 );
-		}
-		else if ( ball->DidCollide() )
-		{
-			ball->SetColor( 255, 0, 0 );
+			alien->SetColor( 255,0,0);
 		}
 		else
 		{
-			alien->SetColor( 255, 255, 255 );
-			ball->SetColor( 255, 255, 255 );
-			box->SetColor( 255, 255, 255 );
+			alien->SetColor( 255,255,255);
 		}
-		
-		cursor->SetPosition( Screen::Instance().GetMouseX(), Screen::Instance().GetMouseY() ); 
 
-		manager.Update();
 		scene.Update( Screen::Instance().ElapsedTime() );
 		scene.Render();
+		input.Update();
+		Screen::Instance().Refresh();
 	}
 
 	return	0;	
 }
 
+*/
 
 
-/*
 
 
-	
+/*	
 	d = 10 * abs (cos( Time ( 0 ) )) ;
 	
 	x = sin( Time( 0 ) ) + cos( time( 0 ) );
 	y = 300 + d sin( time( 0 ) );
+	*/
 
 
 
-
-*/

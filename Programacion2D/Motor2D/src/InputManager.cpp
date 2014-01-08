@@ -1,6 +1,11 @@
 #include "..\include\InputManager.h"
 #include "..\include\glinclude.h"
 #include "..\include\screen.h"
+#include "windows.h"
+#include "xinput.h"
+
+#pragma comment(lib, "XInput9_1_0.lib")
+
 
 InputManager* InputManager::manager = NULL;
 
@@ -164,11 +169,63 @@ bool InputManager::Init()
 	keys.Add(Key( Key_SysReq) );
 	keys.Add(Key( Key_Tab) );
 	keys.Add(Key( Key_Underscore) );
+	keys.Add(Key( Button_Up ) );
+	keys.Add(Key( Button_Down ) );
+	keys.Add(Key( Button_Left ) );
+	keys.Add(Key( Button_Right ) );
+	keys.Add(Key( Button_Start ) );
+	keys.Add(Key( Button_Back ) );
+	keys.Add(Key( Button_LB ) );
+	keys.Add(Key( Button_RB ) );
+	keys.Add(Key( Button_A ) );
+	keys.Add(Key( Button_B ) );
+	keys.Add(Key( Button_X ) );
+	keys.Add(Key( Button_Y ) );
+	keys.Add(Key( Button_LT ) );
+	keys.Add(Key( Button_RT ) );
+	keys.Add(Key( Button_LX_POS ) );
+	keys.Add(Key( Button_LX_NEG ) );
+	keys.Add(Key( Button_LY_POS ) );
+	keys.Add(Key( Button_LY_NEG ) );
+	keys.Add(Key( Button_RX_POS ) );
+	keys.Add(Key( Button_RX_NEG ) );
+	keys.Add(Key( Button_RY_POS ) );
+	keys.Add(Key( Button_RY_NEG ) );
+
 
 
 	xMouse = yMouse = 0;
 
-	return isOk = virtualButtons.Size() == 0;
+	if( GetKeyboardType( 0 ) )
+	{
+		devicesOn[ Keyboard ] = true;
+	}
+	else
+	{
+		devicesOn[ Keyboard ] = false;
+	}
+	
+	if( GetSystemMetrics( SM_MOUSEPRESENT ) )
+	{
+		devicesOn[ Mouse ] = true;
+	}
+	else
+	{
+		devicesOn[ XboxPad ] = false;
+	}
+
+	XINPUT_STATE state;
+	ZeroMemory( &state, sizeof(state));		
+
+	if( XInputGetState( 0, &state) == ERROR_SUCCESS )
+	{
+		devicesOn[ XboxPad ] = true;
+	}
+	else
+	{
+		devicesOn[ XboxPad ] = false;
+	}
+	return isOk = devicesOn[ Keyboard ] && devicesOn[ Mouse ] ;
 }
 
 // Cierre
@@ -182,52 +239,70 @@ void InputManager::Update()
 
 	for( unsigned int i = 0; i < virtualButtons.Size(); i++ )
 	{
-		if( virtualButtons[i].buttonsAssigned > Mouse_Right )
+		if( virtualButtons[i].buttonsAssigned > Mouse_Right && virtualButtons[i].buttonsAssigned < Button_Up )
 		{
 			virtualButtons[i].isDown = !virtualButtons[i].pressed && IsKeyPressed( virtualButtons[i].buttonsAssigned );
 			virtualButtons[i].isUp = virtualButtons[i].pressed && !IsKeyPressed( virtualButtons[i].buttonsAssigned );
 			virtualButtons[i].pressed = IsKeyPressed( virtualButtons[i].buttonsAssigned );
 		}
-		else
+		else if( virtualButtons[i].buttonsAssigned <= Mouse_Right ) 
 		{
 			virtualButtons[i].isDown = !virtualButtons[i].pressed && IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
 			virtualButtons[i].isUp = virtualButtons[i].pressed && !IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
 			virtualButtons[i].pressed = IsMouseButtonPressed( virtualButtons[i].buttonsAssigned );
+		}
+		else
+		{
+			virtualButtons[i].isDown = !virtualButtons[i].pressed && IsXboxDown( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].isUp = virtualButtons[i].pressed && !IsXboxPressed( virtualButtons[i].buttonsAssigned );
+			virtualButtons[i].pressed = IsXboxPressed( virtualButtons[i].buttonsAssigned );
 		}
 	}
 
 	for( unsigned int i = 0; i < virtualAxis.Size(); i++ )
 	{
 	
-		if( virtualAxis[i].positiveAxis > Mouse_Right )
+		if( virtualAxis[i].positiveAxis > Mouse_Right && virtualAxis[i].positiveAxis < Button_Up )
 		{
 			IsKeyPressed( virtualAxis[i].positiveAxis ) ? 	virtualAxis[i].movement = 1.0 : virtualAxis[i].movement = 0;
 		}
-		else
+		else if( virtualAxis[i].positiveAxis <= Mouse_Right )
 		{
 			IsMouseButtonPressed( virtualAxis[i].positiveAxis ) ? 	virtualAxis[i].movement = 1.0 : virtualAxis[i].movement = 0;
 		}
+		else
+		{
+			IsXboxPressed( virtualAxis[i].positiveAxis ) ? 	virtualAxis[i].movement = 1.0 : virtualAxis[i].movement = 0;
+		}
 
-		if( virtualAxis[i].negativeAxis > Mouse_Right )
+		if( virtualAxis[i].negativeAxis > Mouse_Right && virtualAxis[i].negativeAxis < Button_Up )
 		{
 			IsKeyPressed( virtualAxis[i].negativeAxis ) ? 	virtualAxis[i].movement += -1.0 : virtualAxis[i].movement += 0;
 		}
-		else
+		else if( virtualAxis[i].negativeAxis <= Mouse_Right )
 		{
 			IsMouseButtonPressed( virtualAxis[i].negativeAxis ) ? 	virtualAxis[i].movement += -1.0 : virtualAxis[i].movement += 0;
+		}
+		else
+		{
+			IsXboxPressed( virtualAxis[i].negativeAxis ) ? 	virtualAxis[i].movement += -1.0 : virtualAxis[i].movement += 0;
 		}
 	}
 
 
 	for( unsigned int i = 0; i < keys.Size(); i++ )
 	{
-		if( keys[i].key > Mouse_Right )
+		if( keys[i].device == Keyboard )
 		{
 			keys[i].wasPushed = IsKeyPressed( keys[i].key );
 		}
-		else
+		else if( keys[i].key == Mouse )
 		{
 			keys[i].wasPushed = IsMouseButtonPressed( keys[i].key );		
+		}
+		else if( keys[i].key == XboxPad )
+		{
+			keys[i].wasPushed = IsXboxPressed( keys[i].key );
 		}
 	}
 
@@ -478,3 +553,143 @@ bool InputManager::GetMouseButtonUp( eInputCode button )
 }
 
 
+bool InputManager::IsXboxPressed( eInputCode vkCode )
+{
+	XINPUT_STATE state;
+	ZeroMemory( &state, sizeof(state));		
+	XInputGetState( 0, &state);
+
+	if( vkCode <= Button_Y )
+	{
+		return ( state.Gamepad.wButtons & FromKeyToXboxStruct( vkCode ) ) > 0;
+	}
+	else
+	{
+		switch( vkCode)
+		{
+		case  Button_LT:
+			{
+				float ltPad = ( float ) state.Gamepad.bLeftTrigger / 255;
+				return ltPad > 0.1f;
+			}
+		case   Button_RT:
+			{
+				float rtPad = ( float ) state.Gamepad.bRightTrigger / 255;
+				return rtPad > 0.1f;
+
+			}
+		case Button_LX_POS:
+			{
+				float lxPad = ( float ) state.Gamepad.sThumbLX / 32768;
+				return lxPad > 0.2f;
+			}
+		case Button_LX_NEG:
+			{
+				float lxPad = ( float ) state.Gamepad.sThumbLX / 32768;
+				return lxPad < -0.2f;
+			}
+		case Button_LY_POS:
+			{
+				float lyPad = ( float ) state.Gamepad.sThumbLY / 32768;
+				return lyPad > 0.2f;
+			}
+		case Button_LY_NEG:
+			{
+				float lyPad = ( float ) state.Gamepad.sThumbLY / 32768;
+				return lyPad < -0.2f;
+			}
+		case Button_RX_POS:
+			{
+				float rxPad = ( float ) state.Gamepad.sThumbRX / 32768;
+				return rxPad > 0.2f;
+			}
+		case Button_RX_NEG:
+			{
+				float rxPad = ( float ) state.Gamepad.sThumbRX / 32768;
+				return rxPad < -0.2f;
+			}
+		case Button_RY_POS:
+			{
+				float ryPad = ( float ) state.Gamepad.sThumbRY / 32768;
+				return ryPad > 0.2f;
+			}
+		case Button_RY_NEG:
+			{
+				float ryPad = ( float ) state.Gamepad.sThumbRY / 32768;
+				return ryPad < -0.2f;
+			}
+		default:
+			return false;
+		}
+	}
+
+	return false;
+}
+
+
+bool InputManager::IsXboxDown( eInputCode vkCode )
+{
+	bool found = false;
+	unsigned int i = 0;
+
+	while( i < keys.Size() && !found )
+	{
+		if( vkCode == keys[i].key )
+		{
+			found = true;
+		}
+		i++;
+	}
+	return !keys[i].wasPushed && IsXboxPressed( vkCode );
+}
+
+
+bool InputManager::IsXboxUp( eInputCode vkCode )
+{
+	bool found = false;
+	unsigned int i = 0;
+
+	while( i < keys.Size() && !found )
+	{
+		if( vkCode == keys[i].key )
+		{
+			found = true;
+		}
+		i++;
+	}
+	return keys[i].wasPushed && !IsXboxPressed( vkCode );
+}
+
+
+int InputManager::FromKeyToXboxStruct ( eInputCode key )
+{
+	switch( key )
+	{
+	case Button_A:
+		return XINPUT_GAMEPAD_A;
+	case Button_B:
+		return XINPUT_GAMEPAD_B;
+	case Button_Y:
+		return XINPUT_GAMEPAD_Y;
+	case Button_X:
+		return XINPUT_GAMEPAD_X;
+	case Button_RB:
+		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
+	case Button_LB:
+		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
+	case Button_Start:
+		return XINPUT_GAMEPAD_START;
+	case Button_Back:
+		return XINPUT_GAMEPAD_BACK;
+	case Button_Right:
+		return XINPUT_GAMEPAD_DPAD_RIGHT;
+	case Button_Left:
+		return XINPUT_GAMEPAD_DPAD_LEFT;
+	case Button_Up:
+		return XINPUT_GAMEPAD_DPAD_UP;
+	case Button_Down:
+		return XINPUT_GAMEPAD_DPAD_DOWN;
+	default:
+		return -1;
+	}
+}

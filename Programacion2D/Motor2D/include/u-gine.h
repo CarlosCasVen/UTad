@@ -3,7 +3,7 @@
 
 #include "array.h"
 #include "affector.h"
-//#include "bone.h"
+#include "bone.h"
 #include "camera.h"
 #include "circlecollision.h"
 #include "collision.h"
@@ -29,7 +29,8 @@
 #include "resourcemanager.h"
 #include "scene.h"
 #include "screen.h"
-//#include "skeletonsprite.h"
+#include "skeletondata.h"
+#include "skeletonsprite.h"
 #include "sprite.h"
 #include "string.h"
 #include "types.h"

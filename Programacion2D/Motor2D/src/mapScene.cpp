@@ -3,10 +3,8 @@
 
 
 
-MapScene::MapScene(Map* map, Image* imageBack, Image* imageFront) : ParallaxScene( imageBack, imageFront )
-{
-	this->map = map;
-}
+MapScene::MapScene(Map* map, Image* imageBack, Image* imageFront) : ParallaxScene( imageBack, imageFront ), map( map)
+{}
 	
 
 	
@@ -19,5 +17,6 @@ void MapScene::Update(double elapsed)
 
 void MapScene::RenderAfterBackground() const
 {
+	ParallaxScene::RenderAfterBackground();
 	map->Render();
 }

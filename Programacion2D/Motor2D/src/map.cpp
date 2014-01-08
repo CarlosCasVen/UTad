@@ -12,44 +12,45 @@ using namespace rapidxml;
 
 Map::Map(const String &filename, uint16 firstColId) {
 	// TAREA: Implementar constructor
+	this->width = this->height = this->tileWidth = this->tileHeight = 0;
+	this->valid = false;
 	this->filename = filename;
 	this->firstColId = firstColId;
-	this->valid = false;
 
-	String file = String::Read( filename );
-	xml_document<> map;
-	map.parse<0>( (char*) file.ToCString() );
-	
-	xml_node<>* firstNode = map.first_node( file.ToCString() );
-	this->width = atoi( map.first_attribute( "width" )->value() );
-	this->height = atoi( map.first_attribute( "height" )->value() );
-	this->tileWidth = atoi( map.first_attribute( "tilewidth" )->value() );
-	this->tileWidth = atoi( map.first_attribute( "tileheight" )->value() );
+	String content = String::Read( filename.ToCString() );
+	xml_document<> file;
+	file.parse<0>( (char*) content.ToCString() );
 
-	xml_node<>* tileSet = firstNode->first_node( "tileset" );
+	//PRIMER NODO
+	xml_node<>* map = file.first_node( "map" );
+	this->width = atoi( map->first_attribute( "width" )->value() );
+	this->height = atoi( map->first_attribute( "height" )->value() );
+	this->tileWidth = atoi( map->first_attribute( "tilewidth" )->value() );
+	this->tileHeight = atoi( map->first_attribute( "tileheight" )->value() );
 
-	int firstGid = atoi( tileSet->first_attribute("firstgid")->value() );
-	int tileWidth = atoi( tileSet->first_attribute( "tilewidth" )->value() );
-	int tileHeight = atoi( tileSet->first_attribute( "tileheight" )->value() );
+	//TILESET
+	xml_node<>* tileSet = map->first_node( "tileset" );
+	int firstgid = atoi( tileSet->first_attribute( "firstgid" )->value() );
+	int tilesetWidth = atoi( tileSet->first_attribute( "tilewidth" )->value() );
+	int tilesetHeight = atoi( tileSet->first_attribute( "tileheight" )->value() ) ;
 
-	xml_node<>* tileOffset = tileSet->first_node( "tileoffset" );
-	int x = 0;
-	int y = 0;
-
-	if( tileOffset )
+	//tileoffset
+	int offsetX = 0, offsetY = 0;
+	xml_node<>* tileoffset = tileSet->first_node( "tileoffset" );
+	if( tileoffset )
 	{
-		x = atoi( tileOffset->first_attribute( "x" )->value() );
-		y = atoi( tileOffset->first_attribute( "y" )->value() );
+		offsetX = atoi( tileoffset->first_attribute( "x" )->value() );
+		offsetY= atoi( tileoffset->first_attribute( "y" )->value() );
 	}
 
-	xml_node<>* xmlImage = tileSet->first_node( "image" );
-	char* source = xmlImage->first_attribute( "source" )->value();
-	int widthImage = atoi( xmlImage->first_attribute( "width" )->value() );
-	int heightImage = atoi( xmlImage->first_attribute( "height" )->value() );
+	//IMAGE
+	xml_node<>* imageXml = tileSet->first_node( "image" );
+	imageFile = String( imageXml->first_attribute( "source" )->value() ).StripDir() ;
+	int widthImageTileSet = atoi( imageXml->first_attribute( "width" )->value() );
+	int heightImageTileSet = atoi( imageXml->first_attribute( "height" )->value() );
 
-	//Image* image = ResourceManager::Instance().LoadImage( source, widthImage, heightImage );
-
-	xml_node<>* layer = tileSet->first_node( "layer" );
+	//LAYER && DATA
+	xml_node<>* layer = map->first_node( "layer" );
 	xml_node<>* data = layer->first_node( "data" );
 
 	if( data->first_attribute( "encoding" ) || data->first_attribute( "compression" ) )
@@ -57,21 +58,19 @@ Map::Map(const String &filename, uint16 firstColId) {
 		return;
 	}
 
+	//TILE
 	xml_node<>* tile = data->first_node( "tile" );
 
-	if( tile )
+	while( tile )
 	{
 		int gid = atoi( tile->first_attribute( "gid" )->value() );
-		tileIds.Add( gid - firstGid );
-
+		tileIds.Add( gid - firstgid );
 		tile = tile->next_sibling( "tile" );
-		//PREGUNTAR ESTE PASO
-
-//		int nFrames = ( width * height ) / ( widthImage * heightImage );
-		Image* image = ResourceManager::Instance().LoadImage( source, width / widthImage, height / heightImage );
-		image->SetHandle( x, y );
 	}
 
+	String imageRoute = filename.ExtractDir() + "/" + imageFile;
+	image = ResourceManager::Instance().LoadImage( imageRoute, widthImageTileSet / tilesetWidth, heightImageTileSet / tilesetHeight );
+	image->SetHandle( offsetX, offsetY);
 
 	valid = true;
 }

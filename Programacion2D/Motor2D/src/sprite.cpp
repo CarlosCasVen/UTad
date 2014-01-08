@@ -1,7 +1,7 @@
 #include "../include/sprite.h"
 #include "../include/rectcollision.h"
 #include "../include/image.h"
-//#include "../include/map.h"
+#include "../include/map.h"
 #include "../include/math.h"
 #include "../include/pixelcollision.h"
 #include "../include/renderer.h"
@@ -158,9 +158,12 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 
 bool Sprite::CheckCollision(const Map* map) {
 	// TAREA: Implementar
-
-
-	return true;
+	if ( collision  &&  map->CheckCollision(collision) ) {
+		collided = true;
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void Sprite::RotateTo(int32 angle, double speed) {
@@ -218,18 +221,17 @@ void Sprite::Update(double elapsed, const Map* map) {
 	collided = false;
 
 	// TAREA: Actualizar animacion
-	if(currentFrame >= lastFrame)
+	currentFrame += animFPS * elapsed;
+	if( currentFrame >= lastFrame )
 	{
 		currentFrame = firstFrame;
 	}
-	else
-	{
-		currentFrame += currentFrame * elapsed;
-	}
+
 
 	// TAREA: Actualizar rotacion animada
 	if(rotating)
 	{
+		prevAngle = angle;
 		double rotationToApply = rotatingSpeed * elapsed;
 		angle = WrapValue(angle + rotationToApply, 360);
 		anglesToRotate = anglesToRotate - abs(rotationToApply);
@@ -239,14 +241,23 @@ void Sprite::Update(double elapsed, const Map* map) {
 			angle = WrapValue(toAngle, 360);
 			rotating = false;
 		}
+
+		UpdateCollisionBox();
+		if( CheckCollision( map ) )
+		{
+			angle = prevAngle;
+			rotating = false;
+		}
 	}
 
 	// TAREA: Actualizar movimiento animado
 	if(moving)
 	{
+		prevX = x;
+		prevY = y;
+	
 		x += movingSpeedX * elapsed;
-		y += movingSpeedY * elapsed;
-
+		
 		if(movingSpeedX >= 0 && x >= toX)
 		{
 			x = toX;
@@ -255,6 +266,15 @@ void Sprite::Update(double elapsed, const Map* map) {
 		{
 			x = toX;
 		}
+
+		UpdateCollisionBox(); 
+
+		if( CheckCollision( map ) )
+		{
+			x = prevX;
+		}
+
+		y += movingSpeedY * elapsed;
 
 		if(movingSpeedY >= 0 && y >= toY)
 		{
@@ -265,7 +285,14 @@ void Sprite::Update(double elapsed, const Map* map) {
 			y = toY;
 		}
 
-		if( x == toX && y == toY)
+		UpdateCollisionBox(); 
+
+		if( CheckCollision( map ) )
+		{
+			y = prevY;
+		}
+
+		if( ( x == toX && y == toY ) || ( x == prevX && y == prevY ) )
 		{
 			moving = false;
 		}
