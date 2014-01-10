@@ -3,8 +3,10 @@
 
 
 
-MapScene::MapScene(Map* map, Image* imageBack, Image* imageFront) : ParallaxScene( imageBack, imageFront ), map( map)
-{}
+MapScene::MapScene(Map* map, Image* imageBack, Image* imageFront) : ParallaxScene( imageBack, imageFront )
+{
+	this->map = map;
+}
 	
 
 	

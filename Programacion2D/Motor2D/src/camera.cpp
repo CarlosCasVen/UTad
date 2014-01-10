@@ -80,7 +80,7 @@ void Camera::Update()
 {
 	if(followingSprite)
 	{
-		SetPosition( followingSprite->GetX() - Screen::Instance().GetWidth() / 2, followingSprite->GetY() - Screen::Instance().GetHeight() / 2);
+		SetPosition( followingSprite->GetScreenX() - Screen::Instance().GetWidth() / 2, followingSprite->GetScreenY() - Screen::Instance().GetHeight() / 2);
 	}
 }
 

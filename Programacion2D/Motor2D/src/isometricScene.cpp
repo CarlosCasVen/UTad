@@ -1,24 +1,27 @@
 #include "../include/isometricScene.h"
+#include "../include/isometricMap.h"
 
 
 
-IsometricScene::IsometricScene(IsometricMap* map, Image* imageBack = NULL, Image* imageFront = NULL) : MapScene( ( Map* )map, imageBack, imageFront )
+IsometricScene::IsometricScene(IsometricMap* map, Image* imageBack, Image* imageFront ) : MapScene( ( Map* )map, imageBack, imageFront )
 {
 	map->GenerateLayerSprites( this );
 }
 
 
-IsometricSprite* IsometricScene::CreateSprite(Image* image, Layer layer = LAYER_BACK)
+IsometricSprite* IsometricScene::CreateSprite(Image* image, Layer layer )
 {
 	IsometricSprite* sprite = new IsometricSprite( image );
 	AddSprite( sprite, layer );
+
+	return sprite;
 }
 
 
-void IsometricScene::Update(double elapsed, Map* map = NULL)
+void IsometricScene::Update(double elapsed, Map* map )
 {
 	Scene::Update( elapsed, map );
-	
+
 	for( int i = 0; i < LAYER_COUNT; i++ )
 	{
 		GetSprites( (Layer) i ).Sort( CompareSprites );
@@ -29,5 +32,5 @@ void IsometricScene::Update(double elapsed, Map* map = NULL)
 
 bool IsometricScene::CompareSprites(Sprite*& first, Sprite*& second)
 {
-	return first->GetScreenY() < second->GetScreenY();
+	return first->GetScreenY() <= second->GetScreenY();
 }

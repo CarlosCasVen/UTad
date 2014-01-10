@@ -4,53 +4,70 @@
 
 
 int	main(int	argc,	char*	argv[])	{	
-
+	Screen::Instance().Refresh();
 	Screen::Instance().Open( 800, 600, false );
 
 	glfwSetMousePos(400, 300);
-	glfwDisable(GLFW_MOUSE_CURSOR);
-
+	//glfwDisable(GLFW_MOUSE_CURSOR);
+	
 	InputManager& input = InputManager::Instance();
-	input.CreateVirtualAxis( "LeftRight", Key_D, Key_A );
-	input.CreateVirtualAxis( "UpDown", Key_S, Key_W );
+	input.CreateVirtualButton( "Left", Key_A );
+	input.CreateVirtualButton( "Right", Key_D );
+	input.CreateVirtualButton( "Up", Key_W );
+	input.CreateVirtualButton( "Down", Key_S );
+	
+	IsometricMap* map = ResourceManager::Instance().LoadIsometricMap( "data/isometric.tmx" );
+	IsometricScene scene ( map );	
 
+	Image* ninjaImage = ResourceManager::Instance().LoadImage( "data/isoplayer.png", 8, 8 );
+	ninjaImage->SetHandle( ninjaImage->GetWidth() / 2, ninjaImage->GetHeight() );
+	IsometricSprite* ninja = scene.CreateSprite( ninjaImage );
+	ninja->SetPosition( map->GetTileWidth() * 1.5, map->GetTileHeight() * 1.5 );
+	ninja->SetCollision( Sprite::COLLISION_PIXEL );
 
-	Map* map = ResourceManager::Instance().LoadMap( "data/map.tmx" );
-	MapScene scene ( map );	
+	scene.GetCamera().FollowSprite( ninja );
 
-	SkeletonSprite bones( "data/animation.xml" );
-	bones.SetFPS( 32 );
-
-	Sprite* alien = scene.CreateSprite( ResourceManager::Instance().LoadImage( "data/alienanim.png", 8, 1 ) );
-	alien->SetFPS( 16 );
-	alien->SetFrameRange( 0 , 8 );
-	alien->SetScaleX( 6.0 );
-	alien->SetScaleY( 6.0 );
-
-	scene.GetCamera().SetBounds( 0, 0, scene.GetMap()->GetWidth(), scene.GetMap()->GetHeight() );
-	scene.GetCamera().FollowSprite( alien );
+	double posX = 0, posY = 0;
 
 	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
 	{	
-
+	
 		Renderer::Instance().Clear();
+		posX = ninja->GetX();
+		posY = ninja->GetY();	
 
-		bones.SetPosition( Screen::Instance().GetMouseX(), Screen::Instance().GetMouseY() );
-		alien->MoveTo( alien->GetX() + 10 * input.GetVirtualAxis( "LeftRight" ), alien->GetY() + 10 * input.GetVirtualAxis( "UpDown" ), 100 );
-
-	if( alien->DidCollide() )
+		if( input.IsVirtualButtonPressed( "Left" ) )
 		{
-			alien->SetColor( 255,0,0);
+			ninja->SetCurrentFrame( 0 );
+			posX -= map->GetTileWidth();
 		}
-		else
+		if( input.IsVirtualButtonPressed( "Right" ) )
 		{
-			alien->SetColor( 255,255,255);
+			ninja->SetCurrentFrame( 40 );
+			posX += map->GetTileWidth();
+		}
+		if( input.IsVirtualButtonPressed( "Up" ) )
+		{
+			ninja->SetCurrentFrame( 24 );
+			posY -= map->GetTileHeight();
+		}
+		if( input.IsVirtualButtonPressed( "Down" ) )
+		{
+			ninja->SetCurrentFrame( 56 );
+			posY += map->GetTileHeight();
+		}
+		
+		if( ninja->DidCollide() )
+		{
+			posX = ninja->GetX();
+			posY = ninja->GetY();
 		}
 
-		scene.Update( Screen::Instance().ElapsedTime() );
+		ninja->SetCurrentFrame( ninja->GetCurrentFrame() );
+		ninja->MoveTo( posX, posY, 10 );
+
+		scene.Update( Screen::Instance().ElapsedTime(), map );
 		scene.Render();
-		bones.Update( Screen::Instance().ElapsedTime() );
-		bones.Render();
 		input.Update();
 		Screen::Instance().Refresh();
 	}

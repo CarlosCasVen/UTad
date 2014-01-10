@@ -11,94 +11,45 @@
 
 Sprite::Sprite(Image* image) {
 	// TAREA: Implementar
-	this->image = image;
-    
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
-    this->colx = 0;
-	this->coly = 0;
-	this->colwidth = 0;
-	this->colheight = 0;
-    this->angle = 0;
-    this->scalex = 1;
-	this->scaley = 1;
-    this->radius = 0;
-    this->animFPS = 0;
-    this->firstFrame = 0;
-	this->lastFrame = 0;
-    this->currentFrame = 0;
-	this->blendMode = Renderer::BlendMode::ALPHA;
-    this->r = 255;
-	this->g = 255;
-	this->b = 255;
-	this->a = 255;
-    this->collision = NULL;
-    this->colPixelData = NULL;
-    this->colSprite = NULL;
-    this->collided = false;
+	
+	SetImage( image );
+	SetPosition( 0, 0, 0 ); 
+	SetAngle( 0 );
+	SetCurrentFrame( 0 );
+	SetBlendMode( Renderer::BlendMode::ALPHA );
+	SetCollisionPixelData( NULL );
+	SetColor( 255, 255 , 255 , 255 );
+	SetFPS( 0 );
+	image != NULL ? SetFrameRange( 0, image->GetNumFrames() - 1 ) : SetFrameRange( 0, 0 );
+	SetRadius( 0 );
+	SetScale( 1, 1 );
+	collision = NULL;
+	collided = false;
+	rotating = moving = scaling = false;
 
-	this->rotating = false;
-    this->toAngle = 0;
-    this->rotatingSpeed = 0;
-    this->anglesToRotate = 0;
-
-	this->moving = false;
-    this->toX = 0;
-	this->toY = 0;
-    this->movingSpeedX = 0;
-	this->movingSpeedY = 0;
-    this->prevX = 0;
-	this->prevY = 0;
-
-	this->scaling = false;
-	this->scalingSpeedX = 0;
-	this->scalingSpeedY = 0;
-	this->scalePointsX = 0;
-	this->scalePointsY = 0;
+	scalingSpeedX = scalingSpeedY = scalePointsX = scalePointsY = 0;
 }
 
 Sprite::~Sprite() {
     // TAREA: Implementar
-	this->image = NULL;
-    
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
-    this->colx = 0;
-	this->coly = 0;
-	this->colwidth = 0;
-	this->colheight = 0;
-    this->angle = 0;
-    this->scalex = 0;
-	this->scaley = 0;
-    this->radius = 0;
-    this->animFPS = 0;
-    this->firstFrame = 0;
-	this->lastFrame = 0;
-    this->currentFrame = 0;
-	this->blendMode = Renderer::BlendMode::SOLID;
-    this->r = 0;
-	this->g = 0;
-	this->b = 0;
-	this->a = 0;
-    this->collision = NULL;
-    this->colPixelData = NULL;
-    this->colSprite = NULL;
-    this->collided = false;
+	SetImage( NULL );
+	SetPosition( 0, 0, 0 ); 
+	SetAngle( 0 );
+	SetCurrentFrame( 0 );
+	SetBlendMode( Renderer::BlendMode::ALPHA );
+	SetCollision( COLLISION_NONE );
+	SetCollisionPixelData( NULL );
+	SetColor( 0, 0 , 0 , 0 );
+	SetFPS( 0 );
+	SetFrameRange( 0, 0 );
+	SetRadius( 0 );
+	SetScale( 1, 1 );
+	
 
-	this->rotating = false;
-    this->toAngle = 0;
-    this->rotatingSpeed = 0;
-    this->anglesToRotate = 0;
-
-	this->moving = false;
-    this->toX = 0;
-	this->toY = 0;
-    this->movingSpeedX = 0;
-	this->movingSpeedY = 0;
-    this->prevX = 0;
-	this->prevY = 0;
+   if( collision )
+   {
+	   delete collision;
+   }
 }
 
 void Sprite::SetCollision(CollisionMode mode) {
@@ -158,10 +109,13 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 
 bool Sprite::CheckCollision(const Map* map) {
 	// TAREA: Implementar
-	if ( collision  &&  map->CheckCollision(collision) ) {
+	if ( collision  &&  map->CheckCollision(collision) ) 
+	{
 		collided = true;
 		return true;
-	} else {
+	} 
+	else 
+	{
 		return false;
 	}
 }
@@ -222,10 +176,6 @@ void Sprite::Update(double elapsed, const Map* map) {
 
 	// TAREA: Actualizar animacion
 	currentFrame += animFPS * elapsed;
-	//if( currentFrame >= lastFrame )
-	//{
-	//	currentFrame = firstFrame;
-	//}
 
 	if (lastFrame < currentFrame)
 		currentFrame = firstFrame;
@@ -336,7 +286,7 @@ void Sprite::Render() const {
     // TAREA: Implementar
 	Renderer::Instance().SetBlendMode(blendMode);
 	Renderer::Instance().SetColor(r, g, b, a);
-	Renderer::Instance().DrawImage(image, x, y, (uint32)currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle);
+	Renderer::Instance().DrawImage(image, GetScreenX(), GetScreenY(), (uint32)currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle);
 }
 
 void Sprite::UpdateCollisionBox() {

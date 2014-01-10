@@ -25,17 +25,17 @@ public:
 	virtual void SetImage(Image* image) { /* TAREA: Implementar */ this->image = image; }
 	virtual const Image* GetImage() const { /* TAREA: Implementar */ return this->image; }
 
-    virtual void SetPosition(double x, double y, double z = 0) { /* TAREA: Implementar */ this->x = x; this->y = y; this->z = z; }
+	virtual void SetPosition(double x, double y, double z = 0) { /* TAREA: Implementar */ SetX( x ); SetY( y ); SetZ( z ); }
     virtual void SetX(double x) { /* TAREA: Implementar */ this->x = x; }
-	virtual void SetY(double y) { /* TAREA: Implementar */ this->y = y; }
+    virtual void SetY(double y) { /* TAREA: Implementar */ this->y = y; }
     virtual void SetZ(double z) { /* TAREA: Implementar */ this->z = z;}
     virtual double GetX() const { /* TAREA: Implementar */ return this->x; }
-	virtual double GetY() const { /* TAREA: Implementar */ return this->y; }
-    virtual double GetZ() const { /* TAREA: Implementar */ return this->y; }
-	virtual double GetScreenX() const { /* TAREA: Implementar */ return this->x; }
+    virtual double GetY() const { /* TAREA: Implementar */ return this->y; }
+    virtual double GetZ() const { /* TAREA: Implementar */ return this->z; }
+    virtual double GetScreenX() const { /* TAREA: Implementar */ return this->x; }
     virtual double GetScreenY() const { /* TAREA: Implementar */ return this->y; }
 
-	virtual void SetAngle(double angle) { /* TAREA: Implementar */ this->angle = angle; }
+    virtual void SetAngle(double angle) { /* TAREA: Implementar */ this->angle = angle; }
     virtual double GetAngle() const { /* TAREA: Implementar */ return this->angle; }
 
 	virtual void SetScale(double sx, double sy) { /* TAREA: Implementar */ this->scalex = sx; this->scaley = sy; }

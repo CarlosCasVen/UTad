@@ -23,7 +23,7 @@ void IsometricSprite::SetCollision(CollisionMode mode)
 }
 
 
-void IsometricSprite::Update(double elapsed, const Map* map = NULL)
+void IsometricSprite::Update(double elapsed, const Map* map )
 {
 	Sprite::Update( elapsed, map );
 	TransformIsoCoords( GetX(), GetY(), GetZ(), &screenX, &screenY );
@@ -34,8 +34,8 @@ void IsometricSprite::Update(double elapsed, const Map* map = NULL)
 void IsometricSprite::UpdateCollisionBox()
 {
 	const Image* image = GetImage();
-	double x = screenX - image->GetHandleX() *  fabs( GetScaleX() ); 
-	double y = screenY - image->GetHandleX() *  fabs( GetScaleX() ); 
+	double x = GetX() - image->GetHandleX() *  fabs( GetScaleX() ); 
+	double y = GetY() - image->GetHandleX() *  fabs( GetScaleX() ); 
 	double w = image->GetWidth() * fabs( GetScaleX() ); 
 	double h = image->GetHeight() * fabs( GetScaleX() );
 

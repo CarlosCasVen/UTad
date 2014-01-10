@@ -1,12 +1,13 @@
-#ifndef UGINE_ISOMETRICSCENE_H
-#define UGINE_ISOMETRICSCENE_H
+#ifndef UGINE_ISOSCENE_H
+#define UGINE_ISOSCENE_H
 
-#include "isometricMap.h"
 #include "isometricSprite.h"
 #include "image.h"
 #include "mapScene.h"
 #include "string.h"
 #include "Array.h"
+
+class IsometricMap;
 
 
 class IsometricScene : public MapScene 
