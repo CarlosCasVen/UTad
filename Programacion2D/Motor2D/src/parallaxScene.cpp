@@ -7,8 +7,8 @@ ParallaxScene::ParallaxScene(Image* imageBack, Image* imageFront ) : backLayer( 
 {
 	backX = backY = 0.0;
 	frontX = frontY = 0.0;
-	SetRelativeBackSpeed( 0.0, 0.0 );
-	SetRelativeFrontSpeed( 0.0, 0.0 );
+	SetRelativeBackSpeed( 1.0, 1.0 );
+	SetRelativeFrontSpeed( 1.0, 1.0 );
 	SetAutoBackSpeed( 0.0, 0.0 );
 	SetAutoFrontSpeed( 0.0, 0.0 );
 }

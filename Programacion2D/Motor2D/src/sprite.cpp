@@ -100,7 +100,7 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 			
 			return true;
 		}
-		
+		return isCollision;
 	}
 
 	return false;
@@ -124,25 +124,35 @@ void Sprite::RotateTo(int32 angle, double speed) {
 	// TAREA: Implementar
 	toAngle = (uint16)WrapValue(angle, 360);
 
-	if(WrapValue((toAngle - this->angle), 360) < WrapValue((this->angle - toAngle), 360))
+	if( WrapValue( this->angle, 360 ) == WrapValue( angle, 360 ) || speed == 0 )
 	{
-		rotatingSpeed = abs(speed);
-		anglesToRotate = WrapValue((toAngle - this->angle), 360);
+		moving = false;
 	}
 	else
 	{
-		rotatingSpeed = -abs(speed);
-		anglesToRotate = WrapValue((this->angle - toAngle), 360);
-	}
+			if(WrapValue((toAngle - this->angle), 360) < WrapValue((this->angle - toAngle), 360))
+		{
+			rotatingSpeed = abs(speed);
+			anglesToRotate = WrapValue((toAngle - this->angle), 360);
+		}
+		else
+		{
+			rotatingSpeed = -abs(speed);
+			anglesToRotate = WrapValue((this->angle - toAngle), 360);
+		}
 
-	rotating = true;
+		rotating = true;
+	}
 }
 
 void Sprite::MoveTo(double x, double y, double speedX, double speedY) {
 	// TAREA: Implementar
 	moving = true;
-	
-	if(speedY != 0)
+	if( this->x == x && this->y == y )
+	{
+		moving = false;
+	}
+	else if(speedY != 0)
 	{
 		x - this->x >= 0 ? movingSpeedX = abs(speedX) : movingSpeedX = -abs(speedX);
 		y - this->y >= 0 ? movingSpeedY = abs(speedY) : movingSpeedY = -abs(speedY);
@@ -166,7 +176,6 @@ void Sprite::MoveTo(double x, double y, double speedX, double speedY) {
 	
 	toX = x;
 	toY = y;
-	moving = true;
 }
 
 void Sprite::Update(double elapsed, const Map* map) {
@@ -186,7 +195,6 @@ void Sprite::Update(double elapsed, const Map* map) {
 	// TAREA: Actualizar rotacion animada
 	if(rotating)
 	{
-		prevAngle = angle;
 		double rotationToApply = rotatingSpeed * elapsed;
 		angle = WrapValue(angle + rotationToApply, 360);
 		anglesToRotate = anglesToRotate - abs(rotationToApply);
@@ -194,13 +202,6 @@ void Sprite::Update(double elapsed, const Map* map) {
 		if(anglesToRotate <= 0)
 		{
 			angle = WrapValue(toAngle, 360);
-			rotating = false;
-		}
-
-		UpdateCollisionBox();
-		if( CheckCollision( map ) )
-		{
-			angle = prevAngle;
 			rotating = false;
 		}
 	}
@@ -224,7 +225,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 
 		UpdateCollisionBox(); 
 
-		if( CheckCollision( map ) )
+		if( map && CheckCollision( map ) )
 		{
 			x = prevX;
 		}
@@ -242,7 +243,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 
 		UpdateCollisionBox(); 
 
-		if( CheckCollision( map ) )
+		if( map && CheckCollision( map ) )
 		{
 			y = prevY;
 		}

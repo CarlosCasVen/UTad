@@ -2,6 +2,11 @@
 
 #include "include/u-gine.h"
 
+const unsigned int LEFT = 0;
+const unsigned int RIGHT = 40;
+const unsigned int UP = 24;
+const unsigned int DOWN = 56;
+const unsigned int NUM_FRAMES = 3;
 
 int	main(int	argc,	char*	argv[])	{	
 	Screen::Instance().Refresh();
@@ -23,50 +28,57 @@ int	main(int	argc,	char*	argv[])	{
 	ninjaImage->SetHandle( ninjaImage->GetWidth() / 2, ninjaImage->GetHeight() );
 	IsometricSprite* ninja = scene.CreateSprite( ninjaImage );
 	ninja->SetPosition( map->GetTileWidth() * 1.5, map->GetTileHeight() * 1.5 );
-	ninja->SetCollision( Sprite::COLLISION_PIXEL );
+	ninja->SetCollision( Sprite::COLLISION_RECT );
 
 	scene.GetCamera().FollowSprite( ninja );
 
 	double posX = 0, posY = 0;
+	double tileX = 0, tileY = 0;
+	int firstColId = 3;
 
 	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
 	{	
-	
-		Renderer::Instance().Clear();
-		posX = ninja->GetX();
-		posY = ninja->GetY();	
-
-		if( input.IsVirtualButtonPressed( "Left" ) )
-		{
-			ninja->SetCurrentFrame( 0 );
-			posX -= map->GetTileWidth();
-		}
-		if( input.IsVirtualButtonPressed( "Right" ) )
-		{
-			ninja->SetCurrentFrame( 40 );
-			posX += map->GetTileWidth();
-		}
-		if( input.IsVirtualButtonPressed( "Up" ) )
-		{
-			ninja->SetCurrentFrame( 24 );
-			posY -= map->GetTileHeight();
-		}
-		if( input.IsVirtualButtonPressed( "Down" ) )
-		{
-			ninja->SetCurrentFrame( 56 );
-			posY += map->GetTileHeight();
-		}
 		
-		if( ninja->DidCollide() )
+		Renderer::Instance().Clear();
+		if( !ninja->IsMoving() )
 		{
 			posX = ninja->GetX();
-			posY = ninja->GetY();
+			posY = ninja->GetY();	
+		
+
+			if( input.IsVirtualButtonPressed( "Left" ) )
+			{
+				posX -= map->GetTileWidth();
+				ninja->SetFrameRange( LEFT, LEFT + NUM_FRAMES );
+			}
+			else if( input.IsVirtualButtonPressed( "Right" ) )
+			{
+				posX += map->GetTileWidth();
+				ninja->SetFrameRange( RIGHT, RIGHT + NUM_FRAMES );
+			}
+			else if( input.IsVirtualButtonPressed( "Up" ) )
+			{
+				posY -= map->GetTileHeight();
+				ninja->SetFrameRange( UP, UP + NUM_FRAMES );
+			}
+			else if( input.IsVirtualButtonPressed( "Down" ) )
+			{
+				posY += map->GetTileHeight();
+				ninja->SetFrameRange( DOWN, DOWN + NUM_FRAMES );
+			}
 		}
 
-		ninja->SetCurrentFrame( ninja->GetCurrentFrame() );
-		ninja->MoveTo( posX, posY, 10 );
+		tileX = posX / map->GetTileWidth();
+        tileY = posY / map->GetTileHeight();
 
-		scene.Update( Screen::Instance().ElapsedTime(), map );
+		if( map->GetTileId( tileX, tileY) < firstColId  &&  map->GetLayerId( tileX, tileY ) < firstColId )
+        {
+			ninja->MoveTo( posX, posY, 100, 100 );
+		}
+
+		ninja->IsMoving() ? ninja->SetFPS( 10 ) : ninja->SetFPS( 0 );
+
+		scene.Update( Screen::Instance().ElapsedTime() );
 		scene.Render();
 		input.Update();
 		Screen::Instance().Refresh();
