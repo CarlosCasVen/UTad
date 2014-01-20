@@ -1,6 +1,15 @@
 #ifndef UGINE_MAIN_H
 #define UGINE_MAIN_H
 
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alext.h>
+#include <AL/efx.h>
+#include <AL/efx-creative.h>
+#include <AL/efx-presets.h>
+#include "audioBuffer.h"
+#include "audioEngine.h"
+#include "audioSource.h"
 #include "array.h"
 #include "affector.h"
 #include "bone.h"
@@ -11,6 +20,7 @@
 #include "collisionPixelData.h"
 #include "emitter.h"
 #include "glyph.h"
+#include "file.h"
 #include "font.h"
 #include "frame.h"
 #include "glinclude.h"
@@ -19,6 +29,7 @@
 #include "isometricmap.h"
 #include "isometricscene.h"
 #include "isometricsprite.h"
+#include "listener.h"
 #include "map.h"
 #include "mapScene.h"
 #include "math.h"
