@@ -1,3 +1,6 @@
+#ifndef __H_AUDIOSOURCE__
+#define __H_AUDIOSOURCE__
+
 #include "audioBuffer.h"
 
 class AudioSource 
@@ -22,3 +25,6 @@ private:
     unsigned int source; 
     AudioBuffer* buffer;
 };
+
+
+#endif

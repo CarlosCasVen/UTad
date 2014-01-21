@@ -255,7 +255,7 @@ class InputManager
 	  static InputManager& Instance() {if ( !manager ) manager = new InputManager(); return *manager; }
 
 	  
-	  ~InputManager(){}
+      ~InputManager(){ keys.Clear(); virtualAxis.Clear(); virtualButtons.Clear(); pressed.Clear(); delete manager;}
 
 	// Inicialición: deteccción de dispostivos, inicialización de los mismos... etc
     bool            Init();

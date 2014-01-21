@@ -1,3 +1,6 @@
+#ifndef __H_AUDIOLISTENER__
+#define __H_AUDIOLISTENER__
+
 class Listener 
 { 
 public: 
@@ -14,3 +17,6 @@ protected:
 private: 
     static Listener* listener;
 };
+
+
+#endif

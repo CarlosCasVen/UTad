@@ -6,6 +6,13 @@ AudioSource::AudioSource(AudioBuffer* buffer)
 {
     this->buffer = buffer;
     alGenSources( 1, &source );
+    alSourcei( source, AL_BUFFER, buffer->GetBuffer() );
+    SetLooping( false );
+    SetPitch( 1.0 );
+    SetGain( 1.0 );
+    SetPosition( 0, 0 ,0 );
+    SetVelocity( 0, 0 ,0 );
+
 }
 
 
@@ -66,6 +73,7 @@ void AudioSource::Pause()
 bool AudioSource::IsPlaying() const
 {
     ALint isPlaying = false;
-    alGetSourcei( source, AL_PLAYING, &isPlaying );
+    alGetSourcei( source, AL_SOURCE_STATE, &isPlaying );
 
+    return isPlaying == AL_PLAYING;
 }

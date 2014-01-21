@@ -1,3 +1,6 @@
+#ifndef __H_AUDIOBUFFER__
+#define __H_AUDIOBUFFER__
+
 #include "string.h"
 
 class AudioBuffer 
@@ -12,3 +15,6 @@ public:
 private: 
     unsigned int alBuffer;
 };
+
+
+#endif

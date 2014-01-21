@@ -26,6 +26,7 @@ public:
     virtual void FreeMaps();
     virtual void FreeIsometricMaps();
     virtual void FreeResources();
+
 protected:
     ResourceManager() {}
     virtual ~ResourceManager();

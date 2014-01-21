@@ -1,3 +1,6 @@
+#ifndef __H_AUDIOENGINE__
+#define __H_AUDIOENGINE__
+
 #include <stdio.h>
 
 
@@ -18,3 +21,5 @@ private:
     void* device; 
     void* context;
 };
+
+#endif
