@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+/*#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "include/u-gine.h"
 
@@ -63,4 +63,4 @@ int	main(int	argc,	char*	argv[])	{
 	}	
 
 	 return	0;	
-}
+}*/

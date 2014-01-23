@@ -10,6 +10,7 @@ class Font;
 class Image;
 class IsometricMap;
 class Map;
+class AudioBuffer;
 
 class ResourceManager {
 public:
@@ -27,6 +28,8 @@ public:
     virtual void FreeIsometricMaps();
     virtual void FreeResources();
 
+	virtual AudioBuffer* LoadAudioBuffer( const String& filename );
+	virtual void FreeAudioBuffer();
 protected:
     ResourceManager() {}
     virtual ~ResourceManager();
@@ -38,6 +41,8 @@ private:
     Array<Image*> images;
     Array<Map*> maps;
     Array<IsometricMap*> isometricMaps;
+
+	Array<AudioBuffer*> audioBuffers;
 };
 
 #endif

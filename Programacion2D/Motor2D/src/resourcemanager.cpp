@@ -4,6 +4,7 @@
 #include "../include/image.h"
 #include "../include/isometricmap.h"
 #include "../include/map.h"
+#include "../include/audioBuffer.h"
 
 ResourceManager* ResourceManager::manager = NULL;
 
@@ -104,6 +105,30 @@ IsometricMap* ResourceManager::LoadIsometricMap(const String &filename, uint16 f
 	}
 }
 
+
+AudioBuffer* ResourceManager::LoadAudioBuffer( const String& filename )
+{
+	for( unsigned int i = 0; i < audioBuffers.Size(); i++ )
+	{
+		if( audioBuffers[i]->GetFilename() == filename ) 
+			return audioBuffers[i];
+	}
+
+	AudioBuffer* audioBuffer = new AudioBuffer( filename );
+	if( audioBuffer->IsValid() ) 
+	{
+		audioBuffers.Add( audioBuffer );
+		return audioBuffer;
+	}
+	else
+	{
+		delete audioBuffer;
+		return NULL;
+	}
+
+}
+
+
 void ResourceManager::FreeFonts() {
     for ( uint32 i = 0; i < fonts.Size(); i++ )
         delete fonts[i];
@@ -143,4 +168,13 @@ void ResourceManager::FreeResources() {
 	FreeImages();
 	FreeMaps();
 	FreeIsometricMaps();
+}
+
+
+void ResourceManager::FreeAudioBuffer()
+{
+	for( unsigned int i = 0; i < audioBuffers.Size(); i++ )
+	{
+		delete audioBuffers[i];
+	}
 }

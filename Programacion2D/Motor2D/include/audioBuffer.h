@@ -12,8 +12,11 @@ public:
     bool IsValid() const { return alBuffer != 0; }
     unsigned int GetBuffer() const { return alBuffer; } 
 
+	virtual const String& GetFilename() const { return filename; }
+
 private: 
     unsigned int alBuffer;
+	String filename;
 };
 
 
