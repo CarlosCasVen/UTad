@@ -14,8 +14,20 @@ Entity::~Entity()
 {
 	End();
 }
+//---------------------------------------------
 
+//---------------------------------------------
+bool Entity::Init( unsigned int initialPosition, bool isOk, bool inGame )
+{
+	m_positionInWorld = initialPosition;
+	m_isOk = isOk;
+	m_inGame = inGame;
 
+	return m_isOk;
+}
+//---------------------------------------------
+
+//---------------------------------------------
 void Entity::End()
 {
 	m_isOk = false;
@@ -32,16 +44,9 @@ void Entity::SetIsInGame ( bool inGame )
 //---------------------------------------------
 
 //---------------------------------------------
-void Entity::MoveRight()
+bool Entity::IsInGame() const
 {
-	m_positionInWorld++;
-}
-//---------------------------------------------
-
-//---------------------------------------------
-void Entity::MoveLeft()
-{
-	m_positionInWorld--;
+	return m_inGame;
 }
 //---------------------------------------------
 
@@ -53,25 +58,21 @@ bool Entity::GetIsOk() const
 //---------------------------------------------
 
 //---------------------------------------------
-bool Entity::Init( unsigned int initialPosition, bool isOk, bool inGame )
-{
-	m_positionInWorld = initialPosition;
-	m_isOk = isOk;
-	m_inGame = inGame;
-
-	return m_isOk;
-}
-//---------------------------------------------
-
-//---------------------------------------------
-bool Entity::IsInGame() const
-{
-	return m_inGame;
-}
-//---------------------------------------------
-
-//---------------------------------------------
 unsigned int Entity::GetPositionInWorld() const
 {
 	return m_positionInWorld;
+}
+//---------------------------------------------
+
+//---------------------------------------------
+void Entity::MoveRight()
+{
+	m_positionInWorld++;
+}
+//---------------------------------------------
+
+//---------------------------------------------
+void Entity::MoveLeft()
+{
+	m_positionInWorld--;
 }

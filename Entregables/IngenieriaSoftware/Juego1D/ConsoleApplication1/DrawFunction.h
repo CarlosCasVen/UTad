@@ -6,12 +6,12 @@
 
 namespace DrawFunction
 {
-	void Gotoxy(int x, int y);
-	void Hidecursor(void);
+	void Gotoxy( int x, int y );
+	void Hidecursor( void );
 	void Clear();
 	void GameOver( unsigned int score, unsigned int nBullets );
 	void PrintWorld();
-	void PrintSimbolInWorld(char simbol);
+	void PrintSimbolInWorld( char simbol );
 }
 
 #endif

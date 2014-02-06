@@ -17,7 +17,6 @@ public:
 	void Render();
 
 	bool GetIsOk() const;
-	unsigned int GetScore();
 
 	void CreateNewEntities();
 	void NewEnemy();

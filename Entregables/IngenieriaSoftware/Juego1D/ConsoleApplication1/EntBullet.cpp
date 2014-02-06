@@ -48,7 +48,7 @@ void EntBullet::End()
 //---------------------------------------------
 void EntBullet::Update()
 {
-	if( GetPositionInWorld() < 1 || GetPositionInWorld() > WORLD_WIDTH )
+	if( GetPositionInWorld() < 1 || GetPositionInWorld() > WORLD_WIDTH - 1 )
 	{
 		SetIsInGame( false );
 	}

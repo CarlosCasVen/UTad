@@ -19,7 +19,7 @@ public:
 	void SetIsAlive( bool alive );
 	void SetMovementDirection( MovementDirection direction );
 
-	bool IsAlive();
+	bool IsAlive() const;
 
 private:
 	bool m_alive;

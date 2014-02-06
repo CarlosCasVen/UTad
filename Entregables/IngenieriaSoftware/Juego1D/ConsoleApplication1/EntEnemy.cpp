@@ -20,7 +20,7 @@ bool EntEnemy::Init( const EntHero* hero, bool inGame )
 {
 	if( hero )
 	{
-		unsigned int initialPosition = rand() % WORLD_WIDTH;
+		unsigned int initialPosition = rand() % WORLD_WIDTH - 1;
 
 		if( hero->GetPositionInWorld() > initialPosition )
 		{

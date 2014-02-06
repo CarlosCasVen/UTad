@@ -17,13 +17,15 @@ const char SYMBOL_RAIN = '|';
 const unsigned int NUMBER_OF_SPACES = 10;
 const unsigned int GROUND_HEIGHT = 15;
 const unsigned int WORLD_WIDTH = 60;
-const unsigned int RAIN_DROP_MAX_TIME_LIFE = 60;
+const unsigned int RAIN_DROP_MAX_TIME_LIFE = 10;
 const unsigned int MAX_NUM_ENEMIES = 2;
 const unsigned int MAX_NUM_BULLETS = 4;
 const unsigned int MAX_NUM_RAIN_DROPS = 5;
 const unsigned int MAX_TIME_BETWEEN_ENEMIES = 50;
 const unsigned int MAX_TIME_BETWEEN_RAIN_DROPS = 10;
-const unsigned int SLEEP_DURATION_TIME = 10;
+const unsigned int SLEEP_DURATION_TIME = 50;
+const unsigned int GAME_OVER_X_POSITION = 2;
+const unsigned int GAME_OVER_Y_POSITION = 4;
 
 const bool IN_GAME = true;
 
