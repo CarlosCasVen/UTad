@@ -10,17 +10,19 @@ public:
 	World();
 	~World();
 
-	bool Init();
-	
+	bool Init();	
 	void End();
-	void CreateNewEntities();
+	
 	void Update();
 	void Render();
+
+	bool GetIsOk() const;
+	unsigned int GetScore();
+
+	void CreateNewEntities();
 	void NewEnemy();
 	void NewRainDrop();
 	void DetectCollisionAndDestroy();
-
-	unsigned int GetScore();
 
 private:
 	Array<EntRainDrop*> m_rainDrops;
@@ -38,7 +40,6 @@ private:
 	unsigned int m_timeToNextRainDrop;
 	unsigned int m_score;
 	unsigned int m_nBulletsShooted;
-
 };
 
 #endif

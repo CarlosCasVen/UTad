@@ -9,8 +9,7 @@ public:
 	EntRainDrop();
 	~EntRainDrop();
 
-	bool Init( bool inGame );
-	
+	bool Init( bool inGame );	
 	void End();
 
 	virtual void Update();

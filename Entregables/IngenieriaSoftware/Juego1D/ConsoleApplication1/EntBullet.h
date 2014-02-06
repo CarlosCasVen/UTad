@@ -10,8 +10,7 @@ public:
 	EntBullet();
 	~EntBullet();
 
-	bool Init( const EntHero* hero, MovementDirection direction, bool inGame );
-	
+	bool Init( const EntHero* hero, MovementDirection direction, bool inGame );	
 	void End();
 
 	virtual void Update();
@@ -19,7 +18,6 @@ public:
 
 private:
 	MovementDirection m_direction;
-
 };
 
 #endif

@@ -14,7 +14,6 @@
 #include <vector>
 
 
-
 // TODO: mencionar aquí los encabezados adicionales que el programa necesita
 #include "array.h"
 #include "Base.h"

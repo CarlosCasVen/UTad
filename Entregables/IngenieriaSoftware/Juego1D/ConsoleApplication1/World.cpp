@@ -153,11 +153,9 @@ void World::Update()
 	{
 		m_rainDrops[i]->Update();
 	}
-
 	
 	m_hero->Update();
-	DetectCollisionAndDestroy();
-	
+	DetectCollisionAndDestroy();	
 }
 //---------------------------------------------
 
@@ -191,6 +189,13 @@ void World::Render()
 	{
 		DrawFunction::GameOver( m_score, m_nBulletsShooted );
 	}
+}
+//---------------------------------------------
+
+//--------------------------------------------
+bool World::GetIsOk() const
+{
+	return m_isOk; 
 }
 //---------------------------------------------
 

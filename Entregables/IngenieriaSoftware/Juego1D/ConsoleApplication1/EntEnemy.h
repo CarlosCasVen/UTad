@@ -10,8 +10,7 @@ public:
 	EntEnemy();
 	~EntEnemy();
 
-	bool Init( const EntHero* hero, bool inGame );
-	
+	bool Init( const EntHero* hero, bool inGame );	
 	void End();
 
 	virtual void Update();

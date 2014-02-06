@@ -23,6 +23,7 @@ const unsigned int MAX_NUM_BULLETS = 4;
 const unsigned int MAX_NUM_RAIN_DROPS = 5;
 const unsigned int MAX_TIME_BETWEEN_ENEMIES = 50;
 const unsigned int MAX_TIME_BETWEEN_RAIN_DROPS = 10;
+const unsigned int SLEEP_DURATION_TIME = 10;
 
 const bool IN_GAME = true;
 

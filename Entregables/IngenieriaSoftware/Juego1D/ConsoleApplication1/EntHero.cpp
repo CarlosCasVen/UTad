@@ -51,7 +51,6 @@ void EntHero::Update()
 	default:
 		break;
 	}
-
 }
 //---------------------------------------------
 
@@ -63,7 +62,6 @@ void EntHero::Render()
 		DrawFunction::Gotoxy( NUMBER_OF_SPACES + GetPositionInWorld(), GROUND_HEIGHT );
 		DrawFunction::PrintSimbolInWorld( SYMBOL_HERO );
 	}
-
 }
 //---------------------------------------------
 
