@@ -37,7 +37,7 @@ void EntHero::Update()
 	switch( m_direction )
 	{
 	case RightDirection:
-		if( GetPositionInWorld() < WORLD_WIDTH - 1 )
+		if( GetPositionInWorld() < WORLD_WIDTH )
 		{
 			MoveRight();
 		}
@@ -57,18 +57,11 @@ void EntHero::Update()
 //---------------------------------------------
 void EntHero::Render()
 {
-	if( IsInGame() && m_alive )
+	if( IsInGame() && IsAlive() )
 	{
 		DrawFunction::Gotoxy( NUMBER_OF_SPACES + GetPositionInWorld(), GROUND_HEIGHT );
 		DrawFunction::PrintSimbolInWorld( SYMBOL_HERO );
 	}
-}
-//---------------------------------------------
-
-//---------------------------------------------
-bool EntHero::IsAlive()
-{
-	return m_alive;
 }
 //---------------------------------------------
 
@@ -83,4 +76,11 @@ void EntHero::SetIsAlive( bool alive )
 void EntHero::SetMovementDirection( MovementDirection direction )
 {
 	m_direction = direction;
+}
+//---------------------------------------------
+
+//---------------------------------------------
+bool EntHero::IsAlive() const
+{
+	return m_alive;
 }

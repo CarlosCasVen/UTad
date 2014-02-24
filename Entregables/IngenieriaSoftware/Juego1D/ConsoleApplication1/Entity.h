@@ -13,8 +13,8 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 
+    bool Init( unsigned int initialPosition, bool isOk, bool inGame );
 	void End();
-	bool Init( unsigned int initialPosition, bool isOk, bool inGame );
 
 	void SetIsInGame( bool inGame );
 

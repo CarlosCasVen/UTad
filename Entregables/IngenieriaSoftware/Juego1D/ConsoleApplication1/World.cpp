@@ -66,6 +66,77 @@ void World::End()
 //---------------------------------------------
 
 //---------------------------------------------
+void World::Update()
+{
+    if( !m_hero->IsAlive() )
+    {
+        return;
+    }
+
+	CreateNewEntities();
+	NewEnemy();
+	NewRainDrop();
+
+	for( unsigned int i = 0; i < m_enemies.Size(); i++ )
+	{
+		m_enemies[i]->Update();
+	}
+
+	DetectCollisionAndDestroy();
+
+	for( unsigned int i = 0; i < m_bullets.Size(); i++ )
+	{
+		m_bullets[i]->Update();
+	}
+
+	for( unsigned int i = 0; i < m_rainDrops.Size(); i++ )
+	{
+		m_rainDrops[i]->Update();
+	}
+	
+	m_hero->Update();
+	DetectCollisionAndDestroy();	
+}
+//---------------------------------------------
+
+//---------------------------------------------
+void World::Render()
+{
+	DrawFunction::Clear();
+	DrawFunction::PrintWorld();
+	
+	for( unsigned int i = 0; i < m_rainDrops.Size(); i++ )
+	{
+		m_rainDrops[i]->Render();
+	}
+
+	for( unsigned int i = 0; i < m_enemies.Size(); i++ )
+	{
+		m_enemies[i]->Render();
+	}
+	
+	for( unsigned int i = 0; i < m_bullets.Size(); i++ )
+	{
+		m_bullets[i]->Render();
+	}
+
+	m_hero->Render();
+
+    if( !m_hero->IsAlive() )
+    {
+    	DrawFunction::GameOver( m_score, m_nBulletsShooted );
+    }
+}
+//---------------------------------------------
+
+//---------------------------------------------
+bool World::GetIsOk() const
+{
+	return m_isOk; 
+}
+//---------------------------------------------
+
+//--------------------------------------------
 void World::CreateNewEntities()
 {
 	if(_kbhit())
@@ -131,75 +202,6 @@ void World::CreateNewEntities()
 //---------------------------------------------
 
 //---------------------------------------------
-void World::Update()
-{
-	CreateNewEntities();
-	NewEnemy();
-	NewRainDrop();
-
-	for( unsigned int i = 0; i < m_enemies.Size(); i++ )
-	{
-		m_enemies[i]->Update();
-	}
-
-	DetectCollisionAndDestroy();
-
-	for( unsigned int i = 0; i < m_bullets.Size(); i++ )
-	{
-		m_bullets[i]->Update();
-	}
-
-	for( unsigned int i = 0; i < m_rainDrops.Size(); i++ )
-	{
-		m_rainDrops[i]->Update();
-	}
-	
-	m_hero->Update();
-	DetectCollisionAndDestroy();	
-}
-//---------------------------------------------
-
-//---------------------------------------------
-void World::Render()
-{
-	DrawFunction::Clear();
-
-	if( m_hero->IsAlive() )
-	{
-		DrawFunction::PrintWorld();
-	
-		for( unsigned int i = 0; i < m_rainDrops.Size(); i++ )
-		{
-			m_rainDrops[i]->Render();
-		}
-
-		for( unsigned int i = 0; i < m_enemies.Size(); i++ )
-		{
-			m_enemies[i]->Render();
-		}
-		
-		for( unsigned int i = 0; i < m_bullets.Size(); i++ )
-		{
-			m_bullets[i]->Render();
-		}
-
-		m_hero->Render();
-	}
-	else
-	{
-		DrawFunction::GameOver( m_score, m_nBulletsShooted );
-	}
-}
-//---------------------------------------------
-
-//--------------------------------------------
-bool World::GetIsOk() const
-{
-	return m_isOk; 
-}
-//---------------------------------------------
-
-//---------------------------------------------
 void World::NewEnemy()
 {
 	if( m_nEnemies < MAX_NUM_ENEMIES )
@@ -244,7 +246,6 @@ void World::DetectCollisionAndDestroy()
 		if( m_enemies[i]->GetPositionInWorld() == m_hero->GetPositionInWorld() )
 		{
 			m_hero->SetIsAlive( false );
-			m_enemies[i]->SetIsInGame( false );
 		}
 		
 		for( unsigned int k = 0; k < m_bullets.Size(); k++ )
