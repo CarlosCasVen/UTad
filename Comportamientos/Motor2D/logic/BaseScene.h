@@ -1,13 +1,25 @@
+#ifndef __BASE_SCENE__
+#define __BASE_SCENE__
+
 #include <stdio.h>
 #include "../include/array.h"
-#include "baseEntity.h"
+#include "../include/scene.h"
+
+class BaseEntity;
 
 
 class BaseScene
 {
 public:
-	virtual void LoadScene() = 0;
+	BaseScene();
+	~BaseScene();
+	virtual void Update( double elapsedTime ) = 0;
+	void AddEntity( const BaseEntity& entity, Scene::Layer layer = Scene::LAYER_BACK );
+	void RemoveEntity( BaseEntity* entity );
 
 private:
-	Array<BaseEntity*> entitiesInWorld;
+	Array<BaseEntity*> m_entitiesInScene;
+	Scene* m_scene;
 };
+
+#endif

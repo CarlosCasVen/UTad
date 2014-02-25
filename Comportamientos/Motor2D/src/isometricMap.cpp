@@ -56,14 +56,12 @@ void IsometricMap::GenerateLayerSprites(IsometricScene* scene)
 			if( tileId > -1 )
 			{
 				IsometricSprite* newSprite = scene->CreateSprite( GetImage() );
-				newSprite->SetCurrentFrame( tileId );
+				newSprite->SetCurrentFrame(  static_cast<uint16>( tileId ) );
 
 				if( GetFirstColId() >= tileId )
 				{
 					newSprite->SetCollision( Sprite::COLLISION_RECT );
 				}
-				int tileWidth = GetTileWidth();
-				int tileHeight = GetTileHeight();
 				newSprite->SetPosition( x * GetTileWidth(), y * GetTileHeight() );	
 			}
 		}
@@ -78,7 +76,6 @@ void IsometricMap::Render() const
 	{
 		for ( uint16 x = 0; x < GetColumns(); x++ ) 
 		{			
-			int tileId =  GetTileId( x, y );
 			if ( GetTileId( x, y ) >= 0 ) 
 			{
 				double posX = 0, posY = 0;

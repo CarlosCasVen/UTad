@@ -1,14 +1,18 @@
-#include <stdio.h>
+#ifndef __ENTITY_FACTORY__
+#define __ENTITY_FACTORY__
 
+#include <stdio.h>
 
 class EntitiesFactory
 {
 public:
-	EntitiesFactory& Instance(){  if( m_entitiesFactory == NULL ) m_entitiesFactory = new EntitiesFactory(); return *m_entitiesFactory; }
+	static EntitiesFactory& Instance();
 
 private:
-	EntitiesFactory(){ m_entitiesFactory = NULL; }
+	EntitiesFactory();
 
-	EntitiesFactory* m_entitiesFactory;
+	static EntitiesFactory* m_entitiesFactory;
 
 };
+
+#endif

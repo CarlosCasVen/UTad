@@ -1,3 +1,6 @@
+#ifndef __SOUND_FACTORY__
+#define __SOUND_FACTORY__
+
 #include <stdio.h>
 
 
@@ -12,3 +15,5 @@ private:
 	SoundFactory* m_soundFactory;
 
 };
+
+#endif

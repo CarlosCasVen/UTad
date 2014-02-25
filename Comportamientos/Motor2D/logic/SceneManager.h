@@ -1,15 +1,23 @@
+#ifndef __SCENE_MANAGER__
+#define __SCENE_MANAGER__
+
 #include <stdio.h>
-#include "BaseScene.h"
+
+class BaseScene;
 
 
 class SceneManager
 {
 public:
-	SceneManager& Instance(){  if( m_sceneManager == NULL ) m_sceneManager = new SceneManager(); return *m_sceneManager; }
+	static SceneManager& Instance();
+	void Update( double elapsedTime );
 
 private:
-	SceneManager(){ m_sceneManager = NULL; }
+	SceneManager();
+	~SceneManager();
 
-	SceneManager* m_sceneManager;
+	static SceneManager* m_sceneManager;
 
 };
+
+#endif

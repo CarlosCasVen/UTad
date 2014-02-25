@@ -623,7 +623,6 @@ bool InputManager::IsXboxPressed( eInputCode vkCode )
 		}
 	}
 
-	return false;
 }
 
 
