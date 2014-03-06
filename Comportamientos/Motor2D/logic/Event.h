@@ -8,8 +8,13 @@ class BaseEntity;
 
 class Event
 {
+public:
+	Event( TEvent tEvent );
+	~Event();
+	TEvent GetTEvent() const;
+
 private:
-	enum TEvent type;
+	TEvent type;
 };
 
 #endif

@@ -2,12 +2,12 @@
 #include "../include/file.h"
 #include <AL/al.h>
 
-#define BLOCK_SIZE_TO_SKIP 8
+#define BLOCK_SIZE_TO_SKIP 10
 
 AudioBuffer::AudioBuffer(const String& filename)
 {
-    this->filename = filename;
     alBuffer = 0;
+	this->filename = filename;
     File audioFile( filename, FILE_READ );
     char text[5];
     text[4] = '\0';
@@ -21,6 +21,7 @@ AudioBuffer::AudioBuffer(const String& filename)
     audioFile.ReadBytes( text, 4 );
     if( String( text ) != "WAVE" ) return;
     
+
     //FMT
     audioFile.ReadBytes( text, 4 );
     if( String( text ) != "fmt " ) return;
@@ -31,9 +32,10 @@ AudioBuffer::AudioBuffer(const String& filename)
     int sampleRate = audioFile.ReadInt();
 
     audioFile.Seek( audioFile.Pos() + BLOCK_SIZE_TO_SKIP ); // salta hasta ParamsSize o data 
+	short extraParamSize = audioFile.ReadInt16();
 
-    if( audioFormat != 16 && audioFormat != 1 ) audioFile.Seek( audioFile.ReadInt16() + audioFile.Pos() );
-    
+	if( audioFormat != 16 && audioFormat != 1 ) audioFile.Seek( extraParamSize + audioFile.Pos() );
+
     while( ( String( text ) != "data" ) )
     {
         audioFile.ReadBytes( text, 4 );    
@@ -49,7 +51,7 @@ AudioBuffer::AudioBuffer(const String& filename)
     alGenBuffers( 1, &alBuffer );
     alBufferData( alBuffer, channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, buffer, bufferSize, sampleRate );
 
-    free( buffer );
+    delete[] buffer;
 }
 
 

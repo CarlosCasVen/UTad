@@ -4,7 +4,7 @@
 #include "../include/image.h"
 #include "../include/isometricmap.h"
 #include "../include/map.h"
-#include "../include/audiobuffer.h"
+#include "../include/audioBuffer.h"
 
 ResourceManager* ResourceManager::manager = NULL;
 
@@ -88,23 +88,6 @@ Map* ResourceManager::LoadMap(const String &filename, uint16 firstColId) {
 	}
 }
 
-AudioBuffer* ResourceManager::LoadAudioBuffer(const String& filename ) {
-	// Comprobamos si esta cargado
-    for ( uint32 i = 0; i < audioBuffers.Size(); i++ )
-        if ( audioBuffers[i]->GetFilename() == filename )
-            return audioBuffers[i];
-
-	// Cargamos
-	AudioBuffer* audioBuffer = new AudioBuffer(filename);
-	if ( audioBuffer->IsValid() ) {
-        audioBuffers.Add(audioBuffer);
-		return audioBuffer;
-	} else {
-		delete audioBuffer;
-		return NULL;
-	}
-}
-
 IsometricMap* ResourceManager::LoadIsometricMap(const String &filename, uint16 firstColId) {
 	// Comprobamos si esta cargado
     for ( uint32 i = 0; i < isometricMaps.Size(); i++ )
@@ -121,6 +104,30 @@ IsometricMap* ResourceManager::LoadIsometricMap(const String &filename, uint16 f
 		return NULL;
 	}
 }
+
+
+AudioBuffer* ResourceManager::LoadAudioBuffer( const String& filename )
+{
+	for( unsigned int i = 0; i < audioBuffers.Size(); i++ )
+	{
+		if( audioBuffers[i]->GetFilename() == filename ) 
+			return audioBuffers[i];
+	}
+
+	AudioBuffer* audioBuffer = new AudioBuffer( filename );
+	if( audioBuffer->IsValid() ) 
+	{
+		audioBuffers.Add( audioBuffer );
+		return audioBuffer;
+	}
+	else
+	{
+		delete audioBuffer;
+		return NULL;
+	}
+
+}
+
 
 void ResourceManager::FreeFonts() {
     for ( uint32 i = 0; i < fonts.Size(); i++ )
@@ -154,18 +161,20 @@ void ResourceManager::FreeIsometricMaps() {
     isometricMaps.Clear();
 }
 
-void ResourceManager::FreeAudioBuffer()
-{
-    for ( uint32 i = 0; i < audioBuffers.Size(); i++ )
-        delete audioBuffers[i];
-    audioBuffers.Clear();
-}
 
 void ResourceManager::FreeResources() {
 	FreeCollisionPixelDatas();
 	FreeFonts();
 	FreeImages();
 	FreeMaps();
-    FreeAudioBuffer();
 	FreeIsometricMaps();
+}
+
+
+void ResourceManager::FreeAudioBuffer()
+{
+	for( unsigned int i = 0; i < audioBuffers.Size(); i++ )
+	{
+		delete audioBuffers[i];
+	}
 }

@@ -62,7 +62,7 @@ Bone* Bone::FindChild(const String &id) {
 
 const Frame* Bone::FindFrame(uint32 id) const {
     for ( uint32 i = 0; i < frames.Size(); i++ )
-        if ( frames[i].GetId() == static_cast<int32>( id ) )
+        if ( frames[i].GetId() == id )
             return &frames[i];
 	return NULL;
 }

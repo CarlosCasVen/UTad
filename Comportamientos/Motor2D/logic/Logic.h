@@ -12,6 +12,9 @@ enum TEvent
 #include "EventManager.h"
 #include "leaks.h"
 #include "SceneManager.h"
+#include "Event.h"
+#include "EntityEliminator.h"
+
 
 
 #endif

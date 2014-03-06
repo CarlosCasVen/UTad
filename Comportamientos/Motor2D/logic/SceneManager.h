@@ -10,13 +10,16 @@ class SceneManager
 {
 public:
 	static SceneManager& Instance();
-	void Update( double elapsedTime );
+	virtual void Update( double elapsedTime );
+	void SetActiveScene( BaseScene* scene );
+	bool CreateScene( const String& filename );
 
 private:
 	SceneManager();
 	~SceneManager();
 
 	static SceneManager* m_sceneManager;
+	BaseScene* m_activeScene;
 
 };
 

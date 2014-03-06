@@ -49,14 +49,11 @@ void Emitter::Update(double elapsed)
 
 	//creacion de particulas
 
-	int32 nParticles = 0;
+	int32 nParticles;
 	double velX, velY, velAng, life;
 	uint8 r, g, b;
 
-	if( IsEmitting() )
-	{
-		nParticles = static_cast<int32>( RangeRand( static_cast<int32>( minrate ), static_cast<int32>( maxrate ) ) * elapsed );
-	}
+	IsEmitting() ? nParticles = (int32)(RangeRand( (int32)minrate, (int32)maxrate ) * elapsed ) : (int32)nParticles = 0;
 
 	for( uint32 i = 0; i < (uint32)nParticles; i++ )
 	{

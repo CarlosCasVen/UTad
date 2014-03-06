@@ -13,13 +13,14 @@ extern "C" void	stbi_image_free(void *buffer);
 CollisionPixelData::CollisionPixelData(const String& filename)
 {
 	data = NULL;
+	int nComp = 4;
 	int x = 0, y = 0;
 	unsigned char* buf = stbi_load( filename.ToCString() , &x, &y, NULL, 4 );
 
 	if( buf )
 	{
-		width = static_cast<uint16>( x );
-		height = static_cast<uint16>( y );
+		width = x;
+		height = y;
 
 		data = new bool[ width * height];
 

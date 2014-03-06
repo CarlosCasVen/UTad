@@ -47,4 +47,14 @@
 #include "string.h"
 #include "types.h"
 
+
+//LOGICA
+#include "../logic/BaseEntity.h"
+#include "../logic/BaseScene.h"
+#include "../logic/SceneManager.h"
+#include "../logic/EventManager.h"
+#include "../logic/EntitiesFactory.h"
+#include "../logic/IA.h"
+
+
 #endif

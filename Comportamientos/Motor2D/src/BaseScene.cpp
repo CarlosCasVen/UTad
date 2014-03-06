@@ -1,28 +1,44 @@
 #include "../logic/Logic.h"
 
 
-BaseScene::BaseScene()
+BaseScene::BaseScene(  )
 {
+	m_scene = NEW( Scene, );
+}
+
+
+BaseScene::BaseScene( Image* background )
+{
+	m_scene = NEW( Scene, ( background )  );
 }
 
 
 BaseScene::~BaseScene()
 {
+	DEL( m_scene );
 }
 
 
-
-void BaseScene::AddEntity( const BaseEntity& entity, Scene::Layer layer )
+void BaseScene::AddEntity( const BaseEntity& entity )
 {
 	m_entitiesInScene.Add( (BaseEntity* ) &entity );
+}
 
-	if( image )
-	{
-		m_scene->CreateSprite( image, layer );
-	}
+
+Sprite* BaseScene::CreateSprite( Image& image, Scene::Layer layer )
+{
+	return m_scene->CreateSprite( &image, layer );
 }
 
 
 void BaseScene::RemoveEntity( BaseEntity* entity )
 {
+	m_entitiesInScene.Remove( entity );
+}
+
+
+void BaseScene::RemoveSprite( Sprite& sprite )
+{
+	m_scene->DeleteSprite( &sprite );
+
 }
