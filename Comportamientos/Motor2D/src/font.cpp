@@ -14,7 +14,6 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 	unsigned int nFrames = 16 * 16;
 	uint16 widthFrame = GetWidth();
 	uint16 heightFrame = GetHeight();
-	uint16 nLine = -1;
 
 	unsigned char* pixels = stbi_load( filename.ToCString(), &widthImage, &heightImage, &nComponents, nComponents);
 
@@ -22,8 +21,8 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 	{
 		Glyph glyph(0, 0, widthFrame, heightFrame);
 
-		uint16 row = n / 16;
-		uint16 column = n % 16;
+		uint16 row =  static_cast<uint16>( n / 16 );
+		uint16 column =  static_cast<uint16>( n % 16 );
 
 		for(unsigned int posY = (unsigned int) (row * heightFrame); posY < (unsigned int) ((row + 1) * heightFrame) ; posY++ )
 		{
@@ -39,12 +38,12 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 
 				if( Glyph::IsYellow( pixelR, pixelG, pixelB))
 				{
-					glyph.SetInitialCoordinates(posX, posY);
+					glyph.SetInitialCoordinates(  static_cast<uint16>( posX ),  static_cast<uint16>( posY ) );
 					*pixelA = 0;
 				}
 				else if( Glyph::IsRed( pixelR, pixelG, pixelB))
 				{
-					glyph.SetFinalCoordinates(posX, posY);
+					glyph.SetFinalCoordinates( static_cast<uint16>( posX ),  static_cast<uint16>( posY ) );
 					*pixelA = 0;				
 				}
 				else if( Glyph::IsBlack( pixelR, pixelG, pixelB))

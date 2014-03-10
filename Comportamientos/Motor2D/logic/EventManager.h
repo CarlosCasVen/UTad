@@ -1,33 +1,40 @@
 #ifndef __EVENT_MANAGER__
 #define __EVENT_MANAGER__
 
-#include <stdio.h>
-#include "../include/array.h"
+#include "IEventManager.h"
 
-enum TEvent;
-class BaseEntity;
+
+enum  TEvent;
+class IBaseEntity;
 class Event;
+class IListener;
 
-struct EventSubscriptors
+
+struct Subscriptors
 {
-	enum TEvent type;
-	Array<BaseEntity*> subscriptors;
+	enum TEvent       m_type;
+	Array<IListener*> m_subscriptors;
 };
 
-class EventManager
+
+class EventManager : public IEventManager
 {
 public:
-	static EventManager& Instance();
-	void Update( double elapsedTime );
-	void SendEvent ( Event& event, Array<BaseEntity*>& subscriptors );
+	virtual TError  Init();
+	virtual void    End ();
+
+	virtual void Update();
+
+    virtual TError RegistreToEvent   ( IListener& subscriptor, TEvent& tEvent );
+	virtual TError UnregistredToEvent( TEvent& tEvent, IListener& subscriptor );
 
 private:
-	EventManager();
-	~EventManager();
+    void ComunicateSubscriptors( Event& newEvent, Array<IListener*> subscriptors );
+    
+    Array<Subscriptors*> m_subscriptors;
+    Array<Event*>        m_eventsRegistred;
 
-	static EventManager* m_eventManager;
-	Array<EventSubscriptors> m_eventsSubscriptors;
-	Array<Event*> m_eventsRegistred;
 };
+
 
 #endif

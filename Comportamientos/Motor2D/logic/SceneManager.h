@@ -1,26 +1,29 @@
 #ifndef __SCENE_MANAGER__
 #define __SCENE_MANAGER__
 
-#include <stdio.h>
-
-class BaseScene;
+#include "ISceneManager.h"
 
 
-class SceneManager
+class IBaseScene;
+
+
+class SceneManager : public ISceneManager
 {
 public:
-	static SceneManager& Instance();
-	virtual void Update( double elapsedTime );
-	void SetActiveScene( BaseScene* scene );
-	bool CreateScene( const String& filename );
+	virtual TError  Init();
+	virtual void    End ();
+
+    virtual void Update( double elapsedTime );
+    virtual void Render( double elapsedTime );
+
+    virtual void NextScene      ();
+    virtual void PreviousScene  ();
+    virtual void SetScene       ( IScene& scene );
 
 private:
-	SceneManager();
-	~SceneManager();
-
-	static SceneManager* m_sceneManager;
-	BaseScene* m_activeScene;
+    IScene* m_currentScene;
 
 };
+
 
 #endif

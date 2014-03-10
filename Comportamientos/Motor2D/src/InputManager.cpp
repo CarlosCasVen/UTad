@@ -2,9 +2,9 @@
 #include "..\include\glinclude.h"
 #include "..\include\screen.h"
 #include "windows.h"
-#include "xinput.h"
+#include <Xinput.h>
 
-#pragma comment(lib, "XInput9_1_0.lib")
+//#pragma comment(lib, "XInput9_1_0.lib")
 
 
 InputManager* InputManager::manager = NULL;
@@ -214,23 +214,24 @@ bool InputManager::Init()
 		devicesOn[ XboxPad ] = false;
 	}
 
-	XINPUT_STATE state;
-	ZeroMemory( &state, sizeof(state));		
+//	XINPUT_STATE state;
+//	ZeroMemory( &state, sizeof(state));		
 
-	if( XInputGetState( 0, &state) == ERROR_SUCCESS )
+/*if( XInputGetState( 0, &state) == ERROR_SUCCESS )
 	{
 		devicesOn[ XboxPad ] = true;
 	}
 	else
 	{
 		devicesOn[ XboxPad ] = false;
-	}
+	}*/
 	return isOk = devicesOn[ Keyboard ] && devicesOn[ Mouse ] ;
 }
 
 // Cierre
 void InputManager::End()
 {
+	delete manager;
 }
 
 // Función de actualización, actualización de estados entre frames
@@ -555,7 +556,7 @@ bool InputManager::GetMouseButtonUp( eInputCode button )
 
 bool InputManager::IsXboxPressed( eInputCode vkCode )
 {
-	XINPUT_STATE state;
+/*	XINPUT_STATE state;
 	ZeroMemory( &state, sizeof(state));		
 	XInputGetState( 0, &state);
 
@@ -622,7 +623,7 @@ bool InputManager::IsXboxPressed( eInputCode vkCode )
 			return false;
 		}
 	}
-
+	*/
 	return false;
 }
 
@@ -665,7 +666,7 @@ int InputManager::FromKeyToXboxStruct ( eInputCode key )
 {
 	switch( key )
 	{
-	case Button_A:
+/*	case Button_A:
 		return XINPUT_GAMEPAD_A;
 	case Button_B:
 		return XINPUT_GAMEPAD_B;
@@ -688,7 +689,7 @@ int InputManager::FromKeyToXboxStruct ( eInputCode key )
 	case Button_Up:
 		return XINPUT_GAMEPAD_DPAD_UP;
 	case Button_Down:
-		return XINPUT_GAMEPAD_DPAD_DOWN;
+		return XINPUT_GAMEPAD_DPAD_DOWN;*/
 	default:
 		return -1;
 	}

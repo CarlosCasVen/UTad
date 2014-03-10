@@ -1,20 +1,21 @@
 #ifndef __EVENT__
 #define __EVENT__
 
-#include <stdio.h>
 
 enum TEvent;
-class BaseEntity;
+class IEntity;
+
 
 class Event
 {
 public:
-	Event( TEvent tEvent );
-	~Event();
-	TEvent GetTEvent() const;
+    Event( TEvent tEvent );
+
+    TEvent GetType() const;
 
 private:
-	TEvent type;
+	enum TEvent m_type;
+
 };
 
 #endif

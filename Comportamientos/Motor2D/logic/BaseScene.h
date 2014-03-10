@@ -1,29 +1,32 @@
 #ifndef __BASE_SCENE__
 #define __BASE_SCENE__
 
-#include <stdio.h>
+#include "IScene.h"
 #include "../include/array.h"
 #include "../include/scene.h"
 
-class BaseEntity;
+
+class IEntity;
 
 
-class BaseScene
+class BaseScene : public IScene
 {
 public:
-	BaseScene();
-	BaseScene( String& filename );
-	~BaseScene();
-	virtual void Update( double elapsedTime );
-	void AddEntity( const BaseEntity& entity  );
-	Sprite* CreateSprite( Image& image, Scene::Layer layer = Scene::LAYER_BACK );
-	void RemoveEntity( BaseEntity* entity );
-	void RemoveSprite( Sprite& sprite );
+    virtual TError Init();
+    virtual void   End ();
+
+    virtual void Update( double elapsedTime );
+    virtual void Render( double elapsedTime );
+
+    virtual void AddSprite      ( Sprite& sprite );
+    virtual void RemoveSprite   ( Sprite& sprite );
 
 private:
-	Array<BaseEntity*> m_entitiesInScene;
-	Scene* m_scene;
-	const String& m_filename;
+	Array<IEntity*> m_entities;
+	Scene*          m_scene;
+    Array<Sprite*>  m_sprite;
+
 };
+
 
 #endif

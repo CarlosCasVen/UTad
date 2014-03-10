@@ -4,17 +4,25 @@
 
 enum TEvent
 {
+    MOVEMENT
 };
 
 #include "BaseEntity.h"
 #include "BaseScene.h"
-#include "EntitiesFactory.h"
+#include "EntityFactory.h"
 #include "EventManager.h"
 #include "leaks.h"
 #include "SceneManager.h"
+#include "IEntity.h"
+#include "IGame.h"
+#include "IEntityFactory.h"
 #include "Event.h"
-#include "EntityEliminator.h"
-
-
+#include "IEventManager.h"
+#include "IScene.h"
+#include "ISceneManager.h"
+#include "IListener.h"
+#include "Game.h"
+#include "Error.h"
+#include "leaks.h"
 
 #endif

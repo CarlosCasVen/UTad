@@ -1,39 +1,70 @@
 #include "../logic/Logic.h"
 
 
-SceneManager* SceneManager::m_sceneManager = NULL;
+SceneManager* m_sceneManager = NULL;
 
-
-SceneManager& SceneManager::Instance()
+//-------------------------------------
+//
+//-------------------------------------
+ISceneManager& ISceneManager::Instance()
 {
-	if( !m_sceneManager )
-	{
-		m_sceneManager = NEW( SceneManager );
-	}
+    if( !m_sceneManager ) m_sceneManager = NEW( SceneManager, () );
 
-	return *m_sceneManager;
+    return *m_sceneManager;
 }
 
-
-virtual void SceneManager::Update( double elapsedTime )
+//-------------------------------------
+//
+//-------------------------------------
+TError SceneManager::Init()  
 {
-	m_activeScene->Update( elapsedTime );
+    TError error = OK;
+
+    return error;
 }
 
-
-void SceneManager::SetActiveScene( BaseScene* scene )
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::End()
 {
-	m_activeScene = scene;
+    DEL( m_sceneManager );
 }
 
-
-SceneManager::SceneManager()
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::Update( double elapsedTime )
 {
-	m_activeScene = NULL;
+    if( m_currentScene ) m_currentScene->Update( elapsedTime );
 }
 
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::Render( double elapsedTime )
+{
+    if( m_currentScene ) m_currentScene->Render( elapsedTime );
+}
 
-SceneManager::~SceneManager()
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::NextScene()
 {
 }
 
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::PreviousScene()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::SetScene( IScene& scene )
+{
+    m_currentScene = &scene;
+}

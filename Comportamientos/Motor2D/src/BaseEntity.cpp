@@ -1,21 +1,29 @@
 #include "../logic/Logic.h"
 
 
-
-BaseEntity::BaseEntity( BaseScene* scene, Image* image, Scene::Layer layer )
+//-------------------------------------
+//
+//-------------------------------------
+TError BaseEntity::Init()
 {
-	m_baseScene = scene;
-	m_sprite = m_baseScene->CreateSprite( *image, layer );
+    TError error = OK;
+
+    return error;
 }
 
-
-BaseEntity::~BaseEntity()
+//-------------------------------------
+//
+//-------------------------------------
+void BaseEntity::End()
 {
-
+    m_baseScene = NULL;
+    m_sprite = NULL;
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 Sprite* BaseEntity::GetSprite() const
 {
-	return m_sprite;
+    return m_sprite;
 }

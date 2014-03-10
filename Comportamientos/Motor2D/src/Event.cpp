@@ -1,18 +1,18 @@
 #include "../logic/Logic.h"
 
 
+//-------------------------------------
+//
+//-------------------------------------
 Event::Event( TEvent tEvent )
 {
-	m_tEvent = tEvent;
+    m_type = tEvent;
 }
 
-
-Event::~Event()
+//-------------------------------------
+//
+//-------------------------------------
+TEvent Event::GetType() const
 {
-}
-
-
-TEvent Event::GetTEvent() const
-{
-	return m_tEvent;
+    return m_type;
 }

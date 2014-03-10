@@ -1,44 +1,56 @@
 #include "../logic/Logic.h"
+#include "../include/scene.h"
 
 
-BaseScene::BaseScene(  )
+//-------------------------------------
+//
+//-------------------------------------
+TError BaseScene::Init()
 {
-	m_scene = NEW( Scene, );
+    TError error = OK;
+
+    return error;
 }
 
-
-BaseScene::BaseScene( Image* background )
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::End()
 {
-	m_scene = NEW( Scene, ( background )  );
 }
 
-
-BaseScene::~BaseScene()
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::Update( double elapsedTime )
 {
-	DEL( m_scene );
+    for( unsigned int i = 0; i < m_entities.Size(); i++ )
+    {
+        m_entities[i]->Update( elapsedTime );
+    }
+
+    if( m_scene ) m_scene->Update( elapsedTime );
 }
 
-
-void BaseScene::AddEntity( const BaseEntity& entity )
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::Render( double elapsedTime )
 {
-	m_entitiesInScene.Add( (BaseEntity* ) &entity );
+    if( m_scene ) m_scene->Render();
 }
 
-
-Sprite* BaseScene::CreateSprite( Image& image, Scene::Layer layer )
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::AddSprite( Sprite& sprite )
 {
-	return m_scene->CreateSprite( &image, layer );
+   
 }
-
-
-void BaseScene::RemoveEntity( BaseEntity* entity )
+    
+//-------------------------------------
+//
+//-------------------------------------
+void RemoveSprite( Sprite& sprite )
 {
-	m_entitiesInScene.Remove( entity );
-}
-
-
-void BaseScene::RemoveSprite( Sprite& sprite )
-{
-	m_scene->DeleteSprite( &sprite );
-
 }

@@ -20,7 +20,7 @@ Sprite::Sprite(Image* image) {
 	SetCollisionPixelData( NULL );
 	SetColor( 255, 255 , 255 , 255 );
 	SetFPS( 0 );
-	image != NULL ? SetFrameRange( 0, image->GetNumFrames() - 1 ) : SetFrameRange( 0, 0 );
+	image != NULL ? SetFrameRange( 0, static_cast<uint16>( image->GetNumFrames() - 1 ) ) : SetFrameRange( 0, 0 );
 	SetRadius( 0 );
 	SetScale( 1, 1 );
 	collision = NULL;

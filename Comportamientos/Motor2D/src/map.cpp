@@ -23,10 +23,10 @@ Map::Map(const String &filename, uint16 firstColId) {
 
 	//PRIMER NODO
 	xml_node<>* map = file.first_node( "map" );
-	this->width = atoi( map->first_attribute( "width" )->value() );
-	this->height = atoi( map->first_attribute( "height" )->value() );
-	this->tileWidth = atoi( map->first_attribute( "tilewidth" )->value() );
-	this->tileHeight = atoi( map->first_attribute( "tileheight" )->value() );
+	this->width = static_cast<uint16>( atoi( map->first_attribute( "width" )->value() ) );
+	this->height =  static_cast<uint16>( atoi( map->first_attribute( "height" )->value() ) );
+	this->tileWidth =  static_cast<uint16>( atoi( map->first_attribute( "tilewidth" )->value() ) );
+	this->tileHeight =  static_cast<uint16>( atoi( map->first_attribute( "tileheight" )->value() ) );
 
 	//TILESET
 	xml_node<>* tileSet = map->first_node( "tileset" );
@@ -69,7 +69,7 @@ Map::Map(const String &filename, uint16 firstColId) {
 	}
 
 	String imageRoute = filename.ExtractDir() + "/" + imageFile;
-	image = ResourceManager::Instance().LoadImage( imageRoute, widthImageTileSet / tilesetWidth, heightImageTileSet / tilesetHeight );
+	image = ResourceManager::Instance().LoadImage( imageRoute,  static_cast<uint16>( widthImageTileSet / tilesetWidth ),  static_cast<uint16>( heightImageTileSet / tilesetHeight ) );
 	image->SetHandle( offsetX, offsetY);
 
 	valid = true;

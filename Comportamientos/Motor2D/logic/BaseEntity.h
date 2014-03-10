@@ -1,25 +1,29 @@
 #ifndef __BASE_ENTITY__
 #define __BASE_ENTITY__
 
-#include <stdio.h>
-#include "../include/sprite.h"
-#include "../include/image.h"
+#include "IEntity.h"
 
+
+class Sprite;
 class BaseScene;
+class IScene;
 
 
-class BaseEntity
+class BaseEntity : public IEntity
 {
 public:
-	BaseEntity( BaseScene* scene, Image* image, Scene::Layer layer = Scene::LAYER_BACK );
-	~BaseEntity();
-	virtual void Update( double elapsedTime ) = 0;
-	Sprite* GetSprite() const;
+    virtual TError Init();
+    virtual void   End ();
+
+    virtual void Update( double ElpasedTime ) = 0;
+
+    virtual Sprite* GetSprite() const;
 
 private:
 	Sprite* m_sprite;
-	BaseScene* m_baseScene;
-	int m_id;
+	IScene* m_baseScene;
+
 };
+
 
 #endif
