@@ -1,0 +1,41 @@
+{
+	"sounds":
+	[
+		{
+			"type": "preloaded",
+			"name": "explosion",
+			"file": "data/sound/explosion.mp3"
+		}
+	],
+	
+	"images":
+	[
+		{
+			"name": "imagen_prueba",
+			"file": "data/images/alien.png"
+		}
+	],
+	
+	"sprites":
+	[
+		{
+			"name":  "boton_prueba",
+			"image": "imagen_prueba",
+			"layer": "LAYER_FRONT"
+		}
+	],
+
+	"entities":
+	[
+		{
+			"type":   "button",
+			"sprite": "boton_prueba",
+			"x":      50.0,
+			"y":      50.0,
+			"z":      0.0,
+			"scale_x": 1.0,
+			"scale_y": 1.0,
+			"rotation": 0.0
+		}
+	]
+}
