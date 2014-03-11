@@ -1,0 +1,16 @@
+{
+	"Entities" : [
+					{ "Entity" : "TEntity", "Params" : 
+															{"Image" : "1",
+															"Live" : "15"}
+					},
+					{ "Entity" : "TEntity", "Params" : 
+														{"Value" : "1",
+														"Value" : "w"}
+					},
+					{ "Entity" : "TEntity", "Params" : 
+														{"Value" : "1",
+														"Value" : "w"}														
+					}
+				]
+}
