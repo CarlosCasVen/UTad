@@ -11,9 +11,6 @@ public:
     virtual void   End () = 0;
 
     virtual unsigned long int GetId() = 0;
-    
-private:
-    virtual unsigned long int GenerateId() = 0;
 
 };
 

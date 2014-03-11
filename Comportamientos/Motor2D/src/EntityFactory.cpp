@@ -35,8 +35,9 @@ void EntityFactory::End()
 //-------------------------------------
 //
 //-------------------------------------
-Array<IEntity*>& EntityFactory::CreateEntities( const String* path )
+Array<IEntity*>& EntityFactory::CreateEntities( const String* path, TError& error )
 {
+	error = OK;
     String content = String::Read( path->ToCString() );
     rapidjson::Document document;
     document.Parse<0>( content.ToCString() );

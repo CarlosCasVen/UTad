@@ -21,7 +21,8 @@ public:
     virtual void SetScene       ( IScene& scene );
 
 private:
-    IScene* m_currentScene;
+    IScene*		   m_currentScene;
+	Array<IScene*> m_scenes;
 
 };
 

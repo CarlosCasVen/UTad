@@ -19,7 +19,7 @@ public:
     virtual TError Init() = 0;
     virtual void   End () = 0;
 
-    virtual Array<IEntity*>& CreateEntities( const String* path ) = 0;
+    virtual Array<IEntity*>& CreateEntities( const String* path, TError& error ) = 0;
 
 };
 

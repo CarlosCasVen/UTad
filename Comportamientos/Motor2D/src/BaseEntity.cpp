@@ -4,6 +4,14 @@
 //-------------------------------------
 //
 //-------------------------------------
+BaseEntity::BaseEntity( const rapidjson::Value& params )
+{
+	m_params = &params;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
 TError BaseEntity::Init( IScene* m_scene )
 {
     TError error = OK;
@@ -19,7 +27,7 @@ TError BaseEntity::Init( IScene* m_scene )
 void BaseEntity::End()
 {
     m_baseScene = NULL;
-    m_sprite = NULL;
+    m_sprite	= NULL;
 }
 
 //-------------------------------------
@@ -37,7 +45,15 @@ unsigned long int BaseEntity::GetId() const
 {
     return m_id;
 }
-   
+
+//-------------------------------------
+//
+//-------------------------------------
+ void BaseEntity::SetScene( IScene& scene ) 
+ {
+	 m_baseScene = &scene;
+ }
+
 //-------------------------------------
 //
 //-------------------------------------
@@ -60,4 +76,12 @@ void BaseEntity::SetSprite( Sprite* sprite )
 Sprite* BaseEntity::GetSprite()
 {
     return m_sprite;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+const rapidjson::Value& BaseEntity::GetParams()
+{
+	return *m_params;
 }

@@ -13,7 +13,7 @@ public:
     virtual TError Init();
     virtual void   End ();
 
-    virtual Array<IEntity*>& CreateEntities( const String* path );
+    virtual Array<IEntity*>& CreateEntities( const String* path, TError& error );
 
 private:
     IEntity* CreateEntity( TEntity type, TError& error, const rapidjson::Value& params );

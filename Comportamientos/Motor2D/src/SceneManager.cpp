@@ -1,5 +1,5 @@
 #include "../logic/Logic.h"
-
+#define PATH "path"
 
 SceneManager* m_sceneManager = NULL;
 
@@ -9,6 +9,15 @@ SceneManager* m_sceneManager = NULL;
 ISceneManager& ISceneManager::Instance()
 {
     if( !m_sceneManager ) m_sceneManager = NEW( SceneManager, () );
+
+	String content = String::Read( PATH );
+    rapidjson::Document document;
+    document.Parse<0>( content.ToCString() );
+
+	for( unsigned int i = 0; i < document["Scenes"].Size(); i++ )
+	{
+		i
+	}
 
     return *m_sceneManager;
 }
