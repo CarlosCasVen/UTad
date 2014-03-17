@@ -1,6 +1,9 @@
 #ifndef __ISCENE__
 #define __ISCENE__
 
+#include "../include/scene.h"
+
+class Sprite;
 
 class IScene
 {
@@ -11,7 +14,9 @@ public:
     virtual void Update( double elapsedTime ) = 0;
     virtual void Render( double elapsedTime ) = 0;
 
-    virtual Sprite* CreateSprite ( Image& image, Scene::Layer layer = Scene::LAYER_BACK ) = 0;
+    virtual void AddSprite   ( Sprite* sprite, Scene::Layer layer  ) = 0;
+    virtual void RemoveSprite( Sprite* sprite ) = 0;
+
 };
 
 

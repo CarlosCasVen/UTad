@@ -8,6 +8,20 @@ unsigned long int m_id = 0;
 //-------------------------------------
 //
 //-------------------------------------
+IdFactory::IdFactory ()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+IdFactory::~IdFactory()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
 IIdFactory& IIdFactory::Instance()
 {
     if( !m_factory ) m_factory = NEW( IdFactory, () );
@@ -51,4 +65,5 @@ unsigned long int IdFactory::GetId()
 unsigned long int IdFactory::GenerateId()
 {
     m_id++;
+    return m_id;
 }

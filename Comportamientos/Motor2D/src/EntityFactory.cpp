@@ -1,8 +1,22 @@
 #include "../logic/Logic.h"
+#include "../include/u-gine.h"
 
 
 EntityFactory* m_entityFactory = NULL;
 
+//-------------------------------------
+//
+//-------------------------------------
+EntityFactory::EntityFactory()
+{
+}
+ 
+//-------------------------------------
+//
+//-------------------------------------
+EntityFactory::~EntityFactory()
+{
+}
 
 //-------------------------------------
 //
@@ -29,50 +43,67 @@ TError EntityFactory::Init()
 //-------------------------------------
 void EntityFactory::End()
 {
+    m_entities.Clear();
     DEL( m_entityFactory );
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-Array<IEntity*>& EntityFactory::CreateEntities( const String* path, TError& error )
+IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& error )
 {
-	error = OK;
-    String content = String::Read( path->ToCString() );
-    rapidjson::Document document;
-    document.Parse<0>( content.ToCString() );
-
-    if( document.HasParseError() )
+    if( !entityInfo->HasMember("Entity") || !entityInfo->HasMember("Params") ) 
     {
-        return;
+        error = ERROR;
+        return NULL;
     }
 
-    const rapidjson::Value& entities = document["Entities"];    
+    IEntity* newEntity = NULL;
+    TEntity type = GetTypeByName( (*entityInfo)["Entity"].GetString() );
+    const rapidjson::Value* param = &(*entityInfo)["Params"];
 
-    for( unsigned int i = 0; i < entities.Size(); i++ )
-    {
-        const rapidjson::Value& entity = entities[ "Entity" ];
-        const rapidjson::Value& params = entities[ "Params" ];
-    }
-
-    return m_entities;
+//    PlayerEntity( *param );
+    switch (type)
+	{
+/*#define REG_ENTITY(val, name) \
+		case E##val: \
+        newEntity = NEW(val##Entity, ( *param ) ); \ 
+        m_entities.Add( newEntity ); \
+		  break;
+#include "../logic/ENTITY_TYPES.h"
+#undef REG_ENTITY*/
+    case EPlayer:
+        newEntity = NEW(PlayerEntity, ( *param ) ); 
+        m_entities.Add( newEntity ); 
+		  break;
+		default:
+            error = ERROR;
+			break;
+	}
+   
+    return newEntity;
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-IEntity* EntityFactory::CreateEntity( TEntity type, TError& error, const rapidjson::Value& params )
+IEntityFactory::TEntity EntityFactory::GetTypeByName( const char* typeName )
 {
-    IEntity* newEntity = NULL;
+    TEntity type = EInvalid;
 
-    switch( type )
-    {
-    case '0':
-        error = OK;
-        break;
-    default:
-        error = NO_ENTITY_TYPE;
-    }
+/*#define REG_ENTITY(val, name) \
+    if( strcmp( typeName, name ) == 0 ) \
+    type = E##val; \ 
+#include "../logic/ENTITY_TYPES.h"
+#undef REG_ENTITY
+*/
+    if( strcmp( typeName, "EPlayer" ) == 0 ) \
+    type = EPlayer;
+    return type;
+}
 
-    return newEntity;
+
+void EntityFactory::RemoveEntity( IEntity* entity)
+{
+    if( entity ) m_entities.Remove( entity );
 }

@@ -13,8 +13,12 @@ public:
     virtual unsigned long int GetId();
     
 private:
+    IdFactory ();
+    ~IdFactory();
+
     virtual unsigned long int GenerateId();
 
+    friend class IIdFactory;
 };
 
 

@@ -28,12 +28,18 @@ public:
     virtual TError RegistreToEvent   ( IListener& subscriptor, TEvent& tEvent );
 	virtual TError UnregistredToEvent( TEvent& tEvent, IListener& subscriptor );
 
+    virtual void AddEvent( Event& newEvent );
+
 private:
+    EventManager ();
+    ~EventManager();
+
     void ComunicateSubscriptors( Event& newEvent, Array<IListener*> subscriptors );
     
     Array<Subscriptors*> m_subscriptors;
     Array<Event*>        m_eventsRegistred;
 
+    friend class IEventManager;
 };
 
 

@@ -1,1 +1,1 @@
-REG_ENTITY(Player,          "player"			)
+REG_ENTITY(Player,"EPlayer")

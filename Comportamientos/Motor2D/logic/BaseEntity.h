@@ -2,42 +2,32 @@
 #define __BASE_ENTITY__
 
 #include "IEntity.h"
+#include "../json/rapidjson/document.h"
 
-
-class Sprite;
-class BaseScene;
 class IScene;
 
-
-class BaseEntity : public IEntity, IListener
+class BaseEntity : public IEntity
 {
 public:
-	BaseEntity( const rapidjson::Value& params );
+    BaseEntity( const rapidjson::Value& params );
 
-    virtual TError Init( IScene* m_scene );
-    virtual void   End ();
+    virtual TError Init()   = 0;
+    virtual void   End ()   = 0;
 
-    virtual void Update( double ElpasedTime ) = 0;
+    virtual void   Update( double elapsedTime) = 0;
 
-    virtual unsigned long int GetId    () const;
-    virtual Sprite*           GetSprite() const;   
-	virtual void			  SetScene ( IScene& scene );	
-
-    virtual void              ReceiveEvent ( Event& newEvent ) = 0;
-    virtual unsigned long int GetListenerId()                const;
+    virtual unsigned int GetId() const;
+    virtual void         SetParentScene( const IScene* parentScene );
 
 protected:
-    virtual void			  SetSprite( Sprite* sprite );
-    virtual Sprite*			  GetSprite();
-	virtual const rapidjson::Value& GetParams();
+    const rapidjson::Value& GetParams     () const;
+    const IScene*           GetParentScene();
 
 private:
-	const rapidjson::Value* m_params;
-	Sprite*					m_sprite;
-	IScene*					m_baseScene;
-    unsigned long int		m_id;
+    const rapidjson::Value* m_params;
+    unsigned long int       m_id;
+    const IScene*           m_scene; 
 
 };
-
 
 #endif

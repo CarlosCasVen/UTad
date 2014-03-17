@@ -10,16 +10,12 @@ class ISceneManager
 public:
     static ISceneManager& Instance();
 
-	virtual TError  Init()  = 0;
-	virtual void    End ()	= 0;
+    virtual TError Init() = 0;
+    virtual void   End () = 0;
 
     virtual void Update( double elapsedTime ) = 0;
     virtual void Render( double elapsedTime ) = 0;
-
-    virtual void NextScene      ()                  = 0;
-    virtual void PreviousScene  ()                  = 0;
-    virtual void SetScene       ( IScene& scene )   = 0;
-
+    
 };
 
 

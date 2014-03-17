@@ -1,16 +1,7 @@
 {
-	"Entities" : [
-					{ "Entity" : "TEntity", "Params" : 
-															{"Image" : "1",
-															"Live" : "15"}
-					},
-					{ "Entity" : "TEntity", "Params" : 
-														{"Value" : "1",
-														"Value" : "w"}
-					},
-					{ "Entity" : "TEntity", "Params" : 
-														{"Value" : "1",
-														"Value" : "w"}														
-					}
-				]
+	Image : "../data/background.png", "Entities" : [
+												{ 
+												"Entity" : "TEntity", "Params" : { "Image" : "../data/alien.png", "x" : 5, "y" : 5  }
+												}
+											]
 }

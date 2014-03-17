@@ -3,6 +3,7 @@
 
 
 enum TEvent;
+class Event;
 class IListener;
 
 
@@ -18,6 +19,8 @@ public:
 
     virtual TError RegistreToEvent   ( IListener& subscriptor, TEvent& tEvent )   = 0;
 	virtual TError UnregistredToEvent( TEvent& tEvent, IListener& subscriptor )   = 0;
+
+    virtual void AddEvent( Event& newEvent ) = 0;
 
 };
 

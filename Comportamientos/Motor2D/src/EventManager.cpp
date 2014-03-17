@@ -6,6 +6,20 @@ EventManager* m_eventManager = NULL;
 //-------------------------------------
 //
 //-------------------------------------
+EventManager ::EventManager ()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+EventManager::~EventManager()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
 IEventManager& IEventManager::Instance()
 {
     if( m_eventManager == NULL ) m_eventManager = NEW( EventManager, () );
@@ -45,6 +59,8 @@ void EventManager::Update()
             }
         }
     }
+
+    m_eventsRegistred.Clear();
 }
 
  //-------------------------------------
@@ -68,7 +84,7 @@ TError EventManager::RegistreToEvent( IListener& subscriptor, TEvent& tEvent )
             {
                 IListener* listener =  m_subscriptors[i]->m_subscriptors[k];
                
-                if( listener->GetId() == subscriptor.GetId() )
+                if( listener->GetListenerId() == subscriptor.GetListenerId() )
                 {
                     foundSubscriptor = true;
                 }
@@ -103,7 +119,7 @@ TError EventManager::UnregistredToEvent( TEvent& tEvent, IListener& subscriptor 
             {
                 IListener* listener =  m_subscriptors[i]->m_subscriptors[k];
                
-                if( listener->GetId() == subscriptor.GetId() )
+                if( listener->GetListenerId() == subscriptor.GetListenerId() )
                 {
                     foundSubscriptor = true;
                     m_subscriptors[i]->m_subscriptors.RemoveAt( k );
@@ -127,4 +143,12 @@ void EventManager::ComunicateSubscriptors( Event& newEvent, Array<IListener*> su
     {
         subscriptors[i]->ReceiveEvent( newEvent );
     }
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void EventManager::AddEvent( Event& newEvent )
+{
+    m_eventsRegistred.Add( &newEvent );
 }

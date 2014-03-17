@@ -5,7 +5,6 @@
 #include "../json/rapidjson/document.h"
 
 enum TError;
-enum TEntity;
 
 class EntityFactory : public IEntityFactory
 {
@@ -13,14 +12,18 @@ public:
     virtual TError Init();
     virtual void   End ();
 
-    virtual Array<IEntity*>& CreateEntities( const String* path, TError& error );
-
-private:
-    IEntity* CreateEntity( TEntity type, TError& error, const rapidjson::Value& params );
-
-    unsigned long int m_entityId;
-    Array<IEntity*>   m_entities;
+    virtual IEntity* GetEntity   ( const rapidjson::Value* entityInfo, TError& error );
+    virtual void     RemoveEntity( IEntity* entity);  
     
+private:
+    EntityFactory ();
+    ~EntityFactory();
+
+    TEntity GetTypeByName( const char* typeName );
+
+    Array<IEntity*> m_entities;
+
+    friend class IEntityFactory;
 };
 
 

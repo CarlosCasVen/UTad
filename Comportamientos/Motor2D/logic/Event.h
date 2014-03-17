@@ -2,9 +2,13 @@
 #define __EVENT__
 
 
-enum TEvent;
+
 class IEntity;
 
+enum TEvent
+{
+    M,
+};
 
 class Event
 {

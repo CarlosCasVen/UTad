@@ -1,33 +1,27 @@
 #ifndef __LOGIC__
 #define __LOGIC__
 
+#include "IEntity.h"
+#include "IEntityFactory.h"
+#include "IEventManager.h"
+#include "IGame.h"
+#include "IIdFactory.h"
+#include "IListener.h"
+#include "ISceneManager.h"
+#include "IScene.h"
 
-enum TEvent
-{
-    MOVEMENT
-};
-
+#include "Event.h"
 #include "BaseEntity.h"
 #include "BaseScene.h"
 #include "EntityFactory.h"
-#include "EventManager.h"
-#include "leaks.h"
-#include "SceneManager.h"
-#include "IEntity.h"
-#include "IGame.h"
-#include "IEntityFactory.h"
-#include "Event.h"
-#include "IEventManager.h"
-#include "IScene.h"
-#include "ISceneManager.h"
-#include "IListener.h"
-#include "IIdFactory.h"
-#include "Game.h"
 #include "Error.h"
+#include "EventManager.h"
+#include "Game.h"
+#include "IdFactory.h"
+#include "SceneManager.h"
+
 #include "leaks.h"
 #include "../json/rapidjson/document.h"
-#include "IdFactory.h"
-#include "Player.h"
 
-
+#include "PlayerEntity.h"
 #endif

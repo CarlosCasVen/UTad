@@ -1,4 +1,4 @@
-#include "../logic/Logic.h"
+#include "../logic/logic.h"
 
 
 //-------------------------------------
@@ -6,42 +6,14 @@
 //-------------------------------------
 BaseEntity::BaseEntity( const rapidjson::Value& params )
 {
-	m_params = &params;
+    m_params = &params;
+    m_id     = IIdFactory::Instance().GetId(); //PREGUNTAR A TOMAS
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-TError BaseEntity::Init( IScene* m_scene )
-{
-    TError error = OK;
-    m_id = IIdFactory::Instance().GetId();
-    m_scene = m_scene;
-
-    return error;
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-void BaseEntity::End()
-{
-    m_baseScene = NULL;
-    m_sprite	= NULL;
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-Sprite* BaseEntity::GetSprite() const
-{
-    return m_sprite;
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-unsigned long int BaseEntity::GetId() const
+unsigned int BaseEntity::GetId() const
 {
     return m_id;
 }
@@ -49,39 +21,23 @@ unsigned long int BaseEntity::GetId() const
 //-------------------------------------
 //
 //-------------------------------------
- void BaseEntity::SetScene( IScene& scene ) 
- {
-	 m_baseScene = &scene;
- }
-
-//-------------------------------------
-//
-//-------------------------------------
-unsigned long int BaseEntity::GetListenerId() const
+void BaseEntity::SetParentScene( const IScene* parentScene )
 {
-    return GetId();
+    m_scene = parentScene;
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-void BaseEntity::SetSprite( Sprite* sprite )
+const rapidjson::Value& BaseEntity::GetParams() const
 {
-    m_sprite = sprite;
+    return *m_params;
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-Sprite* BaseEntity::GetSprite()
+const IScene* BaseEntity::GetParentScene()
 {
-    return m_sprite;
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-const rapidjson::Value& BaseEntity::GetParams()
-{
-	return *m_params;
+    return m_scene;
 }

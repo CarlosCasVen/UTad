@@ -1,7 +1,10 @@
-#include "../logic/Logic.h"
-#define PATH "path"
+#include "../logic/logic.h"
+#include "../include/u-gine.h"
 
-SceneManager* m_sceneManager = NULL;
+
+#define PATH_SCENE "data/config.txt"
+
+ISceneManager* m_sceneManager = NULL;
 
 //-------------------------------------
 //
@@ -10,24 +13,25 @@ ISceneManager& ISceneManager::Instance()
 {
     if( !m_sceneManager ) m_sceneManager = NEW( SceneManager, () );
 
-	String content = String::Read( PATH );
-    rapidjson::Document document;
-    document.Parse<0>( content.ToCString() );
-
-	for( unsigned int i = 0; i < document["Scenes"].Size(); i++ )
-	{
-		i
-	}
-
     return *m_sceneManager;
 }
+
 
 //-------------------------------------
 //
 //-------------------------------------
-TError SceneManager::Init()  
+TError SceneManager::Init()
 {
     TError error = OK;
+
+    String* prueba = new String( PATH_SCENE );
+
+    m_currentScene = NEW( BaseScene, ( prueba ) ); 
+
+    if( !m_currentScene ) error = ERROR;
+    else                  m_currentScene->Init();
+    
+    delete prueba;
 
     return error;
 }
@@ -37,6 +41,7 @@ TError SceneManager::Init()
 //-------------------------------------
 void SceneManager::End()
 {
+    DEL( m_currentScene );
     DEL( m_sceneManager );
 }
 
@@ -45,35 +50,26 @@ void SceneManager::End()
 //-------------------------------------
 void SceneManager::Update( double elapsedTime )
 {
-    if( m_currentScene ) m_currentScene->Update( elapsedTime );
+    m_currentScene->Update( elapsedTime );
+
 }
 
-//-------------------------------------
-//
-//-------------------------------------
 void SceneManager::Render( double elapsedTime )
 {
-    if( m_currentScene ) m_currentScene->Render( elapsedTime );
+    m_currentScene->Render( elapsedTime );
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-void SceneManager::NextScene()
+SceneManager::SceneManager ()
 {
+
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-void SceneManager::PreviousScene()
+SceneManager::~SceneManager()
 {
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-void SceneManager::SetScene( IScene& scene )
-{
-    m_currentScene = &scene;
 }

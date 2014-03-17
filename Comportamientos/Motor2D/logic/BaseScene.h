@@ -6,26 +6,26 @@
 #include "../include/scene.h"
 
 
-class IEntity;
-
-
 class BaseScene : public IScene
 {
 public:
+    BaseScene( const String* sceneInfo );
+
     virtual TError Init();
     virtual void   End ();
 
     virtual void Update( double elapsedTime );
     virtual void Render( double elapsedTime );
 
-    virtual Sprite* CreateSprite ( Image& image, Scene::Layer layer = Scene::LAYER_BACK );
+    virtual void AddSprite   ( Sprite* sprite, Scene::Layer layer );
+    virtual void RemoveSprite( Sprite* sprite );
 
 private:
-	Array<IEntity*> m_entities;
-	Scene*          m_scene;
-    const String*   m_json;    
+    TError GenerateEntities();
 
+    Array<IEntity*> m_entities;
+    Scene*          m_scene;
+    const String*   m_sceneInfo;
 };
-
 
 #endif
