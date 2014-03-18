@@ -47,8 +47,13 @@ TError BaseScene::Init()
 
 void BaseScene::End()
 {
-    for( unsigned int i = 0; i < m_entities.Size(); i++ ) IEntityFactory::Instance().RemoveEntity( m_entities[i] );
-    DEL( m_scene );
+    for( int i = m_entities.Size() -1; i >=  0; i-- ) 
+	{
+		IEntity* entityToDelete = m_entities[i];
+		entityToDelete->End();
+		IEntityFactory::Instance().RemoveEntity( entityToDelete );
+	}
+	DEL( m_scene );
 
 }
 
@@ -58,7 +63,7 @@ void BaseScene::Update( double elapsedTime )
     m_scene->Update( elapsedTime );
 }
 
-void BaseScene::Render( double elapsedTime )
+void BaseScene::Render()
 {
     m_scene->Render();
 }

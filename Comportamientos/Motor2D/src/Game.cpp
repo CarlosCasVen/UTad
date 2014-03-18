@@ -23,11 +23,10 @@ IGame& IGame::Instance()
 TError Game::Init()
 {
     TError error = OK; 
-
+	if( error == OK ) error = IEntityFactory::Instance().Init();
+    if( error == OK ) error = IIdFactory::Instance().Init();
     if( error == OK ) error = IEventManager::Instance().Init();
     if( error == OK ) error = ISceneManager::Instance().Init();
-    if( error == OK ) error = IEntityFactory::Instance().Init();
-    if( error == OK ) error = IIdFactory::Instance().Init();
 
     return error;
 }
@@ -37,10 +36,11 @@ TError Game::Init()
 //-------------------------------------
 void Game::End()
 {
+	IEventManager::Instance().End();
+	ISceneManager::Instance().End();    
     IIdFactory::Instance().End();
     IEntityFactory::Instance().End();
-    ISceneManager::Instance().End();
-    IEventManager::Instance().End();
+    
 
     DEL( m_game );
 }
@@ -57,7 +57,7 @@ void Game::Update( double elapsedTime )
 //-------------------------------------
 //
 //-------------------------------------
-void Game::Render( double elapsedTime )
+void Game::Render()
 {
-    ISceneManager::Instance().Render( Screen::Instance().ElapsedTime() );
+    ISceneManager::Instance().Render();
 }

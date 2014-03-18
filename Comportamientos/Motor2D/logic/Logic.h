@@ -24,4 +24,8 @@
 #include "../json/rapidjson/document.h"
 
 #include "PlayerEntity.h"
+
+#include "IComponent.h"
+#include "BaseComponent.h"
+
 #endif

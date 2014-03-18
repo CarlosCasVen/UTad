@@ -14,19 +14,22 @@ public:
     virtual TError Init()   = 0;
     virtual void   End ()   = 0;
 
-    virtual void   Update( double elapsedTime) = 0;
+    virtual void Update( double elapsedTime);
 
-    virtual unsigned int GetId() const;
+    virtual unsigned int GetId()							   const;
     virtual void         SetParentScene( const IScene* parentScene );
 
 protected:
     const rapidjson::Value& GetParams     () const;
     const IScene*           GetParentScene();
+	virtual void AddComponent   ( IComponent* component );
+	virtual void RemoveComponent( IComponent* component );
 
 private:
     const rapidjson::Value* m_params;
     unsigned long int       m_id;
     const IScene*           m_scene; 
+	Array<IComponent*>      m_components;
 
 };
 

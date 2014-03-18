@@ -24,15 +24,13 @@ TError SceneManager::Init()
 {
     TError error = OK;
 
-    String* prueba = new String( PATH_SCENE );
+    String prueba ( PATH_SCENE );
 
-    m_currentScene = NEW( BaseScene, ( prueba ) ); 
+    m_currentScene = NEW( BaseScene, ( &prueba ) ); 
 
     if( !m_currentScene ) error = ERROR;
     else                  m_currentScene->Init();
     
-    delete prueba;
-
     return error;
 }
 
@@ -41,6 +39,7 @@ TError SceneManager::Init()
 //-------------------------------------
 void SceneManager::End()
 {
+	if( m_currentScene ) m_currentScene->End();
     DEL( m_currentScene );
     DEL( m_sceneManager );
 }
@@ -54,9 +53,9 @@ void SceneManager::Update( double elapsedTime )
 
 }
 
-void SceneManager::Render( double elapsedTime )
+void SceneManager::Render()
 {
-    m_currentScene->Render( elapsedTime );
+    m_currentScene->Render();
 }
 
 //-------------------------------------

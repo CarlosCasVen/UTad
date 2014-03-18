@@ -10,6 +10,11 @@ BaseEntity::BaseEntity( const rapidjson::Value& params )
     m_id     = IIdFactory::Instance().GetId(); //PREGUNTAR A TOMAS
 }
 
+void BaseEntity::Update( double elapsedTime)
+{
+	for( unsigned int i = 0; i < m_components.Size(); i++ ) m_components[i]->Update( elapsedTime );
+}
+
 //-------------------------------------
 //
 //-------------------------------------
@@ -40,4 +45,9 @@ const rapidjson::Value& BaseEntity::GetParams() const
 const IScene* BaseEntity::GetParentScene()
 {
     return m_scene;
+}
+
+void BaseEntity::AddComponent( IComponent* component )
+{
+	m_components.Add( component );
 }

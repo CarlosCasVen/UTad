@@ -11,7 +11,7 @@ public:
 	virtual void   End()    = 0;
 
 	virtual void Update( double elapsedTime ) = 0;
-	virtual void Render( double elapsedTime ) = 0;
+	virtual void Render()					  = 0;
 
 };
 

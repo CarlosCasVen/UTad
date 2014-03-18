@@ -19,7 +19,7 @@ private:
     EntityFactory ();
     ~EntityFactory();
 
-    TEntity GetTypeByName( const char* typeName );
+    TEntity GetTypeByName( const char* tName );
 
     Array<IEntity*> m_entities;
 

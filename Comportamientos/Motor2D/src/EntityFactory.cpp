@@ -62,20 +62,17 @@ IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& e
     TEntity type = GetTypeByName( (*entityInfo)["Entity"].GetString() );
     const rapidjson::Value* param = &(*entityInfo)["Params"];
 
-//    PlayerEntity( *param );
+//	newEntity = NEW(val##Entity, ( *param ) ); \ 
+
     switch (type)
 	{
-/*#define REG_ENTITY(val, name) \
+#define REG_ENTITY(val, name) \
 		case E##val: \
-        newEntity = NEW(val##Entity, ( *param ) ); \ 
+		newEntity = NEW(val##Entity,(*param)); \
         m_entities.Add( newEntity ); \
 		  break;
 #include "../logic/ENTITY_TYPES.h"
-#undef REG_ENTITY*/
-    case EPlayer:
-        newEntity = NEW(PlayerEntity, ( *param ) ); 
-        m_entities.Add( newEntity ); 
-		  break;
+#undef REG_ENTITY
 		default:
             error = ERROR;
 			break;
@@ -87,19 +84,16 @@ IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& e
 //-------------------------------------
 //
 //-------------------------------------
-IEntityFactory::TEntity EntityFactory::GetTypeByName( const char* typeName )
+IEntityFactory::TEntity EntityFactory::GetTypeByName( const char* tName )
 {
     TEntity type = EInvalid;
 
-/*#define REG_ENTITY(val, name) \
-    if( strcmp( typeName, name ) == 0 ) \
-    type = E##val; \ 
+#define REG_ENTITY(val, name) \
+    if( strcmp( tName, name ) == 0 ) \
+    type = E##val;  
 #include "../logic/ENTITY_TYPES.h"
 #undef REG_ENTITY
-*/
-    if( strcmp( typeName, "EPlayer" ) == 0 ) \
-    type = EPlayer;
-    return type;
+	return type;
 }
 
 

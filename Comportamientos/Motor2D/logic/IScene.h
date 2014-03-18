@@ -12,10 +12,10 @@ public:
     virtual void   End () = 0;
 
     virtual void Update( double elapsedTime ) = 0;
-    virtual void Render( double elapsedTime ) = 0;
+    virtual void Render() = 0;
 
     virtual void AddSprite   ( Sprite* sprite, Scene::Layer layer  ) = 0;
-    virtual void RemoveSprite( Sprite* sprite ) = 0;
+    virtual void RemoveSprite( Sprite* sprite )						 = 0;
 
 };
 

@@ -8,12 +8,12 @@ class IEntityFactory
 public:
     enum TEntity
     {
-   /*     #define REG_ENTITY(val, name) \
+        #define REG_ENTITY(val, name) \
 		E##val,
         #include "ENTITY_TYPES.h"
-        #undef REG_ENTITY*/
+        #undef REG_ENTITY
 		// La última.
-        EPlayer,
+//        EPlayer,
 		EInvalid,
     };
     static IEntityFactory& Instance();
