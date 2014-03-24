@@ -24,13 +24,19 @@ TError SceneManager::Init()
 {
     TError error = OK;
 
-    String prueba ( PATH_SCENE );
+    String content = String::Read( PATH_SCENE );
 
-    m_currentScene = NEW( BaseScene, ( &prueba ) ); 
+    rapidjson::Document document;
+    document.Parse<0>( (char*) content.ToCString() );
 
-    if( !m_currentScene ) error = ERROR;
-    else                  m_currentScene->Init();
-    
+    if( document.HasParseError() ) return ERROR;
+    if( !document.HasMember( "Scenes" ) ) error = ERROR;
+
+    m_scenes = &document["Scenes"];
+    m_indexCurrentScene = 0;
+
+    CreateScene( m_scenes[m_indexCurrentScene] );
+
     return error;
 }
 
@@ -53,6 +59,9 @@ void SceneManager::Update( double elapsedTime )
 
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void SceneManager::Render()
 {
     m_currentScene->Render();
@@ -61,9 +70,57 @@ void SceneManager::Render()
 //-------------------------------------
 //
 //-------------------------------------
+void SceneManager::NextScene()
+{
+    m_currentScene->End();
+    DEL( m_currentScene );
+    CreateScene( m_scenes[++m_indexCurrentScene] );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::PreviousScene()
+{
+    m_currentScene->End();
+    DEL( m_currentScene );
+    CreateScene( m_scenes[++m_indexCurrentScene] );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::SetScene( unsigned int index )
+{
+    m_currentScene->End();
+    DEL( m_currentScene );
+    m_indexCurrentScene = index;
+    CreateScene( m_indexCurrentScene ); 
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::CreateScene( const rapidjson::Value& infoScene )
+{
+    if( strcmp( infoScene["Scene"].GetString(), "BaseScene" ) == 0 )
+    {
+        const String info( infoScene["Param"].GetString() );
+        m_currentScene = NEW( BaseScene, ( &info ) );
+        m_currentScene->Init();
+    }
+    else
+    {
+
+    }
+}
+
+//-------------------------------------
+//
+//-------------------------------------
 SceneManager::SceneManager ()
 {
-
+    m_id = IIdFactory::Instance().GetId();
 }
 
 //-------------------------------------
@@ -71,4 +128,19 @@ SceneManager::SceneManager ()
 //-------------------------------------
 SceneManager::~SceneManager()
 {
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::ReceiveEvent ( Event& newEvent )
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+unsigned long int SceneManager::GetListenerId() const
+{
+    return m_id;
 }

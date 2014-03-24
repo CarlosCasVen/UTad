@@ -16,6 +16,7 @@ public:
 
 	virtual unsigned long int GetId	   ()		   const   = 0;
 	virtual void			  SetParent( IEntity* entity ) = 0; 
+    virtual TComponent        GetType  ()		   const   = 0;
 };
 
 

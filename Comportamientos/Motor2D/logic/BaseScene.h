@@ -6,7 +6,7 @@
 #include "../include/scene.h"
 
 
-class BaseScene : public IScene
+class BaseScene : public IScene, IListener
 {
 public:
     BaseScene( const String* sceneInfo );
@@ -20,12 +20,16 @@ public:
     virtual void AddSprite   ( Sprite* sprite, Scene::Layer layer );
     virtual void RemoveSprite( Sprite* sprite );
 
+    virtual void              ReceiveEvent ( Event& newEvent );
+    virtual unsigned long int GetListenerId()            const;
+
 private:
     TError GenerateEntities();
 
-    Array<IEntity*> m_entities;
-    Scene*          m_scene;
-    const String*   m_sceneInfo;
+    Array<IEntity*>   m_entities;
+    Scene*            m_scene;
+    const String*     m_sceneInfo;
+    unsigned long int m_id;
 };
 
 #endif

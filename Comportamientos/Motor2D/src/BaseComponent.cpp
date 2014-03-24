@@ -1,6 +1,9 @@
 #include "../logic/logic.h"
 
 
+//-------------------------------------
+//
+//-------------------------------------
 BaseComponent::BaseComponent()
 {
 	m_id = IIdFactory::Instance().GetId();
@@ -28,4 +31,28 @@ unsigned long int BaseComponent::GetId() const
 void BaseComponent::SetParent( IEntity* entity )
 {
 	m_entityParent = entity;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+IEntity* BaseComponent::GetParent()
+{
+    return m_entityParent;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+TComponent BaseComponent::GetType() const
+{
+    return m_type;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseComponent::SetType( TComponent type )
+{
+    m_type = type;
 }

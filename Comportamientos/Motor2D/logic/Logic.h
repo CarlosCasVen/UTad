@@ -27,5 +27,7 @@
 
 #include "IComponent.h"
 #include "BaseComponent.h"
+#include "IComponentFactory.h"
+#include "ComponentFactory.h"
 
 #endif

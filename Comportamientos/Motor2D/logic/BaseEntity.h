@@ -5,14 +5,15 @@
 #include "../json/rapidjson/document.h"
 
 class IScene;
+class IComponent;
 
 class BaseEntity : public IEntity
 {
 public:
     BaseEntity( const rapidjson::Value& params );
 
-    virtual TError Init()   = 0;
-    virtual void   End ()   = 0;
+    virtual TError Init();
+    virtual void   End ();
 
     virtual void Update( double elapsedTime);
 
@@ -20,10 +21,10 @@ public:
     virtual void         SetParentScene( const IScene* parentScene );
 
 protected:
-    const rapidjson::Value& GetParams     () const;
-    const IScene*           GetParentScene();
-	virtual void AddComponent   ( IComponent* component );
-	virtual void RemoveComponent( IComponent* component );
+    const rapidjson::Value& GetParams      () const;
+    const IScene*           GetParentScene ();
+	virtual void            AddComponent   ( IComponent* component );
+	virtual void            RemoveComponent( IComponent* component );
 
 private:
     const rapidjson::Value* m_params;

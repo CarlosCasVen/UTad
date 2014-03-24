@@ -2,8 +2,10 @@
 #define __SCENE_MANAGER__
 
 #include "ISceneManager.h"
+#include "../json/rapidjson/document.h"
 
-class SceneManager : public ISceneManager
+
+class SceneManager : public ISceneManager, IListener
 {
 public:
     virtual TError Init();
@@ -12,11 +14,23 @@ public:
     virtual void Update( double elapsedTime );
     virtual void Render();
 
+    virtual void NextScene    ();
+    virtual void PreviousScene();
+    virtual void SetScene     ( unsigned int index );
+
+    virtual void              ReceiveEvent ( Event& newEvent );
+    virtual unsigned long int GetListenerId()            const;
+
 private:
     SceneManager ();
     ~SceneManager();
 
-    IScene* m_currentScene;
+    void CreateScene( const rapidjson::Value& infoScene );
+
+    IScene*                 m_currentScene;
+    unsigned int            m_indexCurrentScene;
+    const rapidjson::Value* m_scenes;
+    unsigned long int       m_id;
 
     friend class ISceneManager;
 };

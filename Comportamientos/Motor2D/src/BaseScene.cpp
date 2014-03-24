@@ -2,20 +2,23 @@
 #include "../include/u-gine.h"
 
 
-
+//-------------------------------------
+//
+//-------------------------------------
 BaseScene::BaseScene( const String* sceneInfo )
 {
+    m_id        = IIdFactory::Instance().GetId();
     m_sceneInfo = sceneInfo;
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 TError BaseScene::Init()
 {
     TError error = OK;
 
     String content = String::Read( m_sceneInfo->ToCString() );
-    
-    Screen::Instance().SetTitle( *m_sceneInfo );
 
     rapidjson::Document document;
     document.Parse<0>( (char*) content.ToCString() );
@@ -39,12 +42,18 @@ TError BaseScene::Init()
             newEntity->Init();
             m_entities.Add( newEntity );
         }
+        else
+        {
+            IEntityFactory::Instance().RemoveEntity( newEntity );
+        }
     }
 
     return error; 
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::End()
 {
     for( int i = m_entities.Size() -1; i >=  0; i-- ) 
@@ -53,31 +62,56 @@ void BaseScene::End()
 		entityToDelete->End();
 		IEntityFactory::Instance().RemoveEntity( entityToDelete );
 	}
+    m_entities.Clear();
 	DEL( m_scene );
 
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::Update( double elapsedTime )
 {
     for( unsigned int i = 0; i < m_entities.Size(); i++ ) m_entities[i]->Update( elapsedTime );
     m_scene->Update( elapsedTime );
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::Render()
 {
     m_scene->Render();
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::AddSprite( Sprite* sprite, Scene::Layer layer )
 {
     m_scene->AddSprite( sprite, layer );
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::RemoveSprite( Sprite* sprite )
 {
     m_scene->DeleteSprite( sprite );
 }
 
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::ReceiveEvent ( Event& newEvent )
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+unsigned long int BaseScene::GetListenerId() const
+{
+    return m_id;
+}
 

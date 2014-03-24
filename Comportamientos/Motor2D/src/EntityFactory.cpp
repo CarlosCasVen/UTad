@@ -62,8 +62,6 @@ IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& e
     TEntity type = GetTypeByName( (*entityInfo)["Entity"].GetString() );
     const rapidjson::Value* param = &(*entityInfo)["Params"];
 
-//	newEntity = NEW(val##Entity, ( *param ) ); \ 
-
     switch (type)
 	{
 #define REG_ENTITY(val, name) \
