@@ -24,8 +24,6 @@ private:
 
     TComponent GetTypeByName( const char* tName );
 
-    Array<IComponent*> m_components;
-
     friend class IComponentFactory;
 };
 

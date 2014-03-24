@@ -25,7 +25,6 @@ TError ComponentFactory::Init()
 //-------------------------------------
 void ComponentFactory::End()
 {
-    m_components.Clear();
     DEL(m_componentFactory);
 }
 
@@ -49,8 +48,7 @@ void ComponentFactory::End()
 #define REG_COMPONENT(val, name) \
 		case E##val: \
 		  newComponent = NEW(val##Component,(*param)); \
-          m_components.Add( newComponent ); \
-		  break;
+          break;
 #include "../logic/COMPONENT_TYPES.h"
 #undef REG_COMPONENT
 		default:
@@ -66,7 +64,7 @@ void ComponentFactory::End()
 //-------------------------------------
  void ComponentFactory::RemoveComponent( IComponent* component)
  {
-     if( component ) m_components.Remove( component );
+     if( component ) DEL( component );
  }
 
 //-------------------------------------

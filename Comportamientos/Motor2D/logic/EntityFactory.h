@@ -13,15 +13,13 @@ public:
     virtual void   End ();
 
     virtual IEntity* GetEntity   ( const rapidjson::Value* entityInfo, TError& error );
-    virtual void     RemoveEntity( IEntity* entity);  
+    virtual void     RemoveEntity( IEntity* entity );   
     
 private:
     EntityFactory ();
     ~EntityFactory();
 
     TEntity GetTypeByName( const char* tName );
-
-    Array<IEntity*> m_entities;
 
     friend class IEntityFactory;
 };

@@ -26,8 +26,10 @@ private:
     ~SceneManager();
 
     void CreateScene( const rapidjson::Value& infoScene );
+	void DestroyScene();
 
     IScene*                 m_currentScene;
+	IScene*                 m_previousScene;
     unsigned int            m_indexCurrentScene;
     const rapidjson::Value* m_scenes;
     unsigned long int       m_id;

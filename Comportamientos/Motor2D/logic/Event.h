@@ -7,7 +7,7 @@ class IEntity;
 
 enum TEvent
 {
-    M,
+    ChangeScene,
 };
 
 class Event

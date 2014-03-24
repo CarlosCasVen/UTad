@@ -30,4 +30,6 @@
 #include "IComponentFactory.h"
 #include "ComponentFactory.h"
 
+#include "EventChangeScene.h"
+
 #endif

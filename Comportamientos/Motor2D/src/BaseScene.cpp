@@ -44,7 +44,7 @@ TError BaseScene::Init()
         }
         else
         {
-            IEntityFactory::Instance().RemoveEntity( newEntity );
+			IEntityFactory::Instance().RemoveEntity( newEntity );
         }
     }
 
@@ -60,9 +60,10 @@ void BaseScene::End()
 	{
 		IEntity* entityToDelete = m_entities[i];
 		entityToDelete->End();
+		m_entities.Remove( m_entities[i] );
 		IEntityFactory::Instance().RemoveEntity( entityToDelete );
 	}
-    m_entities.Clear();
+
 	DEL( m_scene );
 
 }

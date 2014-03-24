@@ -22,7 +22,7 @@ public:
     virtual void   End () = 0;
 
     virtual IEntity* GetEntity   ( const rapidjson::Value* entityInfo, TError& error ) = 0;
-    virtual void     RemoveEntity( IEntity* entity)                                    = 0;   
+    virtual void     RemoveEntity( IEntity* entity )								   = 0;   
 
 };
 

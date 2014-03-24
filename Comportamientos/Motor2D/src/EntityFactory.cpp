@@ -43,7 +43,6 @@ TError EntityFactory::Init()
 //-------------------------------------
 void EntityFactory::End()
 {
-    m_entities.Clear();
     DEL( m_entityFactory );
 }
 
@@ -67,7 +66,6 @@ IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& e
 #define REG_ENTITY(val, name) \
 		case E##val: \
 		newEntity = NEW(val##Entity,(*param)); \
-        m_entities.Add( newEntity ); \
 		  break;
 #include "../logic/ENTITY_TYPES.h"
 #undef REG_ENTITY
@@ -95,7 +93,7 @@ IEntityFactory::TEntity EntityFactory::GetTypeByName( const char* tName )
 }
 
 
-void EntityFactory::RemoveEntity( IEntity* entity)
+void EntityFactory::RemoveEntity( IEntity* entity )
 {
-    if( entity ) m_entities.Remove( entity );
+    if( entity ) DEL( entity );
 }

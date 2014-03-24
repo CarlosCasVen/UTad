@@ -55,8 +55,8 @@ void SceneManager::End()
 //-------------------------------------
 void SceneManager::Update( double elapsedTime )
 {
-    m_currentScene->Update( elapsedTime );
-
+	if( m_previousScene ) DestroyScene();
+    if( m_currentScene  ) m_currentScene->Update( elapsedTime );
 }
 
 //-------------------------------------
@@ -64,7 +64,7 @@ void SceneManager::Update( double elapsedTime )
 //-------------------------------------
 void SceneManager::Render()
 {
-    m_currentScene->Render();
+    if( m_currentScene ) m_currentScene->Render();
 }
 
 //-------------------------------------
@@ -72,8 +72,7 @@ void SceneManager::Render()
 //-------------------------------------
 void SceneManager::NextScene()
 {
-    m_currentScene->End();
-    DEL( m_currentScene );
+	m_previousScene = m_currentScene;
     CreateScene( m_scenes[++m_indexCurrentScene] );
 }
 
@@ -82,8 +81,7 @@ void SceneManager::NextScene()
 //-------------------------------------
 void SceneManager::PreviousScene()
 {
-    m_currentScene->End();
-    DEL( m_currentScene );
+	m_previousScene = m_currentScene;
     CreateScene( m_scenes[++m_indexCurrentScene] );
 }
 
@@ -92,9 +90,8 @@ void SceneManager::PreviousScene()
 //-------------------------------------
 void SceneManager::SetScene( unsigned int index )
 {
-    m_currentScene->End();
-    DEL( m_currentScene );
-    m_indexCurrentScene = index;
+	m_previousScene = m_currentScene;
+	m_indexCurrentScene = index;
     CreateScene( m_indexCurrentScene ); 
 }
 
@@ -109,10 +106,7 @@ void SceneManager::CreateScene( const rapidjson::Value& infoScene )
         m_currentScene = NEW( BaseScene, ( &info ) );
         m_currentScene->Init();
     }
-    else
-    {
-
-    }
+ 
 }
 
 //-------------------------------------
@@ -120,7 +114,8 @@ void SceneManager::CreateScene( const rapidjson::Value& infoScene )
 //-------------------------------------
 SceneManager::SceneManager ()
 {
-    m_id = IIdFactory::Instance().GetId();
+    m_id			= IIdFactory::Instance().GetId();
+	m_previousScene = NULL;
 }
 
 //-------------------------------------
@@ -135,6 +130,13 @@ SceneManager::~SceneManager()
 //-------------------------------------
 void SceneManager::ReceiveEvent ( Event& newEvent )
 {
+	switch( newEvent.GetType() )
+	{
+	case ChangeScene: 
+		EventChangeScene castEvent = reinterpret_cast<EventChangeScene&>( newEvent );
+		SetScene( castEvent.GetIndexNextScene() );
+		break;
+	}
 }
 
 //-------------------------------------
@@ -143,4 +145,16 @@ void SceneManager::ReceiveEvent ( Event& newEvent )
 unsigned long int SceneManager::GetListenerId() const
 {
     return m_id;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SceneManager::DestroyScene()
+{
+	if( m_previousScene )
+	{
+		m_previousScene->End();
+		DEL( m_previousScene );
+	}
 }
