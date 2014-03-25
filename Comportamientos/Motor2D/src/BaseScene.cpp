@@ -73,8 +73,12 @@ void BaseScene::End()
 //-------------------------------------
 void BaseScene::Update( double elapsedTime )
 {
+	DestroyEntities();
+
     for( unsigned int i = 0; i < m_entities.Size(); i++ ) m_entities[i]->Update( elapsedTime );
-    m_scene->Update( elapsedTime );
+    
+	if( m_scene )m_scene->Update( elapsedTime );
+
 }
 
 //-------------------------------------
@@ -116,3 +120,22 @@ unsigned long int BaseScene::GetListenerId() const
     return m_id;
 }
 
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::RemoveEntity( IEntity* entity )
+{
+	m_entitiesToDelete.Add( entity );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::DestroyEntities ()
+{
+	for( unsigned int i = m_entitiesToDelete.Size() ; i > 0; i-- )
+	{
+		m_entities.Remove( m_entitiesToDelete[i] );
+		IEntityFactory::Instance().RemoveEntity( m_entitiesToDelete[i] );
+	}
+}

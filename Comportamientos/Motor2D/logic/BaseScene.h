@@ -23,10 +23,14 @@ public:
     virtual void              ReceiveEvent ( Event& newEvent );
     virtual unsigned long int GetListenerId()            const;
 
+	virtual void RemoveEntity( IEntity* entity );
+
 private:
     TError GenerateEntities();
+	void   DestroyEntities ();
 
     Array<IEntity*>   m_entities;
+	Array<IEntity*>   m_entitiesToDelete;
     Scene*            m_scene;
     const String*     m_sceneInfo;
     unsigned long int m_id;
