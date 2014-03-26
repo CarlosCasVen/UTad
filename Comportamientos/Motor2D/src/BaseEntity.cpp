@@ -13,6 +13,18 @@ BaseEntity::BaseEntity( const rapidjson::Value* params )
 //-------------------------------------
 //
 //-------------------------------------
+TError BaseEntity::Init()
+{
+	for( unsigned int i = 0; i < m_components.Size(); i++ ) 
+	{
+		m_components[i]->SetParent( this );
+		m_components[i]->Init();
+	}
+}
+
+//-------------------------------------
+//
+//-------------------------------------
 void BaseEntity::End()
 {
     for( unsigned int i = 0; i < m_components.Size(); i++ ) IComponentFactory::Instance().RemoveComponent( m_components[i] );

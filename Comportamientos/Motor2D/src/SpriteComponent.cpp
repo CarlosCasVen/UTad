@@ -53,7 +53,7 @@ void SpriteComponent::Update( double elapsedTime )
 //-------------------------------------
 void SpriteComponent::SetPosition( double x, double y, double z )
 {
-    m_sprite->SetPosition( x, y, z );
+    if( m_sprite ) m_sprite->SetPosition( x, y, z );
 }
 
 //-------------------------------------
@@ -61,8 +61,7 @@ void SpriteComponent::SetPosition( double x, double y, double z )
 //-------------------------------------
 void SpriteComponent::SetImage( const String& filename )
 {
-    if( !m_sprite ) 
-        m_sprite = new Sprite(  ResourceManager::Instance().LoadImage( filename ) );
+    if( !m_sprite ) m_sprite = new Sprite(  ResourceManager::Instance().LoadImage( filename ) );
     else            m_sprite->SetImage( ResourceManager::Instance().LoadImage( filename ) );
 }
 
@@ -71,7 +70,7 @@ void SpriteComponent::SetImage( const String& filename )
 //-------------------------------------
 void SpriteComponent::SetColor( int r, int g, int b, int a )
 {
-    m_sprite->SetColor( r, g, b );
+    if( m_sprite ) m_sprite->SetColor( r, g, b );
 }
 
 //-------------------------------------
@@ -79,7 +78,7 @@ void SpriteComponent::SetColor( int r, int g, int b, int a )
 //-------------------------------------
 double SpriteComponent::GetX() const
 {
-    return m_sprite->GetX();
+    if( m_sprite ) return m_sprite->GetX();
 }
 
 //-------------------------------------
@@ -87,7 +86,7 @@ double SpriteComponent::GetX() const
 //-------------------------------------
 double SpriteComponent::GetY() const
 {
-    return m_sprite->GetY();
+    if( m_sprite ) return m_sprite->GetY();
 }
 
 //-------------------------------------
@@ -95,7 +94,7 @@ double SpriteComponent::GetY() const
 //-------------------------------------
 double SpriteComponent::GetZ() const
 {
-    return m_sprite->GetZ();
+    if( m_sprite ) return m_sprite->GetZ();
 }
 
 //-------------------------------------
@@ -103,7 +102,7 @@ double SpriteComponent::GetZ() const
 //-------------------------------------
 const Image* SpriteComponent::GetImage() const
 {
-    return m_sprite->GetImage();
+    if( m_sprite ) return m_sprite->GetImage();
 }
 
 //-------------------------------------
@@ -111,7 +110,7 @@ const Image* SpriteComponent::GetImage() const
 //-------------------------------------
 int SpriteComponent::GetR() const
 {
-    return static_cast<int>(m_sprite->GetRed());
+    if( m_sprite ) return static_cast<int>(m_sprite->GetRed());
 }
 
 //-------------------------------------
@@ -119,7 +118,7 @@ int SpriteComponent::GetR() const
 //-------------------------------------
 int SpriteComponent::GetG() const
 {
-    return static_cast<int>(m_sprite->GetGreen());
+    if( m_sprite ) return static_cast<int>(m_sprite->GetGreen());
 }
 
 //-------------------------------------
@@ -127,7 +126,7 @@ int SpriteComponent::GetG() const
 //-------------------------------------
 int SpriteComponent::GetB() const
 {
-    return static_cast<int>(m_sprite->GetBlue());
+    if( m_sprite ) return static_cast<int>(m_sprite->GetBlue());
 }
 
 //-------------------------------------
@@ -135,5 +134,5 @@ int SpriteComponent::GetB() const
 //-------------------------------------
 int SpriteComponent::GetA() const
 {
-    return static_cast<int>(m_sprite->GetAlpha());
+    if( m_sprite ) return static_cast<int>(m_sprite->GetAlpha());
 }

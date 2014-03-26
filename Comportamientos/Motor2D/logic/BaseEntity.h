@@ -14,7 +14,7 @@ class BaseEntity : public IEntity
 public:
     BaseEntity( const rapidjson::Value* params );
 
-    virtual TError Init() = 0;
+    virtual TError Init();
     virtual void   End ();
 
     virtual void Update( double elapsedTime);
@@ -55,7 +55,7 @@ T* BaseEntity::GetComponentByType( IComponent::TComponent type )
     
     i--;
 
-    if( found ) return reinterpret_cast<T*>( m_components[i] );
+	if( found ) return dynamic_cast<T*>( m_components[i] );
     else        return NULL;
 }
 

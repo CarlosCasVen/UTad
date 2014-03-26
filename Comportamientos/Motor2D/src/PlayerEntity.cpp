@@ -60,8 +60,6 @@ TError PlayerEntity::Init()
 
     
     input->SetParent( this );
-    movement->SetDirection( 0, 0 );
-    movement->SetSpeed( 0 );
     sprite->SetParent( this );
     movement->SetParent( this );
     
@@ -99,13 +97,22 @@ void PlayerEntity::Update( double elapsedTime )
     sprite   = GetComponentByType<SpriteComponent>( IComponent::ESprite ); 
     movement = GetComponentByType<MoveComponent>  ( IComponent::EMove   );
 
-    movement->GetXIncrement();
-    input->Update( elapsedTime );
-    sprite->GetB();
+	double y = sprite->GetY();
 
-//    if( input->IsButtonPressed( m_up    ) ) y += movement->GetYIncrement();
-//   if( input->IsButtonPressed( m_down  ) ) y -= movement->GetYIncrement();
-//    if( input->IsButtonPressed( m_shoot ) ) CreateBullet( sprite->GetX(), y, movement->GetXIncrement(), movement->GetYIncrement() );
+	if( input->IsButtonPressed( m_up    ) ) 
+	{
+		movement->SetDirection( 0, 1 );
+		y += movement->GetYIncrement();
+	}
+	if( input->IsButtonPressed( m_down  ) ) 
+	{
+		movement->SetDirection( 0, -1 );
+		y += movement->GetYIncrement();
+	}
+	if( input->IsButtonPressed( m_shoot ) ) 
+		CreateBullet( sprite->GetX(), y, movement->GetXIncrement(), movement->GetYIncrement() );
+
+	sprite->SetPosition( sprite->GetX(), y );
 
 }
 

@@ -22,10 +22,6 @@ InputComponent::~InputComponent()
 TError InputComponent::Init()
 {
     TError error = OK;
-
-    #define TYPE EInputComponent \
-    SetType( TYPE );
-    #undef TYPE
     
     return error;
 }

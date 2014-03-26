@@ -2,9 +2,9 @@
 	"Image" : "data/background.png", 
 	"Entities" : [
 					{ "Entity" : "EPlayer",
-					  "Params" : { "Image" : "data/alien.jpg",
+					  "Params" : { "Image" : "data/alien.png",
 								  "X" : 10 , "Y" : 10, 
-								  "Speed" : 5, 
+								  "Speed" : 10, 
 								  "Up" : 65, 
 								  "Down" : 83, 
 								  "Shoot" : 72  }  

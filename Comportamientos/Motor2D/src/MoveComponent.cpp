@@ -1,4 +1,5 @@
 #include "../logic/logic.h"
+#include "../include/u-gine.h"
 
 //-------------------------------------
 //
@@ -21,11 +22,7 @@ MoveComponent::~MoveComponent()
 //-------------------------------------
 TError MoveComponent::Init()
 {
-    #define TYPE EMoveComponent \
-    SetType( TYPE );
-    #undef TYPE
-
-    return OK;
+   return OK;
 }
 
 //-------------------------------------
@@ -41,8 +38,7 @@ void MoveComponent::End()
 //-------------------------------------
 void MoveComponent::Update( double elapsedTime )
 {
-    m_x = m_xDirection * m_speed * elapsedTime;
-    m_y = m_xDirection * m_speed * elapsedTime;
+    
 }
 
 //-------------------------------------
@@ -67,7 +63,7 @@ void MoveComponent::SetSpeed( double speed  )
 //-------------------------------------
 double MoveComponent::GetXIncrement() const
 {
-    return m_x;
+	return m_xDirection * m_speed * Screen::Instance().ElapsedTime();
 }
 
 //-------------------------------------
@@ -75,7 +71,7 @@ double MoveComponent::GetXIncrement() const
 //-------------------------------------
 double MoveComponent::GetYIncrement() const
 {
-    return m_y;
+    return m_yDirection * m_speed * Screen::Instance().ElapsedTime();
 }
 
 //-------------------------------------

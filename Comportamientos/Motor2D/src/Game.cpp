@@ -55,6 +55,7 @@ void Game::End()
 void Game::Update( double elapsedTime )
 {
     IEventManager::Instance().Update();
+	InputManager::Instance().Update();
     ISceneManager::Instance().Update( Screen::Instance().ElapsedTime() );
 }
 
