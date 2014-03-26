@@ -13,8 +13,10 @@ public:
 
     virtual void   Update( double elapsedTime) = 0;
 
-    virtual unsigned int GetId         ()								  const = 0;
-    virtual void              SetParentScene( const IScene* parentScene )       = 0;
+    virtual unsigned int GetId         ()	                   const = 0;
+    virtual void         SetParentScene( IScene* parentScene )       = 0;
+
+    virtual IScene* GetParentScene () const = 0;
 
 };
 

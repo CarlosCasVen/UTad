@@ -8,6 +8,8 @@ class IEntity;
 enum TEvent
 {
     ChangeScene,
+    KeyPress,
+    MousePress,
 };
 
 class Event

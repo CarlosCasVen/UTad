@@ -15,14 +15,12 @@ public:
     virtual TError Init();
     virtual void   End ();
 
-    virtual IComponent* GetComponent   ( const rapidjson::Value* componentInfo, TError& error );
     virtual void        RemoveComponent( IComponent* component)                                ;   
 
 private:
     ComponentFactory ();
     ~ComponentFactory();
 
-    TComponent GetTypeByName( const char* tName );
 
     friend class IComponentFactory;
 };

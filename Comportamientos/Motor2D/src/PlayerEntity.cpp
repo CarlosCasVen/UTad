@@ -2,51 +2,128 @@
 #include "../include/u-gine.h"
 #include <time.h>
 
-
-PlayerEntity::PlayerEntity(  const rapidjson::Value& params  ) : BaseEntity( params )
+//-------------------------------------
+//
+//-------------------------------------
+PlayerEntity::PlayerEntity(  const rapidjson::Value* params  ) : BaseEntity( params )
 {
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 PlayerEntity::~PlayerEntity()
 {
+    int x = 0;
 }
 
-
-
+//-------------------------------------
+//
+//-------------------------------------
 TError PlayerEntity::Init()
 {
     TError error = OK;
 
-    Image* image = ResourceManager::Instance().LoadImage( GetParams()["Image"].GetString() );
-    m_sprite = new Sprite( image );
+    InputComponent*  input    = IComponentFactory::Instance().GetComponent<InputComponent> ( error );
 
-    m_sprite->SetPosition( GetParams()["x"].GetDouble(),
-                           GetParams()["y"].GetDouble()
-                           );
-    IScene* scene = (IScene*)GetParentScene();
-    scene->AddSprite( m_sprite, Scene::LAYER_BACK );
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( input );
+        return error;
+    }
+
+    SpriteComponent* sprite   = IComponentFactory::Instance().GetComponent<SpriteComponent>( error );
+
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( sprite );
+        return error;
+    }
+
+    MoveComponent*   movement = IComponentFactory::Instance().GetComponent<MoveComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( movement );
+        return error;
+    }
+
+
+    if( GetParams().HasMember( "Image" ) )    sprite->SetImage   ( String( GetParams()["Image"].GetString() ) );
+    if( GetParams().HasMember( "X"     ) && 
+        GetParams().HasMember( "Y"     ) )    sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
+    if( GetParams().HasMember( "Speed" ) )    movement->SetSpeed ( GetParams()["Speed"].GetDouble() );
+    if( GetParams().HasMember( "Up"    ) )    m_up    = (eInputCode)GetParams()["Up"].GetInt();
+    if( GetParams().HasMember( "Down"  ) )    m_down  = (eInputCode)GetParams()["Down"].GetInt();
+    if( GetParams().HasMember( "Shoot" ) )    m_shoot = (eInputCode)GetParams()["Shoot"].GetInt();
+
+
+    
+    input->SetParent( this );
+    movement->SetDirection( 0, 0 );
+    movement->SetSpeed( 0 );
+    sprite->SetParent( this );
+    movement->SetParent( this );
+    
+    input->Init();
+    sprite->Init();
+    movement->Init();
+
+    AddComponent( input    );
+    AddComponent( sprite   );
+    AddComponent( movement );
 
     return error;
 }
 
-
+//-------------------------------------
+//
+//-------------------------------------
 void PlayerEntity::End ()
 {
-    //DEL( m_sprite );
+    BaseEntity::End();
 }
 
-
-void PlayerEntity::Update( double ElpasedTime )
+//-------------------------------------
+//
+//-------------------------------------
+void PlayerEntity::Update( double elapsedTime )
 {
-	if( m_sprite )
-	{
-		float x = (float)m_sprite->GetX();
-		float y = (float)m_sprite->GetY();
+    BaseEntity::Update( elapsedTime );
 
-		x += (sinf( (float)time(0) ) * 50 ) * Screen::Instance().ElapsedTime();
-//		y += cosf( time(0) ) / 10;
+    InputComponent*  input    = NULL;
+    SpriteComponent* sprite   = NULL;
+    MoveComponent*   movement = NULL;
 
-		m_sprite->SetPosition( (float)x, (float)y ,0);
-	}
+    input    = GetComponentByType<InputComponent> ( IComponent::EInput  ); 
+    sprite   = GetComponentByType<SpriteComponent>( IComponent::ESprite ); 
+    movement = GetComponentByType<MoveComponent>  ( IComponent::EMove   );
+
+    movement->GetXIncrement();
+    input->Update( elapsedTime );
+    sprite->GetB();
+
+//    if( input->IsButtonPressed( m_up    ) ) y += movement->GetYIncrement();
+//   if( input->IsButtonPressed( m_down  ) ) y -= movement->GetYIncrement();
+//    if( input->IsButtonPressed( m_shoot ) ) CreateBullet( sprite->GetX(), y, movement->GetXIncrement(), movement->GetYIncrement() );
+
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void PlayerEntity::CreateBullet( double x, double y, double xDir, double yDir )
+{
+    TError error = OK;
+    
+    BulletEntity* bullet = IEntityFactory::Instance().GetTemporalEntity<BulletEntity>(error);
+
+    if( error != OK ) IEntityFactory::Instance().RemoveEntity( bullet );
+
+    bullet->Init();
+    bullet->SetDirection( xDir, yDir );
+    bullet->SetPosition( x, y, 0 );
+    bullet->SetSpeed( m_bulletSpeed );
+    GetParentScene()->AddEntity( bullet );
+    
 }

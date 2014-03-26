@@ -1,5 +1,5 @@
 #include "../logic/logic.h"
-#include "../include/screen.h"
+#include "../include/u-gine.h"
 
 
 IGame* m_game = NULL;
@@ -23,6 +23,9 @@ IGame& IGame::Instance()
 TError Game::Init()
 {
     TError error = OK; 
+
+    InputManager::Instance().Init() ? error = OK : error = ERROR;
+    if( error == OK ) error = IComponentFactory::Instance().Init();
 	if( error == OK ) error = IEntityFactory::Instance().Init();
     if( error == OK ) error = IIdFactory::Instance().Init();
     if( error == OK ) error = IEventManager::Instance().Init();
@@ -40,7 +43,8 @@ void Game::End()
 	ISceneManager::Instance().End();    
     IIdFactory::Instance().End();
     IEntityFactory::Instance().End();
-    
+    IComponentFactory::Instance().End();
+    InputManager::Instance().End();
 
     DEL( m_game );
 }

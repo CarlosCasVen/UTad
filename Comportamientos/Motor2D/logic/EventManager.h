@@ -35,6 +35,7 @@ private:
     ~EventManager();
 
     void ComunicateSubscriptors( Event& newEvent, Array<IListener*> subscriptors );
+    void DestroyEvents         ();
     
     Array<Subscriptors*> m_subscriptors;
     Array<Event*>        m_eventsRegistred;

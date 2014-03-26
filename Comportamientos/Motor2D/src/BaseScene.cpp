@@ -24,7 +24,7 @@ TError BaseScene::Init()
     document.Parse<0>( (char*) content.ToCString() );
 
     if( document.HasParseError() ) return ERROR;
-    if( !document.HasMember( "Image" ) || !document.HasMember("Entities") ) error = ERROR;
+    if( !document.HasMember("Image") || !document.HasMember("Entities") ) error = ERROR;
 
     String pathImage = String( document["Image"].GetString() );
     Image* image = ResourceManager::Instance().LoadImage( pathImage );
@@ -74,6 +74,7 @@ void BaseScene::End()
 void BaseScene::Update( double elapsedTime )
 {
 	DestroyEntities();
+    AddEntities    ();
 
     for( unsigned int i = 0; i < m_entities.Size(); i++ ) m_entities[i]->Update( elapsedTime );
     
@@ -138,4 +139,21 @@ void BaseScene::DestroyEntities ()
 		m_entities.Remove( m_entitiesToDelete[i] );
 		IEntityFactory::Instance().RemoveEntity( m_entitiesToDelete[i] );
 	}
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::AddEntity ( IEntity* entity )
+{
+    m_entitiesToAdd.Add( entity );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::AddEntities()
+{
+    for( unsigned int i = 0; i < m_entitiesToAdd.Size(); i++ ) m_entities.Add( m_entitiesToAdd[i] );
+    m_entitiesToAdd.Clear();
 }

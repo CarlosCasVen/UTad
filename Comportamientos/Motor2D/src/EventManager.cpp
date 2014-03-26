@@ -1,7 +1,9 @@
 #include "../logic/Logic.h"
-
+#include "../include/u-gine.h"
+#include "../lib/glfw.h"
 
 EventManager* m_eventManager = NULL;
+
 
 //-------------------------------------
 //
@@ -33,6 +35,7 @@ IEventManager& IEventManager::Instance()
 TError EventManager::Init()
 {
     TError error = OK;
+
     return error;
 }
 
@@ -60,7 +63,7 @@ void EventManager::Update()
         }
     }
 
-    m_eventsRegistred.Clear();
+    DestroyEvents();
 }
 
  //-------------------------------------
@@ -151,4 +154,13 @@ void EventManager::ComunicateSubscriptors( Event& newEvent, Array<IListener*> su
 void EventManager::AddEvent( Event& newEvent )
 {
     m_eventsRegistred.Add( &newEvent );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void EventManager::DestroyEvents()
+{
+    for( unsigned int i = 0; i > m_eventsRegistred.Size(); i++ ) DEL( m_eventsRegistred[i] );
+    m_eventsRegistred.Clear();
 }

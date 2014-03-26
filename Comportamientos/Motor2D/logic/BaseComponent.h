@@ -2,6 +2,7 @@
 #define __BASE_COMPONENT__
 
 #include "IComponent.h"
+#include "../json/rapidjson/document.h"
 
 enum TError;
 enum TComponent;
@@ -10,10 +11,10 @@ class array;
 class IComponent;
 
 
-class BaseComponent 
+class BaseComponent : public IComponent
 {
 public:
-	BaseComponent ();
+    BaseComponent ();
 	~BaseComponent();
 
 	virtual TError Init() = 0;
@@ -27,29 +28,15 @@ public:
 
 protected:
 	IEntity* GetParent();
-	void     SetType  ( TComponent type );
-	
-	template <typename T>
-	T* GetComponent( TComponent type );
+    void     SetType  ( TComponent type );
 
 private:
-	unsigned int       m_id;
-	IEntity*           m_entityParent;
-    TComponent		   m_type;
-	Array<IComponent*> m_components;
+	unsigned int            m_id;
+	IEntity*                m_entityParent;
+    TComponent		        m_type;
 
+    friend class IComponent;
 };
 
-
-
-template <typename T>
-T* BaseComponent::GetComponent( TComponent type )
-{
-	for( unsigned int i = 0; i < m_components.Size(); i++ )
-	{
-		if( type == m_components[i].GetType() ) return m_components[i];
-
-	}
-}
 
 #endif

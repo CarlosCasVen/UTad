@@ -1,28 +1,28 @@
-#ifndef __PLAYER__
-#define __PLAYER__
+#ifndef  __PLAYER_ENTITY__
+#define __PLAYER_ENTITY__
 
 #include "BaseEntity.h"
 #include "../json/rapidjson/document.h"
 
-
-class Sprite;
-class IScene;
+enum eInputCode;
 
 
 class PlayerEntity : public BaseEntity
 {
 public:
-    PlayerEntity (  const rapidjson::Value& params );
+    PlayerEntity (  const rapidjson::Value* params );
     ~PlayerEntity();
 
     virtual TError Init();
     virtual void   End ();
 
-    virtual void Update( double ElpasedTime );
+    virtual void Update( double elapsedTime );
 
 private:
-    Sprite* m_sprite;
+    void CreateBullet( double x, double y, double xDir, double yDir );
 
+    eInputCode m_up, m_down, m_shoot;
+    double     m_bulletSpeed;
 };
 
 

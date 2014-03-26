@@ -13,8 +13,8 @@ public:
     virtual void   End ();
 
     virtual IEntity* GetEntity   ( const rapidjson::Value* entityInfo, TError& error );
-    virtual void     RemoveEntity( IEntity* entity );   
-    
+    virtual void     RemoveEntity( IEntity* entity );								     
+ 
 private:
     EntityFactory ();
     ~EntityFactory();

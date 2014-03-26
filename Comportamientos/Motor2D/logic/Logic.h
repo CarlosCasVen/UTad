@@ -23,13 +23,27 @@
 #include "leaks.h"
 #include "../json/rapidjson/document.h"
 
-#include "PlayerEntity.h"
-
 #include "IComponent.h"
 #include "BaseComponent.h"
 #include "IComponentFactory.h"
 #include "ComponentFactory.h"
 
 #include "EventChangeScene.h"
+
+//ENTITIES
+#include "PlayerEntity.h"
+#include "BulletEntity.h"
+#include "ButtonEntity.h"
+
+//COMPONENT
+#include "SpriteComponent.h"
+#include "InputComponent.h"
+#include "LiveComponent.h"
+#include "ShootComponent.h"
+#include "MoveComponent.h"
+#include "BoundCompoment.h"
+
+//EVENTS
+
 
 #endif

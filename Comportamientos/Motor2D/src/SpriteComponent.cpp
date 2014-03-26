@@ -1,0 +1,139 @@
+#include "../logic/logic.h"
+#include "../include/u-gine.h"
+
+
+//-------------------------------------
+//
+//-------------------------------------
+SpriteComponent::SpriteComponent() : BaseComponent()
+{
+    m_sprite = NULL;
+    SetType( ESprite );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+SpriteComponent::~SpriteComponent()
+{
+    int x = 0;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+TError SpriteComponent::Init()
+{
+    TError error = OK;
+
+    if( !m_sprite ) 
+        m_sprite = new Sprite( NULL );
+
+    GetParent()->GetParentScene()->AddSprite( m_sprite, Scene::LAYER_FRONT );
+
+    return error;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SpriteComponent::End()
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SpriteComponent::Update( double elapsedTime )
+{
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SpriteComponent::SetPosition( double x, double y, double z )
+{
+    m_sprite->SetPosition( x, y, z );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SpriteComponent::SetImage( const String& filename )
+{
+    if( !m_sprite ) 
+        m_sprite = new Sprite(  ResourceManager::Instance().LoadImage( filename ) );
+    else            m_sprite->SetImage( ResourceManager::Instance().LoadImage( filename ) );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void SpriteComponent::SetColor( int r, int g, int b, int a )
+{
+    m_sprite->SetColor( r, g, b );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+double SpriteComponent::GetX() const
+{
+    return m_sprite->GetX();
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+double SpriteComponent::GetY() const
+{
+    return m_sprite->GetY();
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+double SpriteComponent::GetZ() const
+{
+    return m_sprite->GetZ();
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+const Image* SpriteComponent::GetImage() const
+{
+    return m_sprite->GetImage();
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+int SpriteComponent::GetR() const
+{
+    return static_cast<int>(m_sprite->GetRed());
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+int SpriteComponent::GetG() const
+{
+    return static_cast<int>(m_sprite->GetGreen());
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+int SpriteComponent::GetB() const
+{
+    return static_cast<int>(m_sprite->GetBlue());
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+int SpriteComponent::GetA() const
+{
+    return static_cast<int>(m_sprite->GetAlpha());
+}

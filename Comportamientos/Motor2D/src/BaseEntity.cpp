@@ -4,39 +4,10 @@
 //-------------------------------------
 //
 //-------------------------------------
-BaseEntity::BaseEntity( const rapidjson::Value& params )
+BaseEntity::BaseEntity( const rapidjson::Value* params )
 {
-    m_params = &params;
+    m_params = params;
     m_id     = IIdFactory::Instance().GetId();
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-
-TError BaseEntity::Init()
-{
-    TError error = OK;
-
-    if( !m_params->HasMember( "Components" ) ) return ERROR;
-
-    IComponent* newComponent;
-
-    for( unsigned int i = 0; i < (*m_params)["Components"].Size(); i++ )
-    {
-        newComponent = IComponentFactory::Instance().GetComponent( &(*m_params)["Components"][i], error );
-        if( error == OK )
-        {
-            m_components.Add( newComponent );
-            newComponent->Init();
-        }
-        else
-        {
-            IComponentFactory::Instance().RemoveComponent( newComponent );
-        }
-    }
-     
-    return error;
 }
 
 //-------------------------------------
@@ -67,7 +38,7 @@ unsigned int BaseEntity::GetId() const
 //-------------------------------------
 //
 //-------------------------------------
-void BaseEntity::SetParentScene( const IScene* parentScene )
+void BaseEntity::SetParentScene( IScene* parentScene )
 {
     m_scene = parentScene;
 }
@@ -83,7 +54,7 @@ const rapidjson::Value& BaseEntity::GetParams() const
 //-------------------------------------
 //
 //-------------------------------------
-const IScene* BaseEntity::GetParentScene()
+IScene* BaseEntity::GetParentScene() const 
 {
     return m_scene;
 }
@@ -102,4 +73,5 @@ void BaseEntity::AddComponent( IComponent* component )
 void BaseEntity::RemoveComponent( IComponent* component )
 {
     IComponentFactory::Instance().RemoveComponent( component );
+    m_components.Remove( component );
 }

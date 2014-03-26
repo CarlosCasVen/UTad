@@ -65,7 +65,7 @@ IEntity* EntityFactory::GetEntity( const rapidjson::Value* entityInfo, TError& e
 	{
 #define REG_ENTITY(val, name) \
 		case E##val: \
-		newEntity = NEW(val##Entity,(*param)); \
+		newEntity = NEW(val##Entity,(param)); \
 		  break;
 #include "../logic/ENTITY_TYPES.h"
 #undef REG_ENTITY

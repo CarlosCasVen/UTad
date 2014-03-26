@@ -32,10 +32,12 @@ TError SceneManager::Init()
     if( document.HasParseError() ) return ERROR;
     if( !document.HasMember( "Scenes" ) ) error = ERROR;
 
-    m_scenes = &document["Scenes"];
     m_indexCurrentScene = 0;
 
-    CreateScene( m_scenes[m_indexCurrentScene] );
+    m_scenes = &document["Scenes"];    
+
+    CreateScene( (*m_scenes)[m_indexCurrentScene] );
+
 
     return error;
 }
@@ -100,9 +102,10 @@ void SceneManager::SetScene( unsigned int index )
 //-------------------------------------
 void SceneManager::CreateScene( const rapidjson::Value& infoScene )
 {
+    if( !infoScene.HasMember( "Scene" ) || !infoScene.HasMember( "Params" ) ) return;
     if( strcmp( infoScene["Scene"].GetString(), "BaseScene" ) == 0 )
     {
-        const String info( infoScene["Param"].GetString() );
+        const String info( infoScene["Params"].GetString() );
         m_currentScene = NEW( BaseScene, ( &info ) );
         m_currentScene->Init();
     }
@@ -123,28 +126,6 @@ SceneManager::SceneManager ()
 //-------------------------------------
 SceneManager::~SceneManager()
 {
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-void SceneManager::ReceiveEvent ( Event& newEvent )
-{
-	switch( newEvent.GetType() )
-	{
-	case ChangeScene: 
-		EventChangeScene castEvent = reinterpret_cast<EventChangeScene&>( newEvent );
-		SetScene( castEvent.GetIndexNextScene() );
-		break;
-	}
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-unsigned long int SceneManager::GetListenerId() const
-{
-    return m_id;
 }
 
 //-------------------------------------

@@ -6,7 +6,8 @@
 //-------------------------------------
 BaseComponent::BaseComponent()
 {
-	m_id = IIdFactory::Instance().GetId();
+	m_id     = IIdFactory::Instance().GetId();
+    m_type   = EBase;
 }
 
 //-------------------------------------
@@ -16,8 +17,6 @@ BaseComponent::~BaseComponent()
 {
 	m_entityParent = NULL;
 }
-
-
 
 //-------------------------------------
 //
@@ -46,7 +45,7 @@ IEntity* BaseComponent::GetParent()
 //-------------------------------------
 //
 //-------------------------------------
-TComponent BaseComponent::GetType() const
+IComponent::TComponent BaseComponent::GetType() const
 {
     return m_type;
 }
