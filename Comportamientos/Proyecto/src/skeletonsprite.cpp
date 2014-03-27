@@ -43,7 +43,7 @@ SkeletonSprite::SkeletonSprite(const String& filename) : Sprite(NULL) {
     const Bone* bone = root->GetChild(0);
 	int32 lastframe = 0;
 	for ( uint32 index = 0; index < bone->CountFrames(); index++ ) {
-        lastframe = max(lastframe, bone->GetFrame(index)->GetId());
+        lastframe = max1(lastframe, bone->GetFrame(index)->GetId());
 	}
 	SetFrameRange(0, static_cast<uint16>( lastframe ) );
 

@@ -1,6 +1,6 @@
 #include "../logic/Logic.h"
 #include "../include/u-gine.h"
-
+#undef ERROR
 
 EntityFactory* m_entityFactory = NULL;
 

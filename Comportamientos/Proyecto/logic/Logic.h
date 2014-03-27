@@ -1,6 +1,7 @@
 #ifndef __LOGIC__
 #define __LOGIC__
 
+#define LEAK_CONTROL
 
 #include "Event.h"
 #include "Error.h"
@@ -50,7 +51,6 @@
 #include "SpriteComponent.h"
 #include "InputComponent.h"
 #include "LiveComponent.h"
-#include "ShootComponent.h"
 #include "MoveComponent.h"
 #include "BoundCompoment.h"
 #include "CollisionComponent.h"

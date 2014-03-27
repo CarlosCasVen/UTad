@@ -3,6 +3,7 @@
 
 
 #define PATH_SCENE "data/config.txt"
+#undef ERROR
 
 ISceneManager* m_sceneManager = NULL;
 

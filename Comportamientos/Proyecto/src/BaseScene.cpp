@@ -1,6 +1,6 @@
 #include "../logic/logic.h"
 #include "../include/u-gine.h"
-
+#undef ERROR
 
 //-------------------------------------
 //

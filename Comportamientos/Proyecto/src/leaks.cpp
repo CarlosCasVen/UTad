@@ -1,15 +1,13 @@
+#include "../logic/logic.h"
 #ifdef LEAK_CONTROL
 #pragma warning (disable: 4996)
-#include "leaks.h"
 #include <string.h>
-#include "../logic/Logic.h"
-#include "../include/u-gine.h"
 
 ALLOC_INFO *g_LeakList;
 
 void *AddTrack(void *addr,  unsigned int asize,  const char *fname, unsigned int lnum)
 {
-	ASSERT(addr);
+//(	ASSERT(addr);
 
 	ALLOC_INFO *info;
 
