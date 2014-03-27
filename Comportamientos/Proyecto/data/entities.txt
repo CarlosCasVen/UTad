@@ -1,0 +1,28 @@
+{
+	"Image" : "data/background.png", 
+	"Entities" : [
+					{ "Entity" : "EPlayer",
+					  "Params" : { "Image" : "data/alien.png",
+								  "X" : 10 , "Y" : 10, 
+								  "Speed" : 10, 
+								  "Up" : 65, 
+								  "Down" : 83,
+								  "Right" : 84,
+								  "Left"  : 86,
+								  "Shoot" : 72,
+								  "FirstFps" : 0,
+								  "LastFps"  : 8,
+								  "FPS" : 10,
+								  "Collision" : 3,
+								  "Live" : 10
+								  }  
+					},
+					{ "Entity" : "EButton",
+					  "Params" : { "Image" : "data/box.jpg",
+								  "X" : 50 , 
+								  "Y" : 50,  
+								  "NextScene" : 1
+								  }  
+					}
+				]
+}

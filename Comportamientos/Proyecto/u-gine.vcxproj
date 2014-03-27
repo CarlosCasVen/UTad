@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="json\json.cpp" />
+    <ClCompile Include="json\leaks.cpp" />
+    <ClCompile Include="json\leaks_windows.cpp" />
+    <ClCompile Include="lib\stb_image.c" />
+    <ClCompile Include="logic\CollisionComponent.cpp" />
+    <ClCompile Include="logic\CollisionManagerL.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\affector.cpp" />
+    <ClCompile Include="src\AnimatorComponent.cpp" />
+    <ClCompile Include="src\audioBuffer.cpp" />
+    <ClCompile Include="src\audioEngine.cpp" />
+    <ClCompile Include="src\audioSource.cpp" />
+    <ClCompile Include="src\BaseComponent.cpp" />
+    <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="src\BaseScene.cpp" />
+    <ClCompile Include="src\bone.cpp" />
+    <ClCompile Include="src\BoundComponent.cpp" />
+    <ClCompile Include="src\BulletEntity.cpp" />
+    <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\collisionManager.cpp" />
+    <ClCompile Include="src\collisionPixelData.cpp" />
+    <ClCompile Include="src\ComponentFactory.cpp" />
+    <ClCompile Include="src\DamageComponent.cpp" />
+    <ClCompile Include="src\emitter.cpp" />
+    <ClCompile Include="src\EntityFactory.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\EventChangeScene.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
+    <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\IdFactory.cpp" />
+    <ClCompile Include="src\image.cpp" />
+    <ClCompile Include="src\InputComponent.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\isometricMap.cpp" />
+    <ClCompile Include="src\isometricScene.cpp" />
+    <ClCompile Include="src\isometricSprite.cpp" />
+    <ClCompile Include="src\leaks.cpp" />
+    <ClCompile Include="src\leaks_windows.cpp" />
+    <ClCompile Include="src\listener.cpp" />
+    <ClCompile Include="src\LiveComponent.cpp" />
+    <ClCompile Include="src\map.cpp" />
+    <ClCompile Include="src\mapScene.cpp" />
+    <ClCompile Include="src\math.cpp" />
+    <ClCompile Include="src\MoveComponent.cpp" />
+    <ClCompile Include="src\parallaxScene.cpp" />
+    <ClCompile Include="src\particle.cpp" />
+    <ClCompile Include="src\PlayerEntity.cpp" />
+    <ClCompile Include="src\renderer.cpp" />
+    <ClCompile Include="src\resourcemanager.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\screen.cpp" />
+    <ClCompile Include="src\ScreenManager.cpp" />
+    <ClCompile Include="src\skeletondata.cpp" />
+    <ClCompile Include="src\skeletonsprite.cpp" />
+    <ClCompile Include="src\ButtonEntity.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\sprite.cpp" />
+    <ClCompile Include="src\SpriteComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bass\bass.h" />
+    <ClInclude Include="include\affector.h" />
+    <ClInclude Include="include\array.h" />
+    <ClInclude Include="include\audioBuffer.h" />
+    <ClInclude Include="include\audioEngine.h" />
+    <ClInclude Include="include\audioSource.h" />
+    <ClInclude Include="include\bone.h" />
+    <ClInclude Include="include\bonedata.h" />
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\circlecollision.h" />
+    <ClInclude Include="include\collision.h" />
+    <ClInclude Include="include\collisionManager.h" />
+    <ClInclude Include="include\collisionPixelData.h" />
+    <ClInclude Include="include\emitter.h" />
+    <ClInclude Include="include\file.h" />
+    <ClInclude Include="include\font.h" />
+    <ClInclude Include="include\frame.h" />
+    <ClInclude Include="include\glinclude.h" />
+    <ClInclude Include="include\glyph.h" />
+    <ClInclude Include="include\image.h" />
+    <ClInclude Include="include\InputManager.h" />
+    <ClInclude Include="include\isometricMap.h" />
+    <ClInclude Include="include\isometricScene.h" />
+    <ClInclude Include="include\isometricSprite.h" />
+    <ClInclude Include="include\listener.h" />
+    <ClInclude Include="include\map.h" />
+    <ClInclude Include="include\mapScene.h" />
+    <ClInclude Include="include\math.h" />
+    <ClInclude Include="include\parallaxScene.h" />
+    <ClInclude Include="include\particle.h" />
+    <ClInclude Include="include\pixelcollision.h" />
+    <ClInclude Include="include\rectcollision.h" />
+    <ClInclude Include="include\renderer.h" />
+    <ClInclude Include="include\resourcemanager.h" />
+    <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\screen.h" />
+    <ClInclude Include="include\skeletondata.h" />
+    <ClInclude Include="include\skeletonsprite.h" />
+    <ClInclude Include="include\sprite.h" />
+    <ClInclude Include="include\string.h" />
+    <ClInclude Include="include\types.h" />
+    <ClInclude Include="include\u-gine.h" />
+    <ClInclude Include="json\json.h" />
+    <ClInclude Include="json\leaks.h" />
+    <ClInclude Include="json\rapidjson\document.h" />
+    <ClInclude Include="json\rapidjson\filestream.h" />
+    <ClInclude Include="json\rapidjson\internal\pow10.h" />
+    <ClInclude Include="json\rapidjson\internal\stack.h" />
+    <ClInclude Include="json\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="json\rapidjson\prettywriter.h" />
+    <ClInclude Include="json\rapidjson\rapidjson.h" />
+    <ClInclude Include="json\rapidjson\reader.h" />
+    <ClInclude Include="json\rapidjson\stringbuffer.h" />
+    <ClInclude Include="json\rapidjson\writer.h" />
+    <ClInclude Include="logic\AnimatorComponent.h" />
+    <ClInclude Include="logic\BaseComponent.h" />
+    <ClInclude Include="logic\BaseEntity.h" />
+    <ClInclude Include="logic\BaseScene.h" />
+    <ClInclude Include="logic\BoundCompoment.h" />
+    <ClInclude Include="logic\BulletEntity.h" />
+    <ClInclude Include="logic\ButtonEntity.h" />
+    <ClInclude Include="logic\CollisionManagerL.h" />
+    <ClInclude Include="logic\ComponentFactory.h" />
+    <ClInclude Include="logic\DamageComponent.h" />
+    <ClInclude Include="logic\ENTITY_TYPES.h" />
+    <ClInclude Include="logic\CollisionComponent.h" />
+    <ClInclude Include="logic\ICollisionListener.h" />
+    <ClInclude Include="logic\ICollisionManager.h" />
+    <ClInclude Include="logic\IScreenManager.h" />
+    <ClInclude Include="logic\ISoundManager.h" />
+    <ClInclude Include="logic\MoveComponent.h" />
+    <ClInclude Include="logic\ScreenManager.h" />
+    <ClInclude Include="logic\SoundManager.h" />
+    <ClInclude Include="logic\SpriteComponent.h" />
+    <ClInclude Include="logic\COMPONENT_TYPES.h" />
+    <ClInclude Include="logic\EntityFactory.h" />
+    <ClInclude Include="logic\Error.h" />
+    <ClInclude Include="logic\Event.h" />
+    <ClInclude Include="logic\EventChangeScene.h" />
+    <ClInclude Include="logic\EventManager.h" />
+    <ClInclude Include="logic\Game.h" />
+    <ClInclude Include="logic\IComponent.h" />
+    <ClInclude Include="logic\IComponentFactory.h" />
+    <ClInclude Include="logic\IdFactory.h" />
+    <ClInclude Include="logic\IEntity.h" />
+    <ClInclude Include="logic\IEntityFactory.h" />
+    <ClInclude Include="logic\IEventManager.h" />
+    <ClInclude Include="logic\IGame.h" />
+    <ClInclude Include="logic\IIdFactory.h" />
+    <ClInclude Include="logic\InputComponent.h" />
+    <ClInclude Include="logic\IScene.h" />
+    <ClInclude Include="logic\ISceneManager.h" />
+    <ClInclude Include="logic\IListener.h" />
+    <ClInclude Include="logic\leaks.h" />
+    <ClInclude Include="logic\LiveComponent.h" />
+    <ClInclude Include="logic\Logic.h" />
+    <ClInclude Include="logic\PlayerEntity.h" />
+    <ClInclude Include="logic\SceneManager.h" />
+    <ClInclude Include="openal\AL\al.h" />
+    <ClInclude Include="openal\AL\alc.h" />
+    <ClInclude Include="openal\AL\alext.h" />
+    <ClInclude Include="openal\AL\efx-creative.h" />
+    <ClInclude Include="openal\AL\efx-presets.h" />
+    <ClInclude Include="openal\AL\efx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A47CF9CE-BC6B-4176-AD69-C1B16230BAC5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ugine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;bass;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>bass/bass.lib;openal32.lib;glfw.win32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw.win32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

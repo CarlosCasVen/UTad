@@ -1,0 +1,19 @@
+{
+	"Image" : "data/background.png", 
+	"Entities" : [
+					{ "Entity" : "EButton",
+					  "Params" : { "Image" : "data/box.jpg",
+								  "X" : 10 , 
+								  "Y" : 10, 
+								  "NextScene" : 1
+								  }  
+					},
+					{ "Entity" : "EButton",
+					  "Params" : { "Image" : "data/box.jpg",
+								  "X" : 50 , 
+								  "Y" : 50,  
+								  "NextScene" : 1
+								  }  
+					}
+				]
+}
