@@ -24,7 +24,6 @@ TError SoundFactory::Init()
 
 void SoundFactory::End()
 {
-    assert( m_soundFactory == NULL );
     DEL( m_soundFactory );
 }
 

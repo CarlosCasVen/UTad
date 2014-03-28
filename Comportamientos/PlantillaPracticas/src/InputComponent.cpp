@@ -1,6 +1,8 @@
 #include "../logic/logic.h"
 #include "../include/u-gine.h"
 
+bool pushLastFrame = false;
+
 //-------------------------------------
 //
 //-------------------------------------
@@ -53,7 +55,7 @@ bool InputComponent::IsButtonPressed( eInputCode key ) const
 //-------------------------------------
 bool InputComponent::IsButtonDown( eInputCode key ) const
 {
-    return InputManager::Instance().IsKeyDown( key );
+	return InputManager::Instance().IsKeyPressed( key );
 }
 
 //-------------------------------------

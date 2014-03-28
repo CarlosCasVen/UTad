@@ -3,15 +3,15 @@
 	"Entities" : [
 					{ "Entity" : "EButton",
 					  "Params" : { "Image" : "data/box.jpg",
-								  "X" : 10 , 
-								  "Y" : 10, 
+								  "X" : 910 , 
+								  "Y" : 300, 
 								  "NextScene" : 1
 								  }  
 					},
 					{ "Entity" : "EButton",
 					  "Params" : { "Image" : "data/box.jpg",
-								  "X" : 50 , 
-								  "Y" : 50,  
+								  "X" : 910 , 
+								  "Y" : 200,  
 								  "NextScene" : 1
 								  }  
 					}

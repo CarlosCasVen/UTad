@@ -216,9 +216,6 @@
     <ClCompile Include="src\SpriteComponent.cpp">
       <Filter>Source Files\Logic\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\BulletEntity.cpp">
-      <Filter>Source Files\Logic\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="src\MoveComponent.cpp">
       <Filter>Source Files\Logic\Components</Filter>
     </ClCompile>
@@ -270,11 +267,11 @@
     <ClCompile Include="src\BSOEntity.cpp">
       <Filter>Source Files\Logic\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\StaticObstacleEntity.cpp">
-      <Filter>Source Files\Logic\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\LabelComponent.cpp">
       <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StaticObstacleEntity.cpp">
+      <Filter>Source Files\Logic\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,9 +493,6 @@
     </ClInclude>
     <ClInclude Include="logic\IComponentFactory.h">
       <Filter>Header Files\Logic\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\COMPONENT_TYPES.h">
-      <Filter>Header Files\Logic</Filter>
     </ClInclude>
     <ClInclude Include="logic\Event.h">
       <Filter>Header Files\Logic\Events</Filter>

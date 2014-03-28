@@ -12,7 +12,7 @@ TError StaticObstacleEntity::Init()
 {
     TError error = OK;
 
-    SpriteComponent* sprite   = IComponentFactory::Instance().GetComponent<SpriteComponent>( error );
+    SpriteComponent* sprite = IComponentFactory::Instance().GetComponent<SpriteComponent>( error );
 
     if( error != OK )
     {
@@ -20,7 +20,7 @@ TError StaticObstacleEntity::Init()
         return error;
     }
 
-    CollisionComponent*   collision = IComponentFactory::Instance().GetComponent<CollisionComponent>  ( error );
+    CollisionComponent* collision = IComponentFactory::Instance().GetComponent<CollisionComponent>( error );
     
     if( error != OK )
     {
@@ -28,7 +28,7 @@ TError StaticObstacleEntity::Init()
         return error;
     }
 
-    if( GetParams().HasMember( "Image"     ) )    sprite->SetImage   ( String( GetParams()["Image"].GetString() ) );
+    if( GetParams().HasMember( "Image"     ) )    sprite->SetImage( String( GetParams()["Image"].GetString() ) );
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) )    sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
 
@@ -38,7 +38,7 @@ TError StaticObstacleEntity::Init()
 
     AddComponent( sprite    );
     AddComponent( collision );
-   
+
     error = BaseEntity::Init();
 
     return error;

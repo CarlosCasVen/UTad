@@ -454,7 +454,13 @@ bool InputManager::IsKeyDown( eInputCode vkCode )
 		if( keys[i].key == vkCode )
 		{
 			found = true;
+			if( IsKeyPressed( keys[i].key ) )
+				int x = 1;
+			bool ret = !keys[i].wasPushed;
+			bool ret1 = IsKeyPressed( vkCode );
 			isDown = !keys[i].wasPushed && IsKeyPressed( vkCode ); 
+			if( isDown )
+				int x = 1;
 		}
 	}
 	

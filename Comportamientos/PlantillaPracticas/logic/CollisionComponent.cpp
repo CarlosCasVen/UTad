@@ -23,6 +23,8 @@ CollisionComponent::~CollisionComponent()
 //-------------------------------------
 TError CollisionComponent::Init()
 {
+	ICollisionManager::Instance().RegisterCollider( this );
+
     return OK;
 }
 
@@ -31,6 +33,7 @@ TError CollisionComponent::Init()
 //-------------------------------------
 void CollisionComponent::End()
 {
+	ICollisionManager::Instance().UnregisterCollider( this );
 }
 
 //-------------------------------------

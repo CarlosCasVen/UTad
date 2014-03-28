@@ -57,10 +57,10 @@ void LiveComponent::SetLive( unsigned int live )
 //-------------------------------------
 void LiveComponent::ReceiveEvent ( Event& newEvent )
 {
-    switch( newEvent.GetType() )
+   /* switch( newEvent.GetType() )
     {
     default: break;
-    }
+    }*/
 }
 
 //-------------------------------------

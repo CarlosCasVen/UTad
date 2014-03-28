@@ -2,6 +2,7 @@
 #include "../include/u-gine.h"
 #include <time.h>
 
+bool  push = false;
 //-------------------------------------
 //
 //-------------------------------------
@@ -75,12 +76,12 @@ TError PlayerEntity::Init()
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) )    sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
     if( GetParams().HasMember( "Speed"     ) )    movement->SetSpeed ( GetParams()["Speed"].GetDouble() );
-    if( GetParams().HasMember( "Up"        ) )    m_up    = (eInputCode)GetParams()["Up"].GetInt();
-    if( GetParams().HasMember( "Down"      ) )    m_down  = (eInputCode)GetParams()["Down"].GetInt();
-    if( GetParams().HasMember( "Right"     ) )    m_up    = (eInputCode)GetParams()["Right"].GetInt();
-    if( GetParams().HasMember( "Left"      ) )    m_down  = (eInputCode)GetParams()["Left"].GetInt();
+    if( GetParams().HasMember( "Right"     ) )    m_right    = (eInputCode)GetParams()["Right"].GetInt();
+    if( GetParams().HasMember( "Left"      ) )    m_left  = (eInputCode)GetParams()["Left"].GetInt();
     if( GetParams().HasMember( "Shoot"     ) )    m_shoot = (eInputCode)GetParams()["Shoot"].GetInt();
     if( GetParams().HasMember( "Shoot"     ) )    m_shoot = (eInputCode)GetParams()["Shoot"].GetInt();
+	if( GetParams().HasMember( "Direction" ) )    m_yDirection    = GetParams()["Direction"].GetInt();
+	if( GetParams().HasMember( "BSpeed"    ) )    m_bulletSpeed    = GetParams()["BSpeed"].GetDouble();
 
     animator->SetSprite ( sprite->GetSprite() );
     collision->SetSprite( sprite->GetSprite() );
@@ -129,16 +130,6 @@ void PlayerEntity::Update( double elapsedTime )
 	double y = sprite->GetY();
     double x = sprite->GetX();
 
-	if( input->IsButtonPressed( m_up    ) ) 
-	{
-		movement->SetDirection( 0, 1 );
-		y += movement->GetYIncrement();
-	}
-	if( input->IsButtonPressed( m_down  ) ) 
-	{
-		movement->SetDirection( 0, -1 );
-		y += movement->GetYIncrement();
-	}
     if( input->IsButtonPressed( m_right  ) ) 
 	{
 		movement->SetDirection( 1, 0 );
@@ -149,29 +140,32 @@ void PlayerEntity::Update( double elapsedTime )
 		movement->SetDirection( -1, 0 );
 		x += movement->GetXIncrement();
 	}
-	if( input->IsButtonPressed( m_shoot ) ) 
+/*	if( input->IsButtonDown( m_shoot ) && !push ) 
     {
-        CreateBullet( sprite->GetX(), y, movement->GetXIncrement(), movement->GetYIncrement() );
-    }
+		push = true;
+        CreateBullet( sprite->GetX(), y );
+    }*/
 	sprite->SetPosition( x, y ); 
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-void PlayerEntity::CreateBullet( double x, double y, double xDir, double yDir )
+/*void PlayerEntity::CreateBullet( double x, double y )
 {
     TError error = OK;
     
     BulletEntity* bullet = IEntityFactory::Instance().GetTemporalEntity<BulletEntity>(error);
 
-    if( error != OK ) IEntityFactory::Instance().RemoveEntity( bullet );
+    if( error != OK ) 
+		IEntityFactory::Instance().RemoveEntity( bullet );
 
     bullet->SetParentScene( GetParentScene() );
+	bullet->SetEntityCreator( this );
     bullet->Init();
-    bullet->SetDirection( xDir, yDir );
+	bullet->SetDirection( 0, m_yDirection );
     bullet->SetPosition( x, y, 0 );
     bullet->SetSpeed( m_bulletSpeed );
     GetParentScene()->AddEntity( bullet );
     
-}
+}*/

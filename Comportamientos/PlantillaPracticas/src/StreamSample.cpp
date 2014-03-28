@@ -13,8 +13,15 @@ StreamSample::~StreamSample()
 
 TError StreamSample::Init()
 {
-    if ( GetFilename() ) m_stream = BASS_StreamCreateFile(FALSE, GetFilename(), 0, 0 , 0);
-    else                 return TError::ERROR;
+    if ( GetFilename() )
+	{
+		const char *file = GetFilename()->ToCString();
+		m_stream = BASS_StreamCreateFile(FALSE, file, 0, 0 , 0);
+	}
+	else
+	{
+		return TError::ERROR;
+	}
 
     return OK;
 }
@@ -26,7 +33,7 @@ void StreamSample::End()
 
 void StreamSample::PlaySample ()
 {
-    BASS_ChannelPlay( m_stream, TRUE );
+    BASS_ChannelPlay( m_stream, m_playing );
 }
 
 void StreamSample::PauseSample()

@@ -1,11 +1,11 @@
-#include "../logic/Logic.h"
-#include "../include/u-gine.h"
+
 
 #ifdef LEAK_CONTROL
 #ifdef _WIN32
 #include <windows.h>
-#include "../logic/leaks.h"
 #include <stdio.h>
+#include "../logic/Logic.h"
+#include "../include/u-gine.h"
 
 void DumpUnfreed()
 {

@@ -1,7 +1,7 @@
-#include "../logic/logic.h"
 #ifdef LEAK_CONTROL
 #pragma warning (disable: 4996)
 #include <string.h>
+#include "../logic/logic.h"
 
 ALLOC_INFO *g_LeakList;
 

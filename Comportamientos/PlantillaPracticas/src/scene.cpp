@@ -82,3 +82,4 @@ void Scene::RenderSprites(Layer layer) const {
 void Scene::RenderEmitters(Layer layer) const {
     for ( uint32 i = 0; i < emitters[layer].Size(); i++ ) emitters[layer][i]->Render();
 }
+

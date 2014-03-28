@@ -25,10 +25,9 @@ public:
 
     virtual void              ReceiveEvent ( Event& newEvent );
     virtual unsigned long int GetListenerId()            const;
+	void SubstractLive( unsigned int damage );
 
 private:
-     void SubstractLive( unsigned int damage );
-
     unsigned int m_live;
 
 };

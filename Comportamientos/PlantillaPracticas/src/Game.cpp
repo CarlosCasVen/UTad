@@ -43,16 +43,16 @@ TError Game::Init()
 //-------------------------------------
 void Game::End()
 {
-    IScreenManager::Instance().Init();
-    ISoundManager::Instance().Init();
+	ISceneManager::Instance().End();    
+    InputManager::Instance().End();
+	IScreenManager::Instance().End();
+    ISoundManager::Instance().End();
     ICollisionManager::Instance().End();
 	IEventManager::Instance().End();
-	ISceneManager::Instance().End();    
-    IIdFactory::Instance().End();
-    IEntityFactory::Instance().End();
+	IIdFactory::Instance().End();
+	IEntityFactory::Instance().End();
     IComponentFactory::Instance().End();
-    ISoundFactory::Instance().Init();
-    InputManager::Instance().End();
+    ISoundFactory::Instance().End();
 
     DEL( m_game );
 }

@@ -53,10 +53,10 @@ TError ButtonEntity::Init()
     if( GetParams().HasMember( "Image"     ) )    sprite->SetImage   ( String( GetParams()["Image"].GetString() ) );
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) ) 
-    {
+    {		
         sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
-        bound->SetMinBound(  GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
-        bound->SetMaxBound( GetParams()["X"].GetDouble() + sprite->GetImage()->GetWidth(), GetParams()["Y"].GetDouble() + sprite->GetImage()->GetHeight() );
+		bound->SetMinBound(  GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
+		bound->SetMaxBound(  GetParams()["X"].GetDouble() + sprite->GetImage()->GetWidth(), GetParams()["Y"].GetDouble() + sprite->GetImage()->GetHeight() );
     }
     if( GetParams().HasMember( "NextScene"  ) )    m_sceneIndex = GetParams()["NextScene"].GetInt();
 

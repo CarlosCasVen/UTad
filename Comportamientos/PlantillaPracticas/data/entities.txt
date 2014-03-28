@@ -5,27 +5,42 @@
 					  "Params" : { "Sample" : "data/gameplay.mp3"
 								  }  
 					},
+					{ "Entity" : "EStaticObstacle",
+					  "Params" : { "Image" : "data/soccer_npot.png",
+								  "X" : 200 , "Y" : 80, 
+								  "Collision" : 3
+								  }  
+					},
 					{ "Entity" : "EPlayer",
 					  "Params" : { "Image" : "data/alien.png",
 								  "X" : 10 , "Y" : 10, 
-								  "Speed" : 10, 
-								  "Up" : 65, 
-								  "Down" : 83,
-								  "Right" : 84,
-								  "Left"  : 86,
-								  "Shoot" : 72,
+								  "Speed" : 1000, 
+								  "Right" : 87,
+								  "Left"  : 81,
+								  "Shoot" : 84,
 								  "FirstFps" : 0,
 								  "LastFps"  : 8,
 								  "FPS" : 10,
 								  "Collision" : 3,
-								  "Live" : 10
+								  "Live" : 10,
+								  "Direction" : 4000,
+								  "BSpeed" : 1000
 								  }  
 					},
-					{ "Entity" : "EButton",
-					  "Params" : { "Image" : "data/box.jpg",
-								  "X" : 50 , 
-								  "Y" : 50,  
-								  "NextScene" : 1
+					{ "Entity" : "EPlayer",
+					  "Params" : { "Image" : "data/alien.png",
+								  "X" : 1880 , "Y" : 990, 
+								  "Speed" : 1000, 
+								  "Right" : 77,
+								  "Left"  : 78,
+								  "Shoot" : 86,
+								  "FirstFps" : 0,
+								  "LastFps"  : 8,
+								  "FPS" : 10,
+								  "Collision" : 3,
+								  "Live" : 10,
+								  "Direction" : -4000,
+								  "BSpeed" : 1000
 								  }  
 					}
 				]

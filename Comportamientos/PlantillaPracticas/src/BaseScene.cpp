@@ -65,7 +65,6 @@ void BaseScene::End()
 	}
 
 	DEL( m_scene );
-
 }
 
 //-------------------------------------
@@ -103,7 +102,7 @@ void BaseScene::AddSprite( Sprite* sprite, Scene::Layer layer )
 //-------------------------------------
 void BaseScene::RemoveSprite( Sprite* sprite )
 {
-    m_scene->DeleteSprite( sprite );
+	m_scene->DeleteSprite( sprite );
 }
 
 //-------------------------------------
@@ -134,11 +133,13 @@ void BaseScene::RemoveEntity( IEntity* entity )
 //-------------------------------------
 void BaseScene::DestroyEntities ()
 {
-	for( unsigned int i = m_entitiesToDelete.Size() ; i > 0; i-- )
+	for( int i = m_entitiesToDelete.Size() - 1 ; i >= 0; i-- )
 	{
+		m_entitiesToDelete[i]->End();
 		m_entities.Remove( m_entitiesToDelete[i] );
 		IEntityFactory::Instance().RemoveEntity( m_entitiesToDelete[i] );
 	}
+	m_entitiesToDelete.Clear();
 }
 
 //-------------------------------------

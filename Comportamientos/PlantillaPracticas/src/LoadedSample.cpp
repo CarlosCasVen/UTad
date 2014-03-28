@@ -13,7 +13,12 @@ LoadedSample::~LoadedSample()
 
 TError LoadedSample::Init()
 {
-    if( GetFilename() ) m_sample  = BASS_SampleLoad( m_playing, GetFilename(), 0, 0, 3, 0 ); m_channel = BASS_ChannelPlay( m_sample, m_playing );
+   if( GetFilename() ) 
+   {
+		const char *file = GetFilename()->ToCString();
+		m_sample  = BASS_SampleLoad( FALSE, file, 0, 0, 3, 0 ); 
+		m_channel = BASS_ChannelPlay( m_sample, m_playing );
+   }
 
     return OK;
 }
@@ -25,11 +30,14 @@ void LoadedSample::End ()
 
 void LoadedSample::PlaySample ()
 {
-    if ( !m_playing ) BASS_Start();
+    if ( m_playing ) BASS_Start();
     else
     {
         m_channel = BASS_SampleGetChannel( m_sample, FALSE );
-		BASS_ChannelPlay(m_channel, FALSE);    
+		BOOL ret = BASS_ChannelPlay(m_channel, FALSE); 
+		int err =BASS_ErrorGetCode();
+
+		int x = 0;
     }
 }
 

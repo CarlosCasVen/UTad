@@ -30,7 +30,6 @@
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\BoundComponent.cpp" />
     <ClCompile Include="src\BSOEntity.cpp" />
-    <ClCompile Include="src\BulletEntity.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\collisionManager.cpp" />
     <ClCompile Include="src\collisionPixelData.cpp" />
@@ -160,7 +159,6 @@
     <ClInclude Include="logic\SoundFactory.h" />
     <ClInclude Include="logic\SoundManager.h" />
     <ClInclude Include="logic\SpriteComponent.h" />
-    <ClInclude Include="logic\COMPONENT_TYPES.h" />
     <ClInclude Include="logic\EntityFactory.h" />
     <ClInclude Include="logic\Error.h" />
     <ClInclude Include="logic\Event.h" />
@@ -203,7 +201,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

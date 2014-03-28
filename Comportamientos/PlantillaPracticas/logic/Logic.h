@@ -47,7 +47,6 @@
 //ENTITIES
 #include "BaseEntity.h"
 #include "PlayerEntity.h"
-#include "BulletEntity.h"
 #include "ButtonEntity.h"
 #include "BSOEntity.h"
 #include "StaticObstacleEntity.h"

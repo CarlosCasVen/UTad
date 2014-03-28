@@ -21,7 +21,6 @@ TError SoundManager::Init()
 
 void SoundManager::End()
 {
-    assert( m_soundManager == NULL );
     BASS_Free();
     DEL( m_soundManager );
 }

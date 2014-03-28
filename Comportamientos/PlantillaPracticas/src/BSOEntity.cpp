@@ -30,6 +30,7 @@ TError BSOEntity::Init()
 void BSOEntity::End ()
 {
 //    assert( m_sample == NULL );
+	ISoundManager::Instance().StopSample( m_sample );
     ISoundFactory::Instance().RemoveSample( m_sample );
 }
 

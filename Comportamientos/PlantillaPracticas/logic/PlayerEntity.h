@@ -19,10 +19,11 @@ public:
     virtual void Update( double elapsedTime );
 
 private:
-    void CreateBullet( double x, double y, double xDir, double yDir );
+   // void CreateBullet( double x, double y );
 
     eInputCode m_up, m_down, m_right, m_left, m_shoot;
     double     m_bulletSpeed;
+	int		   m_yDirection;
 };
 
 

@@ -1,4 +1,5 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#pragma warning( disable : 4065  05 )
 
 #include "include/u-gine.h"
 #include "logic/logic.h"
@@ -13,7 +14,6 @@ int	main(int	argc,	char*	argv[])	{
     IGame::Instance().Init();
 
 	glfwSetMousePos(400, 300);
-	//glfwDisable(GLFW_MOUSE_CURSOR);
 
 	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
 	{	

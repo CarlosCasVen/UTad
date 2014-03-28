@@ -46,8 +46,8 @@ void BoundComponent::Update( double elapsedTime )
 //-------------------------------------
 void BoundComponent::SetMinBound( double x, double y )
 {
-    m_xMin = x;
-    m_yMin = y;
+	m_xMin = IScreenManager::Instance().TransformToScreenPointX( x );
+    m_yMin = IScreenManager::Instance().TransformToScreenPointY( y );
 }
 
 //-------------------------------------
@@ -55,8 +55,8 @@ void BoundComponent::SetMinBound( double x, double y )
 //-------------------------------------
 void BoundComponent::SetMaxBound( double x, double y )
 {
-    m_xMax = x;
-    m_yMax = y;
+	m_xMax = IScreenManager::Instance().TransformToScreenPointX( x );
+	m_yMax = IScreenManager::Instance().TransformToScreenPointY( y );
 }
 
 //-------------------------------------
@@ -64,9 +64,11 @@ void BoundComponent::SetMaxBound( double x, double y )
 //-------------------------------------
 bool BoundComponent::IsInBounds()
 {
-    if( m_xMin <=  Screen::Instance().GetMouseX() && m_xMax >=  Screen::Instance().GetMouseX() && 
-        m_yMin <=  Screen::Instance().GetMouseY() && m_xMax >=  Screen::Instance().GetMouseY() ) 
-        
+	double xPos = Screen::Instance().GetMouseX();
+	double yPos = Screen::Instance().GetMouseY();
+
+    if( m_xMin <=  xPos && m_xMax >=  xPos  && 
+        m_yMin <=  yPos && m_yMax >=  yPos  )        
         return true; 
     return false;
 }

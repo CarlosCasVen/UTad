@@ -24,8 +24,8 @@ TError ScreenManager::Init()
 
 void ScreenManager::End()
 {
-    assert( m_screenManager == NULL );
-    DEL( m_screenManager );
+    //assert( m_screenManager == NULL );
+    if( m_screenManager ) DEL( m_screenManager );
 }
 
 double ScreenManager::TransformToScreenPointX( double x )

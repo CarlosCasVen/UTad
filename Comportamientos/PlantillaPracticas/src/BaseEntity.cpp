@@ -29,8 +29,13 @@ TError BaseEntity::Init()
 //-------------------------------------
 void BaseEntity::End()
 {
-    for( unsigned int i = 0; i < m_components.Size(); i++ ) IComponentFactory::Instance().RemoveComponent( m_components[i] );
-    m_components.Clear();
+    for( unsigned int i = 0; i < m_components.Size(); i++ )
+	{
+		m_components[i]->End();
+		IComponentFactory::Instance().RemoveComponent( m_components[i] );
+	}
+	
+	m_components.Clear();
 }
 
 //-------------------------------------
