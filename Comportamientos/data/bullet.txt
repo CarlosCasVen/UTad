@@ -1,0 +1,5 @@
+{ 
+	"Image" : "data/ball.png",
+	"Collision" : 3,
+	"Damage" : 1
+}

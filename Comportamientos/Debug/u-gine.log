@@ -1,0 +1,170 @@
+﻿Compilación iniciada a las 29/03/2014 6:02:39.
+     1>Proyecto "C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\u-gine.vcxproj" en el nodo 2 (Build destinos).
+     1>InitializeBuildStatus:
+         Se creará "Debug\u-gine.unsuccessfulbuild" porque se especificó "AlwaysCreate".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iopenal /Ibass /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt json\json.cpp json\leaks.cpp json\leaks_windows.cpp main.cpp src\affector.cpp src\AnimatorComponent.cpp src\audioBuffer.cpp src\audioEngine.cpp src\audioSource.cpp src\BaseComponent.cpp src\BaseEntity.cpp src\BaseSample.cpp src\BaseScene.cpp src\bone.cpp src\BoundComponent.cpp src\BSOEntity.cpp src\BulletEntity.cpp src\camera.cpp src\CollisionComponent.cpp src\collisionManager.cpp src\CollisionManagerL.cpp src\collisionPixelData.cpp src\ComponentFactory.cpp src\DamageComponent.cpp src\emitter.cpp src\EntityFactory.cpp src\Event.cpp src\EventChangeScene.cpp src\EventManager.cpp src\font.cpp src\Game.cpp src\IdFactory.cpp src\image.cpp src\InputComponent.cpp src\InputManager.cpp src\isometricMap.cpp src\isometricScene.cpp src\isometricSprite.cpp src\leaks.cpp src\leaks_windows.cpp src\listener.cpp src\LiveComponent.cpp src\LoadedSample.cpp src\map.cpp src\mapScene.cpp src\math.cpp src\MoveComponent.cpp src\parallaxScene.cpp src\particle.cpp src\PlayerEntity.cpp src\renderer.cpp src\resourcemanager.cpp src\scene.cpp src\SceneManager.cpp src\screen.cpp src\ScreenManager.cpp src\skeletondata.cpp src\skeletonsprite.cpp src\ButtonEntity.cpp src\SoundFactory.cpp src\SoundManager.cpp src\FinishSceneEntity.cpp src\sprite.cpp src\SpriteComponent.cpp src\StaticObstacleEntity.cpp src\StreamSample.cpp src\TeamComponent.cpp src\WaveMovementComponent.cpp
+         WaveMovementComponent.cpp
+         TeamComponent.cpp
+         StreamSample.cpp
+         StaticObstacleEntity.cpp
+         SpriteComponent.cpp
+         sprite.cpp
+         FinishSceneEntity.cpp
+         SoundManager.cpp
+         SoundFactory.cpp
+         ButtonEntity.cpp
+         skeletonsprite.cpp
+         skeletondata.cpp
+         ScreenManager.cpp
+         screen.cpp
+         SceneManager.cpp
+         scene.cpp
+         resourcemanager.cpp
+         renderer.cpp
+         PlayerEntity.cpp
+         particle.cpp
+         Generando código...
+         Compilando...
+         parallaxScene.cpp
+         MoveComponent.cpp
+         math.cpp
+         mapScene.cpp
+         map.cpp
+         LoadedSample.cpp
+         LiveComponent.cpp
+         listener.cpp
+         leaks_windows.cpp
+         leaks.cpp
+         isometricSprite.cpp
+         isometricScene.cpp
+         isometricMap.cpp
+         InputManager.cpp
+     1>c:\program files (x86)\windows kits\8.0\include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : redefinición de macro
+                 c:\users\carlos\documents\repositorio git\utad\comportamientos\lib\glfw.h(74) : vea la definición anterior de 'APIENTRY'
+     1>c:\program files (x86)\windows kits\8.0\include\um\wingdi.h(32): warning C4005: 'WINGDIAPI' : redefinición de macro
+                 c:\users\carlos\documents\repositorio git\utad\comportamientos\lib\glfw.h(91) : vea la definición anterior de 'WINGDIAPI'
+     1>c:\users\carlos\documents\repositorio git\utad\comportamientos\src\inputmanager.cpp(701): warning C4065: la instrucción switch contiene etiquetas 'default' pero no etiquetas 'case'
+         InputComponent.cpp
+         image.cpp
+         IdFactory.cpp
+         Game.cpp
+         font.cpp
+         EventManager.cpp
+         Generando código...
+         Compilando...
+         EventChangeScene.cpp
+         Event.cpp
+         EntityFactory.cpp
+         emitter.cpp
+         DamageComponent.cpp
+         ComponentFactory.cpp
+         collisionPixelData.cpp
+         CollisionManagerL.cpp
+         collisionManager.cpp
+         CollisionComponent.cpp
+         camera.cpp
+         BulletEntity.cpp
+         BSOEntity.cpp
+         BoundComponent.cpp
+         bone.cpp
+         BaseScene.cpp
+         BaseSample.cpp
+         BaseEntity.cpp
+         BaseComponent.cpp
+         audioSource.cpp
+         Generando código...
+         Compilando...
+         audioEngine.cpp
+         audioBuffer.cpp
+         AnimatorComponent.cpp
+         affector.cpp
+         main.cpp
+         leaks_windows.cpp
+         leaks.cpp
+         json.cpp
+         Generando código...
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iopenal /Ibass /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt lib\stb_image.c
+         stb_image.c
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\Debug\u-gine.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib bass/bass.lib openal32.lib glfw.win32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\Debug\u-gine.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\Debug\u-gine.lib" /MACHINE:X86 Debug\json.obj
+         Debug\leaks.obj
+         Debug\leaks_windows.obj
+         Debug\stb_image.obj
+         Debug\main.obj
+         Debug\affector.obj
+         Debug\AnimatorComponent.obj
+         Debug\audioBuffer.obj
+         Debug\audioEngine.obj
+         Debug\audioSource.obj
+         Debug\BaseComponent.obj
+         Debug\BaseEntity.obj
+         Debug\BaseSample.obj
+         Debug\BaseScene.obj
+         Debug\bone.obj
+         Debug\BoundComponent.obj
+         Debug\BSOEntity.obj
+         Debug\BulletEntity.obj
+         Debug\camera.obj
+         Debug\CollisionComponent.obj
+         Debug\collisionManager.obj
+         Debug\CollisionManagerL.obj
+         Debug\collisionPixelData.obj
+         Debug\ComponentFactory.obj
+         Debug\DamageComponent.obj
+         Debug\emitter.obj
+         Debug\EntityFactory.obj
+         Debug\Event.obj
+         Debug\EventChangeScene.obj
+         Debug\EventManager.obj
+         Debug\font.obj
+         Debug\Game.obj
+         Debug\IdFactory.obj
+         Debug\image.obj
+         Debug\InputComponent.obj
+         Debug\InputManager.obj
+         Debug\isometricMap.obj
+         Debug\isometricScene.obj
+         Debug\isometricSprite.obj
+         Debug\leaks.obj
+         Debug\leaks_windows.obj
+         Debug\listener.obj
+         Debug\LiveComponent.obj
+         Debug\LoadedSample.obj
+         Debug\map.obj
+         Debug\mapScene.obj
+         Debug\math.obj
+         Debug\MoveComponent.obj
+         Debug\parallaxScene.obj
+         Debug\particle.obj
+         Debug\PlayerEntity.obj
+         Debug\renderer.obj
+         Debug\resourcemanager.obj
+         Debug\scene.obj
+         Debug\SceneManager.obj
+         Debug\screen.obj
+         Debug\ScreenManager.obj
+         Debug\skeletondata.obj
+         Debug\skeletonsprite.obj
+         Debug\ButtonEntity.obj
+         Debug\SoundFactory.obj
+         Debug\SoundManager.obj
+         Debug\FinishSceneEntity.obj
+         Debug\sprite.obj
+         Debug\SpriteComponent.obj
+         Debug\StaticObstacleEntity.obj
+         Debug\StreamSample.obj
+         Debug\TeamComponent.obj
+         Debug\WaveMovementComponent.obj
+     1>Debug\leaks.obj : warning LNK4042: objeto especificado más de una vez; omitidos los sobrantes
+     1>Debug\leaks_windows.obj : warning LNK4042: objeto especificado más de una vez; omitidos los sobrantes
+     1>LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+         u-gine.vcxproj -> C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\Debug\u-gine.exe
+       FinalizeBuildStatus:
+         Se eliminará el archivo "Debug\u-gine.unsuccessfulbuild".
+         Aplicando tarea Touch a "Debug\u-gine.lastbuildstate".
+     1>Compilación del proyecto terminada "C:\Users\Carlos\Documents\Repositorio Git\UTad\Comportamientos\u-gine.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:22.75

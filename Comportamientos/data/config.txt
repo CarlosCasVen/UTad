@@ -1,0 +1,13 @@
+{
+	"Scenes" : [
+					{
+					"Scene" : "BaseScene", "Params" : "data/menu.txt"
+					},
+					{ 
+					"Scene" : "BaseScene", "Params" : "data/entities.txt"
+					},
+					{ 
+					"Scene" : "BaseScene", "Params" : "data/entities.txt"
+					}
+				]
+}
