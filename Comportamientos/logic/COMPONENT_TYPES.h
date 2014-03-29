@@ -1,5 +1,0 @@
-REG_COMPONENTS(Bound , "EBound" )
-REG_COMPONENTS(Sprite, "ESprite")
-REG_COMPONENTS(Input , "EInput" )
-REG_COMPONENTS(Live  , "ELive"  )
-REG_COMPONENTS(Move  , "EMove"  )
