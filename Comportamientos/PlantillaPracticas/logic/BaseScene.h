@@ -29,11 +29,13 @@ public:
 private:
     TError GenerateEntities();
 	void   DestroyEntities ();
+    void   DestroySprites  ();
     void   AddEntities     ();
 
     Array<IEntity*>   m_entities;
 	Array<IEntity*>   m_entitiesToDelete;
     Array<IEntity*>   m_entitiesToAdd;
+    Array<Sprite*>    m_spriteToDelete;
     Scene*            m_scene;
     const String*     m_sceneInfo;
     unsigned long int m_id;

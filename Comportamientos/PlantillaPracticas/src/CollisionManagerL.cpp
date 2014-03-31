@@ -29,19 +29,19 @@ void CollisionManagerL::End()
     DEL( m_collisionManager );
 }
 
-void CollisionManagerL::Update()
+//-------------------------------------
+//
+//-------------------------------------
+void CollisionManagerL::CheckCollision( ICollisionListener* collision )
 {
-   for( unsigned int i = 0; i < m_collisions.Size(); i++ )
-    {
-        Sprite* mainSprite = m_collisions[i]->GetCollisionComponent()->GetCollisionSprite();
+    Sprite* mainSprite = collision->GetCollisionComponent()->GetCollisionSprite();
 
-        for( unsigned int k = 0; k < m_collisions.Size(); k++ )
+    for( unsigned int i = 0; i < m_collisions.Size(); i++ )
         {
-            Sprite* secundarySprite = m_collisions[k]->GetCollisionComponent()->GetCollisionSprite();
+            Sprite* secundarySprite = m_collisions[i]->GetCollisionComponent()->GetCollisionSprite();
 
-            if( mainSprite->CheckCollision( secundarySprite ) )   m_collisions[i]->AddCollisioningComponent( ( m_collisions[k] ) ); 
-        }
-    }
+            if( mainSprite->CheckCollision( secundarySprite ) )   collision->AddCollisioningComponent( ( m_collisions[i] ) ); 
+     }
 }
 
 //-------------------------------------

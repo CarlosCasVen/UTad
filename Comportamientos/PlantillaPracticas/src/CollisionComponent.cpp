@@ -23,6 +23,8 @@ CollisionComponent::~CollisionComponent()
 //-------------------------------------
 TError CollisionComponent::Init()
 {
+	ICollisionManager::Instance().RegisterCollider( this );
+
     return OK;
 }
 
@@ -31,6 +33,7 @@ TError CollisionComponent::Init()
 //-------------------------------------
 void CollisionComponent::End()
 {
+	ICollisionManager::Instance().UnregisterCollider( this );
 }
 
 //-------------------------------------
@@ -38,7 +41,6 @@ void CollisionComponent::End()
 //-------------------------------------
 void CollisionComponent::Update( double elapsedTime )
 {
-    m_componentsCollisioning.Clear();
 }
 
 //-------------------------------------
@@ -62,6 +64,8 @@ Sprite::CollisionMode CollisionComponent::GetCollisionMode()
 //-------------------------------------
 const Array<CollisionComponent*>& CollisionComponent::GetCollisionsCollisioning()
 {
+    m_componentsCollisioning.Clear();
+    ICollisionManager::Instance().CheckCollision( this );
     return m_componentsCollisioning;
 }
 

@@ -46,8 +46,10 @@ void MoveComponent::Update( double elapsedTime )
 //-------------------------------------
 void MoveComponent::SetDirection( double x, double y )
 {
-    m_xDirection = x / abs( x );
-    m_yDirection = y / abs( y );
+    if( x == 0 ) m_xDirection = 0;
+    else         m_xDirection = x / abs( x );
+    if( y == 0 ) m_yDirection = 0;
+    else         m_yDirection = y / abs( y );
 }
 
 //-------------------------------------

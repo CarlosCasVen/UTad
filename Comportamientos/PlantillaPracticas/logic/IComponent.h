@@ -22,6 +22,7 @@ public:
         EDamage,
         EAnimator,
         ELabel,
+        ETeam,
         EInvalid,
     };
     

@@ -234,12 +234,6 @@
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Source Files\Logic\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="logic\CollisionManagerL.cpp">
-      <Filter>Source Files\Logic\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="logic\CollisionComponent.cpp">
-      <Filter>Source Files\Logic\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\DamageComponent.cpp">
       <Filter>Source Files\Logic\Components</Filter>
     </ClCompile>
@@ -267,10 +261,25 @@
     <ClCompile Include="src\BSOEntity.cpp">
       <Filter>Source Files\Logic\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\LabelComponent.cpp">
+    <ClCompile Include="src\StaticObstacleEntity.cpp">
+      <Filter>Source Files\Logic\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaveMovementComponent.cpp">
       <Filter>Source Files\Logic\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\StaticObstacleEntity.cpp">
+    <ClCompile Include="src\CollisionComponent.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionManagerL.cpp">
+      <Filter>Source Files\Logic\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BulletEntity.cpp">
+      <Filter>Source Files\Logic\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TeamComponent.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FinishSceneEntity.cpp">
       <Filter>Source Files\Logic\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -602,11 +611,20 @@
     <ClInclude Include="logic\BSOEntity.h">
       <Filter>Header Files\Logic\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="logic\WaveMovementComponent.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
     <ClInclude Include="logic\StaticObstacleEntity.h">
       <Filter>Header Files\Logic\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="logic\LabelComponent.h">
+    <ClInclude Include="logic\BulletEntity.h">
+      <Filter>Header Files\Logic\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\TeamComponent.h">
       <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\FinishSceneEntity.h">
+      <Filter>Header Files\Logic\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

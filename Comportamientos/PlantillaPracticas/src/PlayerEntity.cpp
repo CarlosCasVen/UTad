@@ -2,7 +2,7 @@
 #include "../include/u-gine.h"
 #include <time.h>
 
-bool  push = false;
+
 //-------------------------------------
 //
 //-------------------------------------
@@ -72,6 +72,14 @@ TError PlayerEntity::Init()
         return error;
     }
 
+    TeamComponent*   team = IComponentFactory::Instance().GetComponent<TeamComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( team );
+        return error;
+    }
+
     if( GetParams().HasMember( "Image"     ) )    sprite->SetImage   ( String( GetParams()["Image"].GetString() ) );
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) )    sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
@@ -80,8 +88,8 @@ TError PlayerEntity::Init()
     if( GetParams().HasMember( "Left"      ) )    m_left  = (eInputCode)GetParams()["Left"].GetInt();
     if( GetParams().HasMember( "Shoot"     ) )    m_shoot = (eInputCode)GetParams()["Shoot"].GetInt();
     if( GetParams().HasMember( "Shoot"     ) )    m_shoot = (eInputCode)GetParams()["Shoot"].GetInt();
-	if( GetParams().HasMember( "Direction" ) )    m_yDirection    = GetParams()["Direction"].GetInt();
-	if( GetParams().HasMember( "BSpeed"    ) )    m_bulletSpeed    = GetParams()["BSpeed"].GetDouble();
+    if( GetParams().HasMember( "Direction" ) )    m_paramsBullet.m_yDirection = GetParams()["Direction"].GetInt();
+	if( GetParams().HasMember( "BSpeed"    ) )    m_paramsBullet.m_bulletSpeed = GetParams()["BSpeed"].GetDouble();
 
     animator->SetSprite ( sprite->GetSprite() );
     collision->SetSprite( sprite->GetSprite() );
@@ -91,6 +99,7 @@ TError PlayerEntity::Init()
     if( GetParams().HasMember( "FirstFps"  ) )    animator->SetFPS( GetParams()["FPS"].GetInt() );
     if( GetParams().HasMember( "Collision" ) )    collision->SetCollisionMode( (Sprite::CollisionMode) GetParams()["Collision"].GetInt() );
     if( GetParams().HasMember( "Live"      ) )    live->SetLive( GetParams()["Live"].GetInt() );
+    if( GetParams().HasMember( "Team"      ) )    team->SetTeam( m_paramsBullet.m_teamId = GetParams()["Team"].GetInt() );
  
     AddComponent( input     );
     AddComponent( sprite    );
@@ -98,6 +107,7 @@ TError PlayerEntity::Init()
     AddComponent( collision );
     AddComponent( animator  );
     AddComponent( live      );
+    AddComponent( team      );
 
     error = BaseEntity::Init();
 
@@ -119,13 +129,10 @@ void PlayerEntity::Update( double elapsedTime )
 {
     BaseEntity::Update( elapsedTime );
 
-    InputComponent*  input    = NULL;
-    SpriteComponent* sprite   = NULL;
-    MoveComponent*   movement = NULL;
-
-    input    = GetComponentByType<InputComponent> ( IComponent::EInput  ); 
-    sprite   = GetComponentByType<SpriteComponent>( IComponent::ESprite ); 
-    movement = GetComponentByType<MoveComponent>  ( IComponent::EMove   );
+    InputComponent*  input    = GetComponentByType<InputComponent> ( IComponent::EInput  );
+    SpriteComponent* sprite   = GetComponentByType<SpriteComponent>( IComponent::ESprite );
+    MoveComponent*   movement = GetComponentByType<MoveComponent>  ( IComponent::EMove   );
+    LiveComponent*   live     = GetComponentByType<LiveComponent>  ( IComponent::ELive   );
 
 	double y = sprite->GetY();
     double x = sprite->GetX();
@@ -140,18 +147,22 @@ void PlayerEntity::Update( double elapsedTime )
 		movement->SetDirection( -1, 0 );
 		x += movement->GetXIncrement();
 	}
-/*	if( input->IsButtonDown( m_shoot ) && !push ) 
+	if( input->IsButtonDown( m_shoot ) ) 
     {
-		push = true;
-        CreateBullet( sprite->GetX(), y );
-    }*/
+        m_paramsBullet.m_x = x;
+        m_paramsBullet.m_y = y;
+        CreateBullet( m_paramsBullet );
+    }
 	sprite->SetPosition( x, y ); 
+
+    if( live->GetLive() == 0 )
+        IEventManager::Instance().AddEvent( NEW( EventChangeScene, ( 0 ) ) );
 }
 
 //-------------------------------------
 //
 //-------------------------------------
-/*void PlayerEntity::CreateBullet( double x, double y )
+void PlayerEntity::CreateBullet( BulletParams params )
 {
     TError error = OK;
     
@@ -159,13 +170,13 @@ void PlayerEntity::Update( double elapsedTime )
 
     if( error != OK ) 
 		IEntityFactory::Instance().RemoveEntity( bullet );
-
-    bullet->SetParentScene( GetParentScene() );
-	bullet->SetEntityCreator( this );
-    bullet->Init();
-	bullet->SetDirection( 0, m_yDirection );
-    bullet->SetPosition( x, y, 0 );
-    bullet->SetSpeed( m_bulletSpeed );
-    GetParentScene()->AddEntity( bullet );
     
-}*/
+    bullet->SetParentScene  ( GetParentScene() );
+    bullet->SetEntityCreator( this );
+    bullet->Init();
+    bullet->SetDirection    ( 0, params.m_yDirection );
+    bullet->SetPosition     ( params.m_x, params.m_y );
+    bullet->SetSpeed        ( params.m_bulletSpeed );
+    bullet->SetTeam         ( params.m_teamId );
+    
+}

@@ -20,13 +20,7 @@ LiveComponent::~LiveComponent()
 //-------------------------------------
 TError LiveComponent::Init()
 {
-    TError error = OK;
-    
-    #define TYPE ELiveComponent \
-    SetType( TYPE );
-    #undef TYPE
-
-    return error;
+    return OK;
 }
 
 //-------------------------------------
@@ -55,20 +49,9 @@ void LiveComponent::SetLive( unsigned int live )
 //-------------------------------------
 //
 //-------------------------------------
-void LiveComponent::ReceiveEvent ( Event& newEvent )
+unsigned int LiveComponent::GetLive() const
 {
-   /* switch( newEvent.GetType() )
-    {
-    default: break;
-    }*/
-}
-
-//-------------------------------------
-//
-//-------------------------------------
-unsigned long int LiveComponent::GetListenerId() const
-{
-    return GetId();
+    return m_live;
 }
 
 //-------------------------------------

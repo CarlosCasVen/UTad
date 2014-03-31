@@ -18,7 +18,7 @@ public:
     virtual void Update( double elapsedTime );
 
 private:
-    unsigned int m_sceneIndex;
+     unsigned int m_sceneIndex;
 };
 
 

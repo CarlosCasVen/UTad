@@ -50,6 +50,8 @@
 #include "ButtonEntity.h"
 #include "BSOEntity.h"
 #include "StaticObstacleEntity.h"
+#include "BulletEntity.h"
+#include "FinishSceneEntity.h"
 
 //COMPONENT
 #include "BaseComponent.h"
@@ -61,7 +63,8 @@
 #include "CollisionComponent.h"
 #include "DamageComponent.h"
 #include "AnimatorComponent.h"
-#include "LabelComponent.h"
+#include "WaveMovementComponent.h"
+#include "TeamComponent.h"
 
 //SCENES
 #include "BaseScene.h"
@@ -70,5 +73,9 @@
 #include "BaseSample.h"
 #include "StreamSample.h"
 #include "LoadedSample.h"
+
+//EVENTS
+#include "Event.h"
+#include "EventChangeScene.h"
 
 #endif

@@ -84,11 +84,8 @@ void ButtonEntity::Update( double elapsedTime )
 {
     BaseEntity::Update( elapsedTime );
 
-    InputComponent* input = NULL;
-    BoundComponent* bound = NULL;
-
-    input = GetComponentByType<InputComponent>( IComponent::EInput ); 
-    bound = GetComponentByType<BoundComponent>( IComponent::EBound ); 
+    InputComponent* input = GetComponentByType<InputComponent>( IComponent::EInput ); 
+    BoundComponent* bound = GetComponentByType<BoundComponent>( IComponent::EBound ); 
 
     if( bound && input ) if( input->IsMouseButtonPressed( CLICK ) ) if( bound->IsInBounds() ) SceneManager::Instance().SetScene( m_sceneIndex );
 

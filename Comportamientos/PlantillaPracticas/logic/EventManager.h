@@ -25,10 +25,10 @@ public:
 
 	virtual void Update();
 
-    virtual TError RegistreToEvent   ( IListener& subscriptor, TEvent& tEvent );
-	virtual TError UnregistredToEvent( TEvent& tEvent, IListener& subscriptor );
+    virtual TError RegistreToEvent   ( IListener& subscriptor, TEvent tEvent );
+	virtual TError UnregistredToEvent( TEvent tEvent, IListener& subscriptor );
 
-    virtual void AddEvent( Event& newEvent );
+    virtual void AddEvent( Event* newEvent );
 
 private:
     EventManager ();

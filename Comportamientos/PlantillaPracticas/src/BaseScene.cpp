@@ -73,6 +73,7 @@ void BaseScene::End()
 void BaseScene::Update( double elapsedTime )
 {
 	DestroyEntities();
+    DestroySprites ();
     AddEntities    ();
 
     for( unsigned int i = 0; i < m_entities.Size(); i++ ) m_entities[i]->Update( elapsedTime );
@@ -102,7 +103,7 @@ void BaseScene::AddSprite( Sprite* sprite, Scene::Layer layer )
 //-------------------------------------
 void BaseScene::RemoveSprite( Sprite* sprite )
 {
-	m_scene->DeleteSprite( sprite );
+    m_spriteToDelete.Add( sprite );
 }
 
 //-------------------------------------
@@ -157,4 +158,10 @@ void BaseScene::AddEntities()
 {
     for( unsigned int i = 0; i < m_entitiesToAdd.Size(); i++ ) m_entities.Add( m_entitiesToAdd[i] );
     m_entitiesToAdd.Clear();
+}
+
+void BaseScene::DestroySprites()
+{
+    for( unsigned int i = 0 ; i < m_spriteToDelete.Size(); i++ ) m_scene->DeleteSprite( m_spriteToDelete[i] );
+    m_spriteToDelete.Clear();
 }

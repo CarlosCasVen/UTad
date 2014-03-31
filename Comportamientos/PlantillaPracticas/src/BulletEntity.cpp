@@ -4,6 +4,7 @@
 #undef ERROR
 #define PATH_BULLET "data/bullet.txt"
 
+
 String ParseBullet( TError& error, rapidjson::Document& document );
 
 //-------------------------------------
@@ -51,6 +52,22 @@ TError BulletEntity::Init()
         return error;
     }
 
+    TeamComponent*   team = IComponentFactory::Instance().GetComponent<TeamComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( team );
+        return error;
+    }
+
+    DamageComponent* damage = IComponentFactory::Instance().GetComponent<DamageComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( damage );
+        return error;
+    }
+
     String content = String::Read( PATH_BULLET );
     rapidjson::Document document;
     document.Parse<0>( (char*) content.ToCString() );
@@ -61,10 +78,13 @@ TError BulletEntity::Init()
     collision->SetSprite( sprite->GetSprite() );
 
     if( document.HasMember( "Collision" ) )   collision->SetCollisionMode( (Sprite::CollisionMode)document["Collision"].GetInt() );    
-    
+    team->SetTeam( 2 );
     AddComponent( sprite );
     AddComponent( movement );
+    GetParentScene()->AddEntity( this );
     AddComponent( collision );
+    AddComponent( team );
+    AddComponent( damage );
 
     ICollisionManager::Instance().RegisterCollider( (ICollisionListener*)collision );
 
@@ -110,22 +130,38 @@ void BulletEntity::Update( double elapsedTime )
 {
     BaseEntity::Update( elapsedTime );
 
-    MoveComponent*      movement = NULL;
-    SpriteComponent*    sprite   = NULL;
-    CollisionComponent* collision   = NULL;
-
-    movement  = GetComponentByType<MoveComponent>     ( IComponent::EMove      );
-    sprite    = GetComponentByType<SpriteComponent>   ( IComponent::ESprite    );
-    collision = GetComponentByType<CollisionComponent>( IComponent::ECollision );
+    MoveComponent*      movement  = GetComponentByType<MoveComponent>     ( IComponent::EMove      );
+    SpriteComponent*    sprite    = GetComponentByType<SpriteComponent>   ( IComponent::ESprite    );
+    CollisionComponent* collision = GetComponentByType<CollisionComponent>( IComponent::ECollision );
+    TeamComponent*      team      = GetComponentByType<TeamComponent>     ( IComponent::ETeam      );
 
     if( sprite && movement )
     {
         sprite->SetPosition( sprite->GetX() + movement->GetXIncrement(), sprite->GetY() + movement->GetYIncrement() );
     }
     
-    if( collision && collision->GetCollisionsCollisioning().Size() > 0 ) 
+    Array<CollisionComponent*> arrayCollisions = collision->GetCollisionsCollisioning();
+
+    if( !collision ) return; 
+    
+    bool destroyed = false;
+
+    for( unsigned int i = 0; i < arrayCollisions.Size() && !destroyed; i++ )
     {
-        GetParentScene()->RemoveEntity( this );
+        BaseEntity* entity = dynamic_cast<BaseEntity*>( arrayCollisions[i]->GetParent() );
+        TeamComponent* collisionTeam = entity->GetComponentByType<TeamComponent>( IComponent::ETeam );
+
+        if( collisionTeam )
+        {
+            if( team->GetTeamId() != collisionTeam->GetTeamId() )
+            {
+                DoDamage( entity );
+
+                GetParentScene()->RemoveSprite( sprite->GetSprite() );
+                GetParentScene()->RemoveEntity( this );
+                destroyed = true;
+            }
+        }
     }
 }
 
@@ -134,9 +170,7 @@ void BulletEntity::Update( double elapsedTime )
 //-------------------------------------
 void BulletEntity::SetDirection( double x, double y )
 {
-    MoveComponent* movement = NULL;
-
-    movement = GetComponentByType<MoveComponent>( IComponent::EMove );
+    MoveComponent* movement = GetComponentByType<MoveComponent>( IComponent::EMove );
     
     if( movement ) movement->SetDirection( x, y );
 }
@@ -146,9 +180,7 @@ void BulletEntity::SetDirection( double x, double y )
 //-------------------------------------
 void BulletEntity::SetSpeed( double speed )
 {
-    MoveComponent* movement = NULL;
-
-    movement = GetComponentByType<MoveComponent>( IComponent::EMove );
+    MoveComponent* movement = GetComponentByType<MoveComponent>( IComponent::EMove );
     
     if( movement ) movement->SetSpeed( speed );
 }
@@ -158,9 +190,40 @@ void BulletEntity::SetSpeed( double speed )
 //-------------------------------------
 void BulletEntity::SetPosition ( double x, double y, double z )
 {
-    SpriteComponent* sprite = NULL;
-
-    sprite = GetComponentByType<SpriteComponent>( IComponent::ESprite );
+    SpriteComponent* sprite = GetComponentByType<SpriteComponent>( IComponent::ESprite );
     
     if( sprite ) sprite->SetPosition( x, y, z );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BulletEntity::SetEntityCreator( const IEntity* entity )
+{
+    if( entity ) m_creator = entity;
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BulletEntity::SetTeam( unsigned int team )
+{
+    TeamComponent* teamComponent = GetComponentByType<TeamComponent>( IComponent::ETeam );
+
+    if( team ) teamComponent->SetTeam( team );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BulletEntity::DoDamage( BaseEntity* entityToDamage )
+{
+    DamageComponent* damage = GetComponentByType<DamageComponent>( IComponent::EDamage );
+    LiveComponent*   live   = entityToDamage->GetComponentByType<LiveComponent>( IComponent::ELive );
+
+    if( damage && live )
+    {
+        live->SubstractLive( damage->GetDamage() );
+    }
+
 }

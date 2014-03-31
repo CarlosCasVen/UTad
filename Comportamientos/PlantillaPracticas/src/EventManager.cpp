@@ -1,6 +1,5 @@
 #include "../logic/Logic.h"
 #include "../include/u-gine.h"
-#include "../lib/glfw.h"
 
 EventManager* m_eventManager = NULL;
 
@@ -10,6 +9,7 @@ EventManager* m_eventManager = NULL;
 //-------------------------------------
 EventManager ::EventManager ()
 {
+    
 }
 
 //-------------------------------------
@@ -36,6 +36,13 @@ TError EventManager::Init()
 {
     TError error = OK;
 
+    for( int i = 0; i < TEvent::MousePress; i++ )
+    {
+        Subscriptors* sub = NEW( Subscriptors, () );
+        sub->m_type = static_cast<TEvent>( i );
+       m_subscriptors.Add( sub );
+    }
+
     return error;
 }
 
@@ -44,6 +51,14 @@ TError EventManager::Init()
 //-------------------------------------
 void EventManager::End()
 {
+    DestroyEvents();
+
+    for( int i = m_subscriptors.Size() - 1; i >= 0; i-- )
+    {
+        m_subscriptors[i]->m_subscriptors.Clear();
+        DEL( m_subscriptors[i] );
+    }
+
     DEL( m_eventManager );
 }
 
@@ -69,7 +84,7 @@ void EventManager::Update()
  //-------------------------------------
 //
 //-------------------------------------
-TError EventManager::RegistreToEvent( IListener& subscriptor, TEvent& tEvent )
+TError EventManager::RegistreToEvent( IListener& subscriptor, TEvent tEvent )
 {
     TError error = OK;
     bool foundTEvent = false;
@@ -106,7 +121,7 @@ TError EventManager::RegistreToEvent( IListener& subscriptor, TEvent& tEvent )
 //-------------------------------------
 //
 //-------------------------------------
-TError EventManager::UnregistredToEvent( TEvent& tEvent, IListener& subscriptor )
+TError EventManager::UnregistredToEvent( TEvent tEvent, IListener& subscriptor )
 {
     TError error = OK;
     bool foundTEvent = false;
@@ -151,9 +166,9 @@ void EventManager::ComunicateSubscriptors( Event& newEvent, Array<IListener*> su
 //-------------------------------------
 //
 //-------------------------------------
-void EventManager::AddEvent( Event& newEvent )
+void EventManager::AddEvent( Event* newEvent )
 {
-    m_eventsRegistred.Add( &newEvent );
+    m_eventsRegistred.Add( newEvent );
 }
 
 //-------------------------------------
@@ -161,6 +176,7 @@ void EventManager::AddEvent( Event& newEvent )
 //-------------------------------------
 void EventManager::DestroyEvents()
 {
-    for( unsigned int i = 0; i > m_eventsRegistred.Size(); i++ ) DEL( m_eventsRegistred[i] );
+    for( int i = m_eventsRegistred.Size() - 1; i >= 0; i-- )
+        DEL( m_eventsRegistred[i] );
     m_eventsRegistred.Clear();
 }

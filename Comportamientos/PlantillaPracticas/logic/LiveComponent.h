@@ -10,7 +10,7 @@ class Event;
 enum  TEvent;
 
 
-class LiveComponent : public BaseComponent, IListener
+class LiveComponent : public BaseComponent
 {
 public:
     LiveComponent ();
@@ -21,10 +21,9 @@ public:
 
 	virtual void Update( double elapsedTime );
 
-    virtual void SetLive( unsigned int live );
+    void         SetLive( unsigned int live );
+    unsigned int GetLive()              const;
 
-    virtual void              ReceiveEvent ( Event& newEvent );
-    virtual unsigned long int GetListenerId()            const;
 	void SubstractLive( unsigned int damage );
 
 private:

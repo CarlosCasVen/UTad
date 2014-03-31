@@ -1,13 +1,23 @@
 #include "../logic/logic.h"
 
+
+//-------------------------------------
+//
+//-------------------------------------
 StaticObstacleEntity::StaticObstacleEntity (  const rapidjson::Value* params ) : BaseEntity( params )
 {
 }
-    
+   
+//-------------------------------------
+//
+//-------------------------------------
 StaticObstacleEntity::~StaticObstacleEntity()
 {
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 TError StaticObstacleEntity::Init()
 {
     TError error = OK;
@@ -28,6 +38,14 @@ TError StaticObstacleEntity::Init()
         return error;
     }
 
+    TeamComponent*   team = IComponentFactory::Instance().GetComponent<TeamComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( team );
+        return error;
+    }
+
     if( GetParams().HasMember( "Image"     ) )    sprite->SetImage( String( GetParams()["Image"].GetString() ) );
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) )    sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
@@ -38,17 +56,25 @@ TError StaticObstacleEntity::Init()
 
     AddComponent( sprite    );
     AddComponent( collision );
+    AddComponent( team      );
 
+    team->SetTeam( 10 );
     error = BaseEntity::Init();
 
     return error;
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void StaticObstacleEntity::End()
 {
     BaseEntity::End();
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void StaticObstacleEntity::Update( double elapsedTime )
 {
     BaseEntity::Update( elapsedTime );

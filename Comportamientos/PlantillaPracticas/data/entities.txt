@@ -1,13 +1,17 @@
 {
 	"Image" : "data/background.png", 
 	"Entities" : [
+					{ "Entity" : "EFinishScene",
+					  "Params" : { "NextScene" : 0
+					              }
+					},
 					{ "Entity" : "EBSO",
 					  "Params" : { "Sample" : "data/gameplay.mp3"
 								  }  
 					},
 					{ "Entity" : "EStaticObstacle",
 					  "Params" : { "Image" : "data/soccer_npot.png",
-								  "X" : 200 , "Y" : 80, 
+								  "X" : 900 , "Y" : 100, 
 								  "Collision" : 3
 								  }  
 					},
@@ -24,7 +28,8 @@
 								  "Collision" : 3,
 								  "Live" : 10,
 								  "Direction" : 4000,
-								  "BSpeed" : 1000
+								  "BSpeed" : 1000,
+								  "Team" : 1
 								  }  
 					},
 					{ "Entity" : "EPlayer",
@@ -40,7 +45,8 @@
 								  "Collision" : 3,
 								  "Live" : 10,
 								  "Direction" : -4000,
-								  "BSpeed" : 1000
+								  "BSpeed" : 1000,
+								  "Team" : 2
 								  }  
 					}
 				]

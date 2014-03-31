@@ -15,8 +15,6 @@
     <ClCompile Include="json\leaks.cpp" />
     <ClCompile Include="json\leaks_windows.cpp" />
     <ClCompile Include="lib\stb_image.c" />
-    <ClCompile Include="logic\CollisionComponent.cpp" />
-    <ClCompile Include="logic\CollisionManagerL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\affector.cpp" />
     <ClCompile Include="src\AnimatorComponent.cpp" />
@@ -30,8 +28,11 @@
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\BoundComponent.cpp" />
     <ClCompile Include="src\BSOEntity.cpp" />
+    <ClCompile Include="src\BulletEntity.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\CollisionComponent.cpp" />
     <ClCompile Include="src\collisionManager.cpp" />
+    <ClCompile Include="src\CollisionManagerL.cpp" />
     <ClCompile Include="src\collisionPixelData.cpp" />
     <ClCompile Include="src\ComponentFactory.cpp" />
     <ClCompile Include="src\DamageComponent.cpp" />
@@ -49,7 +50,6 @@
     <ClCompile Include="src\isometricMap.cpp" />
     <ClCompile Include="src\isometricScene.cpp" />
     <ClCompile Include="src\isometricSprite.cpp" />
-    <ClCompile Include="src\LabelComponent.cpp" />
     <ClCompile Include="src\leaks.cpp" />
     <ClCompile Include="src\leaks_windows.cpp" />
     <ClCompile Include="src\listener.cpp" />
@@ -73,10 +73,13 @@
     <ClCompile Include="src\ButtonEntity.cpp" />
     <ClCompile Include="src\SoundFactory.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\FinishSceneEntity.cpp" />
     <ClCompile Include="src\sprite.cpp" />
     <ClCompile Include="src\SpriteComponent.cpp" />
     <ClCompile Include="src\StaticObstacleEntity.cpp" />
     <ClCompile Include="src\StreamSample.cpp" />
+    <ClCompile Include="src\TeamComponent.cpp" />
+    <ClCompile Include="src\WaveMovementComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bass\bass.h" />
@@ -140,19 +143,20 @@
     <ClInclude Include="logic\BaseScene.h" />
     <ClInclude Include="logic\BoundCompoment.h" />
     <ClInclude Include="logic\BSOEntity.h" />
+    <ClInclude Include="logic\BulletEntity.h" />
     <ClInclude Include="logic\ButtonEntity.h" />
     <ClInclude Include="logic\CollisionManagerL.h" />
     <ClInclude Include="logic\ComponentFactory.h" />
     <ClInclude Include="logic\DamageComponent.h" />
     <ClInclude Include="logic\ENTITY_TYPES.h" />
     <ClInclude Include="logic\CollisionComponent.h" />
+    <ClInclude Include="logic\FinishSceneEntity.h" />
     <ClInclude Include="logic\ICollisionListener.h" />
     <ClInclude Include="logic\ICollisionManager.h" />
     <ClInclude Include="logic\ISample.h" />
     <ClInclude Include="logic\IScreenManager.h" />
     <ClInclude Include="logic\ISoundFactory.h" />
     <ClInclude Include="logic\ISoundManager.h" />
-    <ClInclude Include="logic\LabelComponent.h" />
     <ClInclude Include="logic\LoadedSample.h" />
     <ClInclude Include="logic\MoveComponent.h" />
     <ClInclude Include="logic\ScreenManager.h" />
@@ -184,6 +188,8 @@
     <ClInclude Include="logic\SceneManager.h" />
     <ClInclude Include="logic\StaticObstacleEntity.h" />
     <ClInclude Include="logic\StreamSample.h" />
+    <ClInclude Include="logic\TeamComponent.h" />
+    <ClInclude Include="logic\WaveMovementComponent.h" />
     <ClInclude Include="openal\AL\al.h" />
     <ClInclude Include="openal\AL\alc.h" />
     <ClInclude Include="openal\AL\alext.h" />
