@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
 	Ptr<Mesh> mesh = ResourceManager::Instance()->LoadMesh("data/box.msh");
 
 	Ptr<Camera> camera = Camera::Create();
-	camera->SetPerspective(45, float(Screen::Instance()->GetWidth()) / Screen::Instance()->GetHeight(), 0.001, 1000);
+	camera->SetPerspective(45, float(Screen::Instance()->GetWidth()) / Screen::Instance()->GetHeight(), 0.001f, 1000.0f );
 	camera->SetUsesTarget(true);
 	camera->GetPosition() = Vector3(0, 1, 3);
 	camera->SetColor(1, 1, 1);

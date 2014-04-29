@@ -1,0 +1,21 @@
+﻿Build started 29/04/2014 16:58:29.
+     1>Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D GLEW_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\main.cpp ..\src\matrix4.cpp
+         matrix4.cpp
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\src\matrix4.cpp(60): error C2084: function 'Matrix4 Matrix4::Inverse(void) const' already has a body
+                 \\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(47) : see previous definition of 'Inverse'
+         main.cpp
+         Generating Code...
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(110): error C4716: 'Matrix4::operator=' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(105): error C4716: 'Matrix4::operator==' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(115): error C4716: 'Matrix4::operator+' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(127): error C4716: 'Matrix4::operator*' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(132): error C4716: 'Matrix4::operator*' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(159): error C4716: 'Matrix4::operator*=' : must return a value
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\include\matrix4.h(121): error C4716: 'Matrix4::operator-' : must return a value
+     1>Done Building Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:02.82

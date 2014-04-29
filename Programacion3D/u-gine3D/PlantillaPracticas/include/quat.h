@@ -61,22 +61,22 @@ inline Quat Quat::Normalized() const {
 }
 
 inline Vector3 Quat::Euler() const {
-	float pitch = DegATan2(2 * (y*z + w*x), w*w - x*x - y*y + z*z);
-	float yaw = DegASin(-2 * (x*z - w*y));
-	float roll = DegATan2(2 * (x*y + w*z), w*w + x*x - y*y - z*z);
+	float pitch = static_cast<float>( DegATan2(2 * (y*z + w*x), w*w - x*x - y*y + z*z) );
+	float yaw = static_cast<float>( DegASin(-2 * (x*z - w*y)) );
+	float roll = static_cast<float>( DegATan2(2 * (x*y + w*z), w*w + x*x - y*y - z*z) );
 	return Vector3(pitch, yaw, roll);
 }
 
 inline void Quat::SetEuler(const Vector3& euler) {
-	float halfx = euler.X() * 0.5;
-	float halfy = euler.Y() * 0.5;
-	float halfz = euler.Z() * 0.5;
-	float sinyaw = DegSin(halfy);
-	float sinpitch = DegSin(halfx);
-	float sinroll = DegSin(halfz);
-	float cosyaw = DegCos(halfy);
-	float cospitch = DegCos(halfx);
-	float cosroll = DegCos(halfz);
+	float halfx = euler.X() * 0.5f;
+	float halfy = euler.Y() * 0.5f;
+	float halfz = euler.Z() * 0.5f;
+	float sinyaw = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfy ) ) ) );
+	float sinpitch = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfx) ) ) );
+	float sinroll = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfz) ) ) );
+	float cosyaw = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfy) ) ) );
+	float cospitch = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfx) ) ) );
+	float cosroll = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfz) ) ) );
 
 	x = sinpitch * cosyaw * cosroll - cospitch * sinyaw * sinroll;
 	y = cospitch * sinyaw * cosroll + sinpitch * cosyaw * sinroll;
@@ -95,8 +95,8 @@ inline Quat Quat::Slerp(const Quat& other, float t) const {
 	}
 
 	if ( dot < 0.95f ) {
-		float angle = DegACos(dot);
-		return (*this * DegSin(angle*(1-t)) + q*DegSin(angle*t)) / DegSin(angle);
+		float angle = static_cast<float>( DegACos(dot) );
+		return (*this * static_cast<float>( DegSin( static_cast<double>( angle*(1-t) ) ) ) + q* static_cast<float>( DegSin( static_cast<double>( angle*t ) ) ) ) / static_cast<float>( DegSin( static_cast<double>( angle ) ) );
 	} else {
 		return this->Lerp(q, t);
 	}
