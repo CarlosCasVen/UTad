@@ -1,9 +1,11 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
-#include "../include/u-gine.h"
+//#include "../include/u-gine.h"
+#include "../include/matrix4.h"
+#include "../include/quat.h"
 #define FULLSCREEN false
 
 int main(int argc, char* argv[]) {
-	if ( FULLSCREEN)	Screen::Instance()->Open(Screen::Instance()->GetDesktopWidth(), Screen::Instance()->GetDesktopHeight(), true);
+	/*if ( FULLSCREEN)	Screen::Instance()->Open(Screen::Instance()->GetDesktopWidth(), Screen::Instance()->GetDesktopHeight(), true);
 	else				Screen::Instance()->Open(800, 600, false);
 
 	Ptr<Mesh> mesh = ResourceManager::Instance()->LoadMesh("data/box.msh");
@@ -28,6 +30,11 @@ int main(int argc, char* argv[]) {
 
 		Screen::Instance()->Refresh();
 	}
+	*/
+	float values[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+	Matrix4 test( values );
 
+	Matrix4 m = test.Transposed();
+	int x =1;
 	return 0;
 }

@@ -1,4 +1,4 @@
-#include "../include/u-gine.h"
+#include "../include/quat.h"
 
 //---------------------------------
 //
@@ -40,6 +40,85 @@ Quat::Quat(const RotAxis& rotaxis)
 //---------------------------------
 //
 //---------------------------------
+bool Quat::operator==(const Quat& other) const
+{
+    return X() == other.X() &&
+           Y() == other.Y() &&
+           Z() == other.Z() &&
+           W() == other.W();
+}
+//---------------------------------
+//
+//---------------------------------
+Quat& Quat::operator=(const Quat& other)
+{
+    SetX( other.X() );
+    SetY( other.Y() );
+    SetZ( other.Z() );
+    SetW( other.W() );
+    return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+Quat Quat::operator+(const Quat& other) const
+{
+    return Quat( X() + other.X(), Y() + other.Y(), Z() + other.Z(), W() + other.W() );
+}
+//---------------------------------
+//
+//---------------------------------
+Quat Quat::operator*(const Quat& other) const
+{
+    return Quat(
+                W() * other.X() + X() * other.W() + Y() * other.Z() - Z() * other.Y(),
+                W() * other.Y() + Y() * other.W() + Z() * other.X() - X() * other.Z(),
+                W() * other.Z() + Z() * other.W() + X() * other.Y() - Y() * other.X(),
+                W() * other.W() - X() * other.X() - Y() * other.Y() - Z() * other.Z() 
+               );
+}
+//---------------------------------
+//
+//---------------------------------
+Vector3 Quat::operator*(const Vector3& vec) const
+{
+    Quat quatVect( vec.X(), vec.Y(), vec.Z(), 0 );
+    Quat quatResult = *this * quatVect * Conjugate();
+
+    return Vector3( 
+                    quatResult.X(),
+                    quatResult.Y(),
+                    quatResult.W()            
+                   );
+
+}
+//---------------------------------
+//
+//---------------------------------
+Quat Quat::operator*(float scale) const
+{
+    return Quat( 
+                X() * scale,
+                Y() * scale,
+                Z() * scale,
+                W() * scale
+               );
+}
+//---------------------------------
+//
+//---------------------------------
+Quat Quat::operator/(float scale) const
+{
+    return Quat( 
+                X() / scale,
+                Y() / scale,
+                Z() / scale,
+                W() / scale
+               );
+}
+//---------------------------------
+//
+//---------------------------------
 Quat Quat::Conjugate() const
 {
     return Quat( -X(), -Y(), -Z(), W() );
@@ -66,7 +145,7 @@ void Quat::SetAxis(const RotAxis& rotaxis)
 //---------------------------------
 float Quat::Dot(const Quat& other) const
 {
-    return 0.0f;
+    return X() * other.X() + Y() * other.Y() + Z() * other.Z() + W() * other.W();
 }
 //---------------------------------
 //
@@ -101,26 +180,26 @@ const float& Quat::W() const
 //---------------------------------
 void Quat::SetX(float x)
 {
-    if( x >= 0 && x <= 1 ) this->x = x;
+    this->x = x;
 }
 //---------------------------------
 //
 //---------------------------------
 void Quat::SetY(float y)
 {
-    if( y >= 0 && y <= 1 ) this->y = y;
+    this->y = y;
 }
 //---------------------------------
 //
 //---------------------------------
 void Quat::SetZ(float z)
 {
-    if( z >= 0 && z <= 1 ) this->z = z;
+    this->z = z;
 }
 //---------------------------------
 //
 //---------------------------------
 void Quat::SetW(float w)
 {
-    if( w >= 0 && w <= 1 ) this->w = w;
+    this->w = w;
 }

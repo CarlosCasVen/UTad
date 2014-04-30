@@ -1,11 +1,170 @@
-#include "../include/u-gine.h"
+#include "../include/matrix4.h"
 
+//---------------------------------
+//
+//---------------------------------
+bool Matrix4::operator==(const Matrix4& other) const	
+{
+    bool equals = true;
+
+    for( unsigned int index = 0; index < MATRIX_SIZE && equals; index++ )
+    {
+        if( m[index] != other[index] )
+        {
+            equals = false;
+        }
+    }
+
+    return equals;
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4& Matrix4::operator=(const Matrix4& other)
+{
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) m[index] = other[index];
+
+    return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4 Matrix4::operator+(const Matrix4& other) const
+{
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		newMatrix[index] = m[index] + other[index];
+	}
+
+	return Matrix4( newMatrix );
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4 Matrix4::operator-(const Matrix4& other) const
+{
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		newMatrix[index] = m[index] - other[index];
+	}
+
+	return Matrix4( newMatrix );
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4 Matrix4::operator*(const Matrix4& other) const
+{
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int x = 0; x < ROW_SIZE; x++ )
+    {
+        for( unsigned int y = 0; y < COLUMN_SIZE; y++ )
+        {
+            newMatrix[ ( x * COLUMN_SIZE ) + y ] = 0;
+
+            for( unsigned int i = 0; i < ROW_SIZE; i++ )
+            {
+				float prim =  m[ i * COLUMN_SIZE  + y ];
+				float sec  =  other[ x * COLUMN_SIZE + i] ;
+				float op = newMatrix[ ( x * COLUMN_SIZE + i ) + y ] + prim * sec;
+
+                newMatrix[ ( x * COLUMN_SIZE ) + y  ] += m[  i * COLUMN_SIZE  + y  ] * other[ ( x ) * COLUMN_SIZE + i ];
+            }
+        }
+    }
+    
+    return Matrix4( newMatrix );
+}
+//---------------------------------
+//
+//---------------------------------
+Vector3 Matrix4::operator*(const Vector3& vec) const
+{
+    float newVec[VECTOR3_SIZE] = { 0, 0, 0 };
+
+   for( unsigned int indexVec = 0; indexVec < VECTOR3_SIZE; indexVec++ )
+   {
+       for( unsigned int i = 0; i < ROW_SIZE; i++ )
+       {
+           newVec[ indexVec ] += newVec[ indexVec ] * m[ indexVec + ( i * COLUMN_SIZE ) ];
+       }
+   }
+
+   return Vector3();
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4& Matrix4::operator+=(const Matrix4& other)
+{
+	for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		m[index] += other[index];
+	}
+
+	return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4& Matrix4::operator-=(const Matrix4& other)
+{
+	for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		m[index] -= other[index];
+	}
+
+	return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+Matrix4& Matrix4::operator*=(const Matrix4& other)
+{
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int x = 0; x < ROW_SIZE; x++ )
+    {
+        for( unsigned int y = 0; y < COLUMN_SIZE; y++ )
+        {
+            newMatrix[ ( x * COLUMN_SIZE ) + y ] = 0;
+
+            for( unsigned int i = 0; i < ROW_SIZE; i++ )
+            {
+                newMatrix[ ( x * COLUMN_SIZE ) + y ] += m[ y + i ] * other[ ( x + i ) * COLUMN_SIZE ];
+            }
+        }
+    }
+    
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) m[ index ] = newMatrix[ index ];
+   
+    return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+const float& Matrix4::operator[](uint32 pos) const
+{
+	return m[pos];
+}
+//---------------------------------
+//
+//---------------------------------
+float& Matrix4::operator[](uint32 pos)
+{
+	return m[pos];
+}
 //---------------------------------
 //
 //---------------------------------
 Matrix4::Matrix4()
 {
-    for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) m[ index ] = 0;
+	SetIdentity();
 }
 //---------------------------------
 //
@@ -30,11 +189,11 @@ void Matrix4::SetIdentity()
     {
         switch( index )
         {
-        case 0:     m[ index ] = 1; break;
-        case 4:     m[ index ] = 1; break;       
-        case 9:     m[ index ] = 1; break;
-        case 14:    m[ index ] = 1; break;
-        default:    m[ index ]=  0; break;
+        case  0:     m[ index ] = 1.0f; break;
+        case  5:     m[ index ] = 1.0f; break;       
+        case 10:     m[ index ] = 1.0f; break;
+        case 15:     m[ index ] = 1.0f; break;
+        default:     m[ index ]=  0.0f; break;
         }
     }
 }
@@ -78,50 +237,105 @@ Vector3 Matrix4::Translation() const
 //---------------------------------
 void Matrix4::SetTranslation(const Vector3& trans)
 {
-    m[ 11 ] = trans.X();
-    m[ 12 ] = trans.Y();
-    m[ 13 ] = trans.Z();
+	SetIdentity();
+    m[ 12 ] = trans.X();
+    m[ 13 ] = trans.Y();
+    m[ 14 ] = trans.Z();
 }
 //---------------------------------
 //
 //---------------------------------
 void Matrix4::SetRotation(const RotAxis& rot)	
 {
-    
+	float c = static_cast<float>( DegCos( static_cast<float>( rot.Angle() ) ) );
+	float s = static_cast<float>( DegSin( static_cast<float>( rot.Angle() ) ) );
+
+    float values[16] = {
+						rot.Axis().X() * rot.Axis().X() * ( 1 - c ) + c,
+						rot.Axis().X() * rot.Axis().Y() * ( 1 - c ) + rot.Axis().Z() * s,
+						rot.Axis().X() * rot.Axis().Z() * ( 1 - c ) - rot.Axis().Y() * s,
+						0,
+
+						rot.Axis().X() * rot.Axis().Y() * ( 1 - c ) - rot.Axis().Z() * s,
+						rot.Axis().Y() * rot.Axis().Y() * ( 1 - c ) + c,
+						rot.Axis().Y() * rot.Axis().Z() * ( 1 - c ) + rot.Axis().X() * s,
+						0,
+
+						rot.Axis().X() * rot.Axis().Z() * ( 1 - c ) + rot.Axis().Y() * s,
+						rot.Axis().Y() * rot.Axis().Z() * ( 1 - c ) - rot.Axis().X() * s,
+						rot.Axis().Z() * rot.Axis().Z() * ( 1 - c ) + c,
+						0,
+
+						0,
+						0,
+						0,
+						1
+				    };
+	Set( values );
+
 }
 //---------------------------------
 //
 //---------------------------------
 void Matrix4::SetScale(const Vector3& scale)
 {
-    m[ 0 ] = scale.X();
-    m[ 4 ] = scale.Y();
-    m[ 9 ] = scale.Z();
+	SetIdentity();
+    m[  0 ] *= scale.X();
+    m[  5 ] *= scale.Y();
+    m[ 10 ] *= scale.Z();
 }
 //---------------------------------
 //
 //---------------------------------
 void Matrix4::Translate(const Vector3& trans)
 {
+	Matrix4 translation;
+	translation.SetTranslation( trans );
+	*this *= translation;
 }
 //---------------------------------
 //
 //---------------------------------
 void Matrix4::Rotate(const RotAxis& rot)
 {
+	Matrix4 rotation;
+	rotation.SetRotation( rot );
+	*this *= rotation;
 }
 //---------------------------------
 //
 //---------------------------------
 void Matrix4::Scale(const Vector3& scale)
 {
+	Matrix4 scaleMatrix;
+	scaleMatrix.SetScale( scale );
+	*this *= scaleMatrix;
 }
 //---------------------------------
 //
 //---------------------------------
 Matrix4 Matrix4::Transposed() const
 {
-    return Matrix4();
+	float values[ MATRIX_SIZE ];
+
+	values[  0 ] = m[  0 ];
+	values[  1 ] = m[  4 ];
+    values[  2 ] = m[  8 ];
+	values[  3 ] = m[ 12 ];
+	values[  4 ] = m[  1 ];
+	values[  5 ] = m[  5 ];
+	values[  6 ] = m[  9 ];
+	values[  7 ] = m[ 13 ];
+	values[  8 ] = m[  2 ];
+	values[  9 ] = m[  6 ];
+	values[ 10 ] = m[ 10 ];
+	values[ 11 ] = m[ 14 ];
+	values[ 12 ] = m[  3 ];
+	values[ 13 ] = m[  7 ];
+	values[ 14 ] = m[ 11 ];
+	values[ 15 ] = m[ 15 ];
+
+	return Matrix4( values );
 }
 //---------------------------------
 //
@@ -171,6 +385,9 @@ void Matrix4::SetFrustum(float left, float right, float bottom, float top, float
 //---------------------------------
 void Matrix4::SetPerspective(float fovy, float aspect, float near, float far)
 {
+	float height = near   * static_cast<float>( DegTan( fovy / 2 ) );
+	float width  = height * aspect;
+	SetFrustum( -width, width, -height, -height, near, far );
 }
 //---------------------------------
 //

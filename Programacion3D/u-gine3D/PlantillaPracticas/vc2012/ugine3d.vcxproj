@@ -43,7 +43,7 @@
     <ClInclude Include="..\include\vector3.h" />
     <ClInclude Include="..\include\vertex.h" />
     <ClInclude Include="..\lib\glew\glew.h" />
-    <ClInclude Include="..\lib\glfw.h" />
+    <ClInclude Include="..\lib\glfw\glfw.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{007713C7-3CF5-4C9A-A93A-12239140D4B0}</ProjectGuid>

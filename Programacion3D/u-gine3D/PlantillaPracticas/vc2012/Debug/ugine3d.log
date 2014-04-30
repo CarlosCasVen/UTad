@@ -1,16 +1,10 @@
-﻿Compilación iniciada a las 30/04/2014 14:27:28.
-     1>Proyecto "C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" en el nodo 2 (Build destinos).
-     1>InitializeBuildStatus:
-         Aplicando tarea Touch a "Debug\ugine3d.unsuccessfulbuild".
-       ClCompile:
-         Todas las salidas están actualizadas.
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D GLEW_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\main.cpp ..\src\matrix4.cpp ..\src\quat.cpp
-         quat.cpp
+﻿Build started 30/04/2014 20:48:12.
+     1>Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D GLEW_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\matrix4.cpp
          matrix4.cpp
-         main.cpp
-         Generando código...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe" /INCREMENTAL /NOLOGO /LIBPATH:../lib/glfw glfw.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.lib" /MACHINE:X86 Debug\glew.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe" /INCREMENTAL /NOLOGO /LIBPATH:../lib/glfw glfw.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.lib" /MACHINE:X86 Debug\glew.obj
          Debug\stb_image.obj
          Debug\main.obj
          Debug\matrix4.obj
@@ -18,61 +12,10 @@
          Debug\renderer.obj
          Debug\resourcemanager.obj
          Debug\screen.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator=(class Matrix4 const &)" (??4Matrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Quat & __thiscall Quat::operator=(class Quat const &)" (??4Quat@@QAEAAV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: bool __thiscall Matrix4::operator==(class Matrix4 const &)const " (??8Matrix4@@QBE_NABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: bool __thiscall Quat::operator==(class Quat const &)const " (??8Quat@@QBE_NABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: float & __thiscall Matrix4::operator[](unsigned int)" (??AMatrix4@@QAEAAMI@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: float const & __thiscall Matrix4::operator[](unsigned int)const " (??AMatrix4@@QBEABMI@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator*(class Matrix4 const &)const " (??DMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Vector3 __thiscall Matrix4::operator*(class Vector3 const &)const " (??DMatrix4@@QBE?AVVector3@@ABV1@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator*(class Quat const &)const " (??DQuat@@QBE?AV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator*(float)const " (??DQuat@@QBE?AV0@M@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Vector3 __thiscall Quat::operator*(class Vector3 const &)const " (??DQuat@@QBE?AVVector3@@ABV1@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator-(class Matrix4 const &)const " (??GMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator+(class Matrix4 const &)const " (??HMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator+(class Quat const &)const " (??HQuat@@QBE?AV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator/(float)const " (??KQuat@@QBE?AV0@M@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator*=(class Matrix4 const &)" (??XMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator+=(class Matrix4 const &)" (??YMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>matrix4.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator-=(class Matrix4 const &)" (??ZMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator=(class Matrix4 const &)" (??4Matrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Quat & __thiscall Quat::operator=(class Quat const &)" (??4Quat@@QAEAAV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: bool __thiscall Matrix4::operator==(class Matrix4 const &)const " (??8Matrix4@@QBE_NABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: bool __thiscall Quat::operator==(class Quat const &)const " (??8Quat@@QBE_NABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: float & __thiscall Matrix4::operator[](unsigned int)" (??AMatrix4@@QAEAAMI@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: float const & __thiscall Matrix4::operator[](unsigned int)const " (??AMatrix4@@QBEABMI@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator*(class Matrix4 const &)const " (??DMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Vector3 __thiscall Matrix4::operator*(class Vector3 const &)const " (??DMatrix4@@QBE?AVVector3@@ABV1@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator*(class Quat const &)const " (??DQuat@@QBE?AV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator*(float)const " (??DQuat@@QBE?AV0@M@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Vector3 __thiscall Quat::operator*(class Vector3 const &)const " (??DQuat@@QBE?AVVector3@@ABV1@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator-(class Matrix4 const &)const " (??GMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 __thiscall Matrix4::operator+(class Matrix4 const &)const " (??HMatrix4@@QBE?AV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator+(class Quat const &)const " (??HQuat@@QBE?AV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Quat __thiscall Quat::operator/(float)const " (??KQuat@@QBE?AV0@M@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator*=(class Matrix4 const &)" (??XMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator+=(class Matrix4 const &)" (??YMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>quat.obj : error LNK2005: ya se definió "public: class Matrix4 & __thiscall Matrix4::operator-=(class Matrix4 const &)" (??ZMatrix4@@QAEAAV0@ABV0@@Z) en main.obj
-     1>LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
-     1>main.obj : error LNK2019: símbolo externo "public: static class Ptr<class Camera> __cdecl Camera::Create(void)" (?Create@Camera@@SA?AV?$Ptr@VCamera@@@@XZ) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Camera::SetPerspective(float,float,float,float)" (?SetPerspective@Camera@@QAEXMMMM@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Camera::SetColor(float,float,float)" (?SetColor@Camera@@QAEXMMM@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Camera::SetUsesTarget(bool)" (?SetUsesTarget@Camera@@QAEX_N@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: static class Ptr<class Mesh> __cdecl Mesh::Create(class String const &)" (?Create@Mesh@@SA?AV?$Ptr@VMesh@@@@ABVString@@@Z) sin resolver al que se hace referencia en la función "public: class Ptr<class Mesh> __thiscall ResourceManager::LoadMesh(class String const &)" (?LoadMesh@ResourceManager@@QAE?AV?$Ptr@VMesh@@@@ABVString@@@Z)
-     1>main.obj : error LNK2019: símbolo externo "public: class String const & __thiscall Mesh::GetFilename(void)const " (?GetFilename@Mesh@@QBEABVString@@XZ) sin resolver al que se hace referencia en la función "public: class Ptr<class Mesh> __thiscall ResourceManager::LoadMesh(class String const &)" (?LoadMesh@ResourceManager@@QAE?AV?$Ptr@VMesh@@@@ABVString@@@Z)
-     1>main.obj : error LNK2019: símbolo externo "protected: __thiscall Mesh::~Mesh(void)" (??1Mesh@@IAE@XZ) sin resolver al que se hace referencia en la función "protected: void * __thiscall Mesh::`scalar deleting destructor'(unsigned int)" (??_GMesh@@IAEPAXI@Z)
-     1>matrix4.obj : error LNK2001: símbolo externo "protected: __thiscall Mesh::~Mesh(void)" (??1Mesh@@IAE@XZ) sin resolver
-     1>quat.obj : error LNK2001: símbolo externo "protected: __thiscall Mesh::~Mesh(void)" (??1Mesh@@IAE@XZ) sin resolver
-     1>resourcemanager.obj : error LNK2001: símbolo externo "protected: __thiscall Mesh::~Mesh(void)" (??1Mesh@@IAE@XZ) sin resolver
-     1>main.obj : error LNK2019: símbolo externo "public: static class Ptr<class Model> __cdecl Model::Create(class Ptr<class Mesh>)" (?Create@Model@@SA?AV?$Ptr@VModel@@@@V?$Ptr@VMesh@@@@@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: static class Ptr<class Scene> __cdecl Scene::Instance(void)" (?Instance@Scene@@SA?AV?$Ptr@VScene@@@@XZ) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Scene::AddEntity(class Ptr<class Entity>)" (?AddEntity@Scene@@QAEXV?$Ptr@VEntity@@@@@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Scene::Update(float)" (?Update@Scene@@QAEXM@Z) sin resolver al que se hace referencia en la función _main
-     1>main.obj : error LNK2019: símbolo externo "public: void __thiscall Scene::Render(void)" (?Render@Scene@@QAEXXZ) sin resolver al que se hace referencia en la función _main
-     1>C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe : fatal error LNK1120: 12 externos sin resolver
-     1>Compilación del proyecto terminada "C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" (Build destinos) -- ERROR.
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+         ugine3d.vcxproj -> \\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe
+     1>Done Building Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" (Build target(s)).
 
-ERROR al compilar.
+Build succeeded.
 
-Tiempo transcurrido 00:00:00.65
+Time Elapsed 00:00:06.11

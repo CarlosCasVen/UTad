@@ -2,9 +2,9 @@
 #define UGINE_RESOURCEMANAGER_H
 
 #include "array.h"
-#include "mesh.h"
+//#include "mesh.h"
 #include "texture.h"
-
+/*
 class ResourceManager {
 public:
 	static Ptr<ResourceManager> Instance();
@@ -63,5 +63,5 @@ inline void ResourceManager::FreeResources() {
 	FreeMeshes();
 	FreeTextures();
 }
-
+*/
 #endif // UGINE_RESOURCEMANAGER_H
