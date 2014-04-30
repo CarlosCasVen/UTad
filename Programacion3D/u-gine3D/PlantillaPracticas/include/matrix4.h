@@ -9,6 +9,9 @@
 
 
 #define MATRIX_SIZE 16
+#define ROW_SIZE     4
+#define COLUMN_SIZE  4
+#define VECTOR3_SIZE 3
 
 class Matrix4 {
 public:
@@ -96,42 +99,102 @@ inline Matrix4 Matrix4::Inverse() const {
 	return mat;
 }
 
-
-
-
-
+//---------------------------------
+//
+//---------------------------------
 bool Matrix4::operator==(const Matrix4& other) const	
 {
+    bool equals = true;
+
+    for( unsigned int index = 0; index < MATRIX_SIZE && equals; index++ )
+    {
+        if( m[index] != other[index] )
+        {
+            equals = false;
+        }
+    }
+
+    return equals;
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4& Matrix4::operator=(const Matrix4& other)
 {
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) m[index] = other[index];
+
+    return *this;
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4 Matrix4::operator+(const Matrix4& other) const
 {
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		newMatrix[index] = m[index] + other[index];
+	}
+
+	return Matrix4( newMatrix );
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4 Matrix4::operator-(const Matrix4& other) const
 {
+    float newMatrix[MATRIX_SIZE];
 
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
+	{
+		newMatrix[index] = m[index] - other[index];
+	}
+
+	return Matrix4( newMatrix );
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4 Matrix4::operator*(const Matrix4& other) const
 {
+    float newMatrix[MATRIX_SIZE];
 
+    for( unsigned int x = 0; x < ROW_SIZE; x++ )
+    {
+        for( unsigned int y = 0; y < COLUMN_SIZE; y++ )
+        {
+            newMatrix[ ( x * COLUMN_SIZE ) + y ] = 0;
+
+            for( unsigned int i = 0; i < ROW_SIZE; i++ )
+            {
+                newMatrix[ ( x * COLUMN_SIZE ) + y ] += m[ y + i ] * other[ ( x + i ) * COLUMN_SIZE ];
+            }
+        }
+    }
+    
+    return Matrix4( newMatrix );
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Vector3 Matrix4::operator*(const Vector3& vec) const
 {
+    float newVec[VECTOR3_SIZE] = { 0, 0, 0 };
+
+   for( unsigned int indexVec = 0; indexVec < VECTOR3_SIZE; indexVec++ )
+   {
+       for( unsigned int i = 0; i < ROW_SIZE; i++ )
+       {
+           newVec[ indexVec ] += newVec[ indexVec ] * m[ indexVec + ( i * COLUMN_SIZE ) ];
+       }
+   }
+
+   return Vector3();
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4& Matrix4::operator+=(const Matrix4& other)
 {
 	for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
@@ -141,8 +204,9 @@ Matrix4& Matrix4::operator+=(const Matrix4& other)
 
 	return *this;
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4& Matrix4::operator-=(const Matrix4& other)
 {
 	for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
@@ -152,19 +216,40 @@ Matrix4& Matrix4::operator-=(const Matrix4& other)
 
 	return *this;
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 Matrix4& Matrix4::operator*=(const Matrix4& other)
 {
+    float newMatrix[MATRIX_SIZE];
+
+    for( unsigned int x = 0; x < ROW_SIZE; x++ )
+    {
+        for( unsigned int y = 0; y < COLUMN_SIZE; y++ )
+        {
+            newMatrix[ ( x * COLUMN_SIZE ) + y ] = 0;
+
+            for( unsigned int i = 0; i < ROW_SIZE; i++ )
+            {
+                newMatrix[ ( x * COLUMN_SIZE ) + y ] += m[ y + i ] * other[ ( x + i ) * COLUMN_SIZE ];
+            }
+        }
+    }
+    
+    for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) m[ index ] = newMatrix[ index ];
+   
+    return *this;
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 const float& Matrix4::operator[](uint32 pos) const
 {
 	return m[pos];
 }
-
-
+//---------------------------------
+//
+//---------------------------------
 float& Matrix4::operator[](uint32 pos)
 {
 	return m[pos];

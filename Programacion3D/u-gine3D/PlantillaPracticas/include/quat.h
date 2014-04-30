@@ -61,22 +61,22 @@ inline Quat Quat::Normalized() const {
 }
 
 inline Vector3 Quat::Euler() const {
-	float pitch = static_cast<float>( DegATan2(2 * (y*z + w*x), w*w - x*x - y*y + z*z) );
-	float yaw = static_cast<float>( DegASin(-2 * (x*z - w*y)) );
-	float roll = static_cast<float>( DegATan2(2 * (x*y + w*z), w*w + x*x - y*y - z*z) );
+	float pitch = static_cast<float>( DegATan2(2 * (y*z + w*x), w*w - x*x - y*y + z*z ) );
+	float yaw   = static_cast<float>( DegASin(-2 * (x*z - w*y)                        ) );
+	float roll  = static_cast<float>( DegATan2(2 * (x*y + w*z), w*w + x*x - y*y - z*z ) );
 	return Vector3(pitch, yaw, roll);
 }
 
 inline void Quat::SetEuler(const Vector3& euler) {
-	float halfx = euler.X() * 0.5f;
-	float halfy = euler.Y() * 0.5f;
-	float halfz = euler.Z() * 0.5f;
-	float sinyaw = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfy ) ) ) );
-	float sinpitch = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfx) ) ) );
-	float sinroll = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfz) ) ) );
-	float cosyaw = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfy) ) ) );
-	float cospitch = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfx) ) ) );
-	float cosroll = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfz) ) ) );
+	float halfx     = euler.X() * 0.5f;
+	float halfy     = euler.Y() * 0.5f;
+	float halfz     = euler.Z() * 0.5f;
+	float sinyaw    = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfy ) ) ) );
+	float sinpitch  = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfx) ) ) );
+	float sinroll   = static_cast<float>( DegSin( static_cast<double>( static_cast<double>( halfz) ) ) );
+	float cosyaw    = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfy) ) ) );
+	float cospitch  = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfx) ) ) );
+	float cosroll   = static_cast<float>( DegCos( static_cast<double>( static_cast<double>( halfz) ) ) );
 
 	x = sinpitch * cosyaw * cosroll - cospitch * sinyaw * sinroll;
 	y = cospitch * sinyaw * cosroll + sinpitch * cosyaw * sinroll;
@@ -102,4 +102,69 @@ inline Quat Quat::Slerp(const Quat& other, float t) const {
 	}
 }
 
+
+bool Quat::operator==(const Quat& other) const
+{
+    return X() == other.X() &&
+           Y() == other.Y() &&
+           Z() == other.Z() &&
+           W() == other.W();
+}
+
+Quat& Quat::operator=(const Quat& other)
+{
+    SetX( other.X() );
+    SetY( other.Y() );
+    SetZ( other.Z() );
+    SetW( other.W() );
+    return *this;
+}
+
+Quat Quat::operator+(const Quat& other) const
+{
+    return Quat( X() + other.X(), Y() + other.Y(), Z() + other.Z(), W() + other.W() );
+}
+
+Quat Quat::operator*(const Quat& other) const
+{
+    return Quat(
+                W() * other.X() + X() * other.W() + Y() * other.Z() - Z() * other.Y(),
+                W() * other.Y() + Y() * other.W() + Z() * other.X() - X() * other.Z(),
+                W() * other.Z() + Z() * other.W() + X() * other.Y() - Y() * other.X(),
+                W() * other.W() - X() * other.X() - Y() * other.Y() - Z() * other.Z() 
+               );
+}
+
+Vector3 Quat::operator*(const Vector3& vec) const
+{
+    Quat quatVect( vec.X(), vec.Y(), vec.Z(), 0 );
+    Quat quatResult = *this * quatVect * Conjugate();
+
+    return Vector3( 
+                    quatResult.X(),
+                    quatResult.Y(),
+                    quatResult.W()            
+                   );
+
+}
+
+Quat Quat::operator*(float scale) const
+{
+    return Quat( 
+                X() * scale,
+                Y() * scale,
+                Z() * scale,
+                W()
+               );
+}
+
+Quat Quat::operator/(float scale) const
+{
+    return Quat( 
+                X() / scale,
+                Y() / scale,
+                Z() / scale,
+                W()
+               );
+}
 #endif // UGINE_QUAT_H
