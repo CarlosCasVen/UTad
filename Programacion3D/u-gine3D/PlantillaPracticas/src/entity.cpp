@@ -67,6 +67,7 @@ void Entity::Render()
     Matrix4 model;
     model.Rotate( rotation.Axis() );
     model.Translate( position );
+	model.Scale( scale );
     Scene::Instance()->SetModel( model );
     
 }

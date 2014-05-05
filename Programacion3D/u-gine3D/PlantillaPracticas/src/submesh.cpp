@@ -1,5 +1,6 @@
 #include "../include/submesh.h"
 #include "../include/scene.h"
+#include "../include/vertex.h"
 #include <stddef.h>
 
 //---------------------------------
@@ -58,6 +59,20 @@ Array<Vertex>& Submesh::GetVertices()
 //---------------------------------
 void Submesh::Rebuild()
 {
+	if( indexBuffer == 0 && vertexBuffer == 0 )
+	{
+		indexBuffer  = Renderer::Instance()->CreateBuffer();
+		vertexBuffer = Renderer::Instance()->CreateBuffer();
+
+		Renderer::Instance()->BindIndexBuffer( indexBuffer   );
+		Renderer::Instance()->BindVertexBuffer( vertexBuffer );
+
+		Renderer::Instance()->SetVertexBufferData( &vertices[0], vertices.Size() );
+		Renderer::Instance()->SetIndexBufferData( &indices[0]  , indices.Size () );
+
+		Renderer::Instance()->FreeBuffer( indexBuffer  );
+		Renderer::Instance()->FreeBuffer( vertexBuffer );		
+	}
 }
 //---------------------------------
 //
@@ -71,19 +86,17 @@ void Submesh::Render()
     else
     {
         Renderer::Instance()->BindTexture( GetTexture()->GetHandle() );
-        Renderer::Instance()->BindVertexBuffer( vertexBuffer );
+		Renderer::Instance()->BindVertexBuffer( vertexBuffer );
+		Renderer::Instance()->BindIndexBuffer ( indexBuffer  );
 
-        for( unsigned int index; index < vertices.Size(); index++ )
-        {
-            Renderer::Instance()->DrawBuffer( indices, offsetof( vertices[ index ].position.X()
-            
-        }
+		Renderer::Instance()->DrawBuffer( indices.Size(), offsetof( Vertex, position ), offsetof( Vertex, u ), sizeof( Vertex ) );
+        
     }
 }
 //---------------------------------
 //
 //---------------------------------
-Submesh::Submesh(Ptr<Texture> tex)
+Submesh::Submesh(Ptr<Texture> tex) : texture( tex )
 {
     vertexBuffer    = 0;
     indices         = 0;
@@ -99,4 +112,5 @@ Submesh::~Submesh()
         vertices.Clear();
         indices.Clear();
     }
+
 }

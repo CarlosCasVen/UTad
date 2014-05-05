@@ -157,6 +157,9 @@ void Camera::Prepare()
         viewMatrix.Rotate( GetRotation().Axis() );
         viewMatrix.LookAt( GetPosition() , target, GetRotation().Axis().Axis() );
     }
+
+	Renderer::Instance()->ClearDepthBuffer();
+	Renderer::Instance()->ClearColorBuffer( 255, 255, 255 );
     
 }
 //---------------------------------

@@ -6,9 +6,7 @@
 //
 //---------------------------------
 Ptr<Model> Model::Create(Ptr<Mesh> mesh)
-{
-    
-    
+{   
     if( mesh != NULL ) 
     {
         return Ptr<Model>( new Model( mesh ) );
@@ -21,6 +19,8 @@ Ptr<Model> Model::Create(Ptr<Mesh> mesh)
 //---------------------------------
 void Model::Render()
 {
+	Entity::Render();
+	mesh->Render  ();
 }
 //---------------------------------
 //

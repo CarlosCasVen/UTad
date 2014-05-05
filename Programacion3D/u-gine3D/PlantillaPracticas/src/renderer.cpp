@@ -30,8 +30,6 @@ Renderer::Renderer() {
 
     UseProgram( defaultProgram );
 
-
-    
 }
 
 void Renderer::Setup3D() {
