@@ -1,3 +1,3 @@
 #include "../include/resourcemanager.h"
 
-//Ptr<ResourceManager> ResourceManager::instance = nullptr;
+Ptr<ResourceManager> ResourceManager::instance = nullptr;

@@ -2,12 +2,36 @@
 #include "../lib/glew/glew.h"
 #include "../lib/glfw/glfw.h"
 
+#define VERTEX_SHADER_PATH "data/vertex.glsl"
+#define FRAGMENT_SHADER_PATH "data/fragment.glsl"
+
 // stb_image.c:
 extern "C" uint8 *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp);
 
 Ptr<Renderer> Renderer::instance = NULL;
 
 Renderer::Renderer() {
+   
+    defaultProgram = CreateBuffer();
+
+    CreateVertexShader  ( VERTEX_SHADER_PATH   );
+    CreateFragmentShader( FRAGMENT_SHADER_PATH );
+
+    AttachShader( GL_VERTEX_SHADER  , defaultProgram );
+    AttachShader( GL_FRAGMENT_SHADER, defaultProgram );
+
+    if( !LinkProgram( defaultProgram ) )
+    {
+        String s = GetProgramError();
+        FreeProgram( defaultProgram );
+        FreeShader ( defaultProgram );
+        return;
+    }
+
+    UseProgram( defaultProgram );
+
+
+    
 }
 
 void Renderer::Setup3D() {
@@ -114,31 +138,110 @@ void Renderer::DrawBuffer(uint32 numIndices, int coordsOffset, int texCoordsOffs
 }
 
 uint32 Renderer::CreateVertexShader(const String& source) {
-	return 0;
+    
+    GLuint      shader      = 0;
+    GLint       error       = 0;
+    const char* string      = source.ToCString();
+    char       log[1024];
+
+    glCreateShader ( GL_VERTEX_SHADER );
+    glShaderSource ( shader , 1, ( const GLchar** ) &string, NULL );
+    glCompileShader( shader );
+    glGetShaderiv  ( shader, GL_COMPILE_STATUS, &error );  
+
+    if( error == GL_FALSE )
+    {
+        glGetShaderInfoLog( shader, sizeof(log), NULL, ( GLchar* ) log);
+        FreeShader        ( shader ); 
+
+        programError = String( log );
+        return 0;
+    }
+	
+    return shader;
 }
 
 uint32 Renderer::CreateFragmentShader(const String& source) {
-	return 0;
+
+    GLuint      shader      = 0;
+    GLint       error       = 0;
+    const char* string      = source.ToCString();
+    char        log[1024];
+
+    glCreateShader( GL_FRAGMENT_SHADER );
+    glShaderSource ( shader , 1, ( const GLchar** ) &string, NULL );
+    glCompileShader( shader );
+    glGetShaderiv  ( shader, GL_COMPILE_STATUS, &error );  
+
+    if( error == GL_FALSE )
+    {
+        glGetShaderInfoLog( shader, sizeof(log), NULL, ( GLchar* ) log);
+        FreeShader        ( shader ); 
+
+        programError = String( log[0] );
+        return 0;
+    }
+	
+    return shader;
 }
 
 void Renderer::FreeShader(uint32 shader) {
+    glDeleteShader( shader );
 }
 
 uint32 Renderer::CreateProgram() {
-	return 0;
+   return static_cast<uint32>( glCreateProgram() );
+	
 }
 
 void Renderer::FreeProgram(uint32 program) {
+    glDeleteProgram( program );
 }
 
 void Renderer::AttachShader(uint32 program, uint32 shader) {
+    glAttachShader( program, shader );
 }
 
 bool Renderer::LinkProgram(uint32 program) {
-	return false;
+
+    GLint result = 0;
+    char log[ 1024 ];
+    
+    glLinkProgram ( program );
+    glGetProgramiv( program, GL_LINK_STATUS, &result );
+
+    if( result == GL_FALSE )
+    {
+        glGetProgramInfoLog( program, sizeof( log ), NULL, log );
+        programError = String( log );
+        FreeProgram( program );
+
+        return false;
+    }
+
+    return true;
 }
 
 void Renderer::UseProgram(uint32 program) {
+    uint32 aux = program;
+
+    if( program == 0 ) 
+    {
+        glUseProgram( defaultProgram );
+        aux = defaultProgram;
+    }
+    else
+    {
+        glUseProgram( program );
+    }
+
+    mvpLoc          = glGetUniformLocation( defaultProgram, "MPV"         );
+    texSamplerLoc   = glGetUniformLocation( defaultProgram, "texSampler"  );
+    vposLoc         = glGetUniformLocation( defaultProgram, "vpos"        );
+    vtexLoc         = glGetUniformLocation( defaultProgram, "vtex"        );
+    
+    //glEnableVertexAttribArray( texSamplerLoc    );
+    glUniform1d              ( texSamplerLoc, 0 );
 }
 
 const String& Renderer::GetProgramError() {
