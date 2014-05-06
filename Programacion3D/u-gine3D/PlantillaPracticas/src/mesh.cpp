@@ -1,4 +1,5 @@
 #include "../include/mesh.h"
+#include "../lib/rapidjson/document.h"
 
 //---------------------------------
 //
@@ -75,6 +76,34 @@ void Mesh::Render()
 //---------------------------------
 Mesh::Mesh(const String& filename) : filename( filename )
 {
+	String dataMesh = String::Read( filename );
+	
+	rapidjson::Document jDoc;
+	jDoc.Parse<0>( dataMesh.ToCString() );
+	rapidjson::Value& buffers = jDoc["submeshes"];
+	Array<int> indices;
+	Array<float> coords;
+	Array<int> colours;
+
+	for( unsigned int numSub = 0; numSub < jDoc["submeshes"].Size(); numSub++ ) 
+	{
+		buffers = jDoc["submeshes"][ numSub ];
+		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
+		{
+			indices.Add( buffers[ index ].GetInt() );			
+		}
+		
+		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
+		{
+			coords.Add( buffers[ index ].GetDouble() );	
+		}
+
+		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
+		{
+			colours.Add( buffers[ index ].GetInt() ); 	
+		}
+	
+	]
 }
 //---------------------------------
 //
