@@ -65,9 +65,11 @@ void Entity::Move(const Vector3& speed)
 void Entity::Render()
 {
     Matrix4 model;
-    model.Rotate( rotation.Axis() );
-    model.Translate( position );
-	model.Scale( scale );
+
+	model.Translate	( position			);
+    model.Rotate	( rotation.Axis()	);    
+	model.Scale		( scale				);
+
     Scene::Instance()->SetModel( model );
     
 }
@@ -76,6 +78,7 @@ void Entity::Render()
 //---------------------------------
 Entity::Entity()
 {
+	scale = Vector3( 1, 1, 1 );
 }
 //---------------------------------
 //

@@ -1,6 +1,7 @@
 #include "../include/camera.h"
 #include "../include/scene.h"
 #include "../include/renderer.h"
+#include "../include/screen.h"
 
 //---------------------------------
 //
@@ -52,6 +53,7 @@ void Camera::SetViewport(int32 x, int32 y, uint16 w, uint16 h)
 //---------------------------------
 void Camera::SetOrtho(float left, float right, float bottom, float top, float near, float far)
 {
+	projMatrix.SetIdentity();
     projMatrix.SetOrtho( left, right, bottom, top, near, far );
 }
 //---------------------------------
@@ -59,6 +61,7 @@ void Camera::SetOrtho(float left, float right, float bottom, float top, float ne
 //---------------------------------
 void Camera::SetFrustum(float left, float right, float bottom, float top, float near, float far)
 {
+	projMatrix.SetIdentity();
     projMatrix.SetFrustum( left, right, bottom, top, near, far );
 }
 //---------------------------------
@@ -66,6 +69,7 @@ void Camera::SetFrustum(float left, float right, float bottom, float top, float 
 //---------------------------------
 void Camera::SetPerspective(float fov, float ratio, float near, float far)
 {
+	projMatrix.SetIdentity();
     projMatrix.SetPerspective( fov, ratio, near, far );
 }
 //---------------------------------
@@ -110,7 +114,7 @@ bool Camera::UsesTarget() const
 //---------------------------------
 void Camera::SetUsesTarget(bool usesTarget)
 {
-    usesTarget = usesTarget;
+    this->usesTarget = usesTarget;
 }
 //---------------------------------
 //
@@ -145,21 +149,16 @@ const Matrix4& Camera::GetView() const
 //---------------------------------
 void Camera::Prepare()
 {
-    
+    viewMatrix.SetIdentity();
 
-    if( usesTarget )
-    {
-        viewMatrix.Rotate( GetRotation().Axis() );
-        viewMatrix.Translate( GetPosition() );
-    }
-    else
-    {
-        viewMatrix.Rotate( GetRotation().Axis() );
-        viewMatrix.LookAt( GetPosition() , target, GetRotation().Axis().Axis() );
-    }
+	Vector3 trgt = (usesTarget) ? target : GetPosition() + GetRotation() * Vector3(0,0,-1);
+	
+	viewMatrix.LookAt(GetPosition(), trgt, Vector3(0,1,0));
 
+	Renderer::Instance()->SetViewport(vx,vy,vw,vh);
+
+	Renderer::Instance()->ClearColorBuffer(color[0], color[1], color[2]);
 	Renderer::Instance()->ClearDepthBuffer();
-	Renderer::Instance()->ClearColorBuffer( 255, 255, 255 );
     
 }
 //---------------------------------
@@ -167,6 +166,10 @@ void Camera::Prepare()
 //---------------------------------
 Camera::Camera()
 {
+	vx = vy = 0;
+	usesTarget = false;
+	vw = Screen::Instance()->GetWidth ();
+	vh = Screen::Instance()->GetHeight();
 }
 //---------------------------------
 //

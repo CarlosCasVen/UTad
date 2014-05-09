@@ -1,48 +1,29 @@
-﻿Compilación iniciada a las 02/05/2014 17:20:40.
-     1>Proyecto "C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" en el nodo 2 (Build destinos).
-     1>InitializeBuildStatus:
-         Aplicando tarea Touch a "Debug\ugine3d.unsuccessfulbuild".
-       ClCompile:
-         Todas las salidas están actualizadas.
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D GLEW_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\camera.cpp ..\src\entity.cpp ..\src\mesh.cpp ..\src\model.cpp ..\src\scene.cpp ..\src\submesh.cpp
-         submesh.cpp
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\submesh.cpp(7): error C2572: 'Submesh::Create' : nueva definición de parámetro predeterminado : parámetro 1
-                 c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\include\submesh.h(11) : vea la declaración de 'Submesh::Create'
-         scene.cpp
-         model.cpp
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\include\smartptr.h(23): warning C4150: eliminación de puntero a tipo 'Mesh' incompleto; no se ha llamado a un destructor
-                 c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\include\model.h(6) : vea la declaración de 'Mesh'
-                 c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\include\smartptr.h(23) : durante la compilación de la función miembro de plantilla de clase 'Ptr<T>::~Ptr(void)'
-                 with
-                 [
-                     T=Mesh
-                 ]
-                 c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\model.cpp(7) : vea la referencia a la creación de instancias de plantilla de función 'Ptr<T>::~Ptr(void)' que se está compilando
-                 with
-                 [
-                     T=Mesh
-                 ]
-                 c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\include\model.h(18) : vea la referencia a la creación de instancias de plantilla de clase 'Ptr<T>' que se está compilando
-                 with
-                 [
-                     T=Mesh
-                 ]
-         mesh.cpp
-         entity.cpp
-         camera.cpp
-         Generando código...
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\camera.cpp(9): error C4716: 'Camera::Create' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\camera.cpp(101): error C4716: 'Camera::UsesTarget' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\entity.cpp(8): error C4716: 'Entity::Create' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\mesh.cpp(8): error C4716: 'Mesh::Create' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\mesh.cpp(14): error C4716: 'Mesh::Create' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\mesh.cpp(53): error C4716: 'Mesh::GetSubmesh' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\model.cpp(8): error C4716: 'Model::Create' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\scene.cpp(8): error C4716: 'Scene::Instance' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\scene.cpp(14): error C4716: 'Scene::GetCurrentCamera' : debe devolver un valor
-     1>c:\users\carlos\documents\proyectos visual studio 2010\vs2012\u-gine3d\plantillapracticas\src\scene.cpp(69): error C4716: 'Scene::GetEntity' : debe devolver un valor
-     1>Compilación del proyecto terminada "C:\Users\Carlos\Documents\Proyectos Visual Studio 2010\VS2012\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" (Build destinos) -- ERROR.
+﻿Build started 09/05/2014 20:43:11.
+     1>Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D GLEW_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\matrix4.cpp
+         matrix4.cpp
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\src\matrix4.cpp(276): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>\\redirclu\redir$\alumnos\mpvj\carlos.castillo\desktop\u-gine3d\plantillapracticas\src\matrix4.cpp(277): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe" /INCREMENTAL /NOLOGO /LIBPATH:../lib/glfw glfw.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.lib" /MACHINE:X86 Debug\glew.obj
+         Debug\stb_image.obj
+         Debug\camera.obj
+         Debug\entity.obj
+         Debug\main.obj
+         Debug\matrix4.obj
+         Debug\mesh.obj
+         Debug\model.obj
+         Debug\quat.obj
+         Debug\renderer.obj
+         Debug\resourcemanager.obj
+         Debug\scene.obj
+         Debug\screen.obj
+         Debug\submesh.obj
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+         ugine3d.vcxproj -> \\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\Debug\ugine3d.exe
+     1>Done Building Project "\\redirclu\redir$\Alumnos\MPVJ\carlos.castillo\Desktop\u-gine3D\PlantillaPracticas\vc2012\ugine3d.vcxproj" (Build target(s)).
 
-ERROR al compilar.
+Build succeeded.
 
-Tiempo transcurrido 00:00:02.83
+Time Elapsed 00:00:05.80

@@ -6,7 +6,7 @@
 //---------------------------------
 //
 //---------------------------------
-Ptr<Submesh> Submesh::Create(Ptr<Texture> tex = nullptr)
+Ptr<Submesh> Submesh::Create(Ptr<Texture> tex )
 {
     return Ptr<Submesh>( new Submesh( tex ) );
 }
@@ -59,39 +59,28 @@ Array<Vertex>& Submesh::GetVertices()
 //---------------------------------
 void Submesh::Rebuild()
 {
-	if( indexBuffer == 0 && vertexBuffer == 0 )
-	{
-		indexBuffer  = Renderer::Instance()->CreateBuffer();
-		vertexBuffer = Renderer::Instance()->CreateBuffer();
+	if( indexBuffer == 0 )	indexBuffer  = Renderer::Instance()->CreateBuffer();			
+	if( vertexBuffer == 0 )	 vertexBuffer = Renderer::Instance()->CreateBuffer();
 
-		Renderer::Instance()->BindIndexBuffer( indexBuffer   );
-		Renderer::Instance()->BindVertexBuffer( vertexBuffer );
-
-		Renderer::Instance()->SetVertexBufferData( &vertices[0], vertices.Size() );
-		Renderer::Instance()->SetIndexBufferData( &indices[0]  , indices.Size () );
-
-		Renderer::Instance()->FreeBuffer( indexBuffer  );
-		Renderer::Instance()->FreeBuffer( vertexBuffer );		
-	}
+	Renderer::Instance()->BindIndexBuffer( indexBuffer   );
+	Renderer::Instance()->SetIndexBufferData( &indices[0]  , indices.Size () );
+	Renderer::Instance()->BindIndexBuffer ( 0 );
+	Renderer::Instance()->BindVertexBuffer( vertexBuffer );
+	Renderer::Instance()->SetVertexBufferData( &vertices[0], vertices.Size() );
+	Renderer::Instance()->BindVertexBuffer( 0 );		
+	
 }
 //---------------------------------
 //
 //---------------------------------
 void Submesh::Render()
 {
-    if( GetTexture() == NULL )
-    {
-        Renderer::Instance()->BindTexture( 0 );
-    }
-    else
-    {
-        Renderer::Instance()->BindTexture( GetTexture()->GetHandle() );
-		Renderer::Instance()->BindVertexBuffer( vertexBuffer );
-		Renderer::Instance()->BindIndexBuffer ( indexBuffer  );
+    if( GetTexture() == NULL )  Renderer::Instance()->BindTexture( 0 );
+    else						Renderer::Instance()->BindTexture( GetTexture()->GetHandle() );
 
-		Renderer::Instance()->DrawBuffer( indices.Size(), offsetof( Vertex, position ), offsetof( Vertex, u ), sizeof( Vertex ) );
-        
-    }
+	Renderer::Instance()->BindVertexBuffer( vertexBuffer );
+	Renderer::Instance()->BindIndexBuffer ( indexBuffer  );
+	Renderer::Instance()->DrawBuffer( indices.Size(), offsetof( Vertex, position ), offsetof( Vertex, u ), sizeof( Vertex ) );
 }
 //---------------------------------
 //
@@ -99,7 +88,7 @@ void Submesh::Render()
 Submesh::Submesh(Ptr<Texture> tex) : texture( tex )
 {
     vertexBuffer    = 0;
-    indices         = 0;
+	indexBuffer     = 0;
     SetTexture( tex );
 }
 //---------------------------------
@@ -107,10 +96,17 @@ Submesh::Submesh(Ptr<Texture> tex) : texture( tex )
 //---------------------------------
 Submesh::~Submesh()
 {
-    if( vertexBuffer != 0 || indexBuffer )
+    if( vertexBuffer != 0 )  
     {
         vertices.Clear();
-        indices.Clear();
+		vertexBuffer = 0;
+		Renderer::Instance()->FreeBuffer( vertexBuffer );
     }
+	if( indexBuffer  != 0 )
+	{
+		indices.Clear();
+		indexBuffer = 0;
+		Renderer::Instance()->FreeBuffer( indexBuffer );
+	}
 
 }

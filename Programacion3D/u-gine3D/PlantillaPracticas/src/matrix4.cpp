@@ -363,17 +363,16 @@ void Matrix4::SetOrtho(float left, float right, float bottom, float top, float n
 //---------------------------------
 void Matrix4::SetFrustum(float left, float right, float bottom, float top, float near, float far)
 {
-
     for( unsigned int index = 0; index < MATRIX_SIZE; index++ )
     {
         switch( index )
         {
         case  0:     m[ index ] =     near * 2.0f         / ( right - left   );    break;
         case  5:     m[ index ] =     near * 2.0f         / ( top   - bottom );    break;
-        case  8:     m[ index ] = - ( right + left      ) / ( right - left   );    break;
-        case  9:     m[ index ] = - ( top   + bottom    ) / ( top   - bottom );    break;
+        case  8:     m[ index ] =   ( right + left      ) / ( right - left   );    break;
+        case  9:     m[ index ] =   ( top   + bottom    ) / ( top   - bottom );    break;
         case 10:     m[ index ] = - ( far   + near      ) / ( far   - near   );    break;
-        case 11:     m[ index ] =     1.0f;                                        break;
+        case 11:     m[ index ] = -   1.0f;                                        break;
         case 14:     m[ index ] = - ( 2.0f * far * near ) / ( far   - near   );    break;
         default:     m[ index ] =     0.0f;                                        break;
         }
@@ -387,7 +386,7 @@ void Matrix4::SetPerspective(float fovy, float aspect, float near, float far)
 {
 	float height = near   * static_cast<float>( DegTan( fovy / 2 ) );
 	float width  = height * aspect;
-	SetFrustum( -width, width, -height, -height, near, far );
+	SetFrustum( -width, width, -height, height, near, far );
 }
 //---------------------------------
 //
@@ -398,8 +397,8 @@ void Matrix4::LookAt(const Vector3& pos, const Vector3& look, const Vector3& up)
     
     zVector.Normalized();
 
-    Vector3 xVector = zVector.Cross( up );
-    Vector3 yVector = xVector.Cross( up );
+    Vector3 xVector = zVector.Cross( up		);
+    Vector3 yVector = xVector.Cross( zVector );
 
     xVector.Normalized();
     yVector.Normalized();
@@ -408,7 +407,7 @@ void Matrix4::LookAt(const Vector3& pos, const Vector3& look, const Vector3& up)
                                     xVector.X(), yVector.X(), zVector.X(), 0,
                                     xVector.Y(), yVector.Y(), zVector.Y(), 0,
                                     xVector.Z(), yVector.Z(), zVector.Z(), 0,
-                                              0,           0,           0, 0
+                                              0,           0,           0, 1
                                    };
     Matrix4 lookMatrix( values );
 

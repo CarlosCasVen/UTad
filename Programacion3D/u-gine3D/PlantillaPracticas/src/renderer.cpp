@@ -12,7 +12,7 @@ Ptr<Renderer> Renderer::instance = NULL;
 
 Renderer::Renderer() {
    
-    defaultProgram = CreateBuffer();
+   /* defaultProgram = CreateBuffer();
 
     CreateVertexShader  ( VERTEX_SHADER_PATH   );
     CreateFragmentShader( FRAGMENT_SHADER_PATH );
@@ -28,7 +28,7 @@ Renderer::Renderer() {
         return;
     }
 
-    UseProgram( defaultProgram );
+    UseProgram( defaultProgram );*/
 
 }
 

@@ -109,7 +109,7 @@ Quat Quat::operator*(float scale) const
 //---------------------------------
 Quat Quat::operator/(float scale) const
 {
-    return Quat( 
+	return Quat( 
                 X() / scale,
                 Y() / scale,
                 Z() / scale,
@@ -128,7 +128,18 @@ Quat Quat::Conjugate() const
 //---------------------------------
 RotAxis Quat::Axis() const
 {
-    return RotAxis();
+	float div = sqrtf( X() * X() + Y() * Y() + Z() * Z() );
+
+	div == 0.0 ? div = 1.0f / 0.00000000001f : div = 1.0f / div; 
+
+    return RotAxis(
+					static_cast<float>( DegACos( static_cast<double>( w ) ) * 2 ),
+					Vector3(
+							X() * div,
+							Y() * div,
+							Z() * div
+							)
+				  );
 }
 //---------------------------------
 //

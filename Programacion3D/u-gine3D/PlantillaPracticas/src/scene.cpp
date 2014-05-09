@@ -2,6 +2,8 @@
 #include "../include/renderer.h"
 #include "../include/screen.h"
 
+Ptr<Scene> Scene::instance = NULL;
+
 //---------------------------------
 //
 //---------------------------------
@@ -45,14 +47,15 @@ const Matrix4& Scene::GetMVP() const
 void Scene::SetModel(const Matrix4& m)
 {
     modelMatrix = m;
+
+	Matrix4 p = GetCurrentCamera()->GetProjection();
+	Matrix4 v = GetCurrentCamera()->GetView();
+
 	Matrix4 mvp = GetCurrentCamera()->GetProjection() * GetCurrentCamera()->GetView() * modelMatrix ;
 	
 	float values[ MATRIX_SIZE ];
-
-	for( unsigned int index = 0; index < MATRIX_SIZE; index++ ) values[ index ] = mvp[ index ];
 	
-	
-	Renderer::Instance()->SetMVP( values );
+	Renderer::Instance()->SetMVP( &mvp[ 0 ] );
 }
 //---------------------------------
 //
@@ -67,6 +70,7 @@ void Scene::AddEntity(Ptr<Entity> entity)
 //---------------------------------
 void Scene::RemoveEntity(Ptr<Entity> entity)
 {
+	if(  entity.DownCast<Camera>() != NULL ) cameras.Remove( entity.DownCast<Camera>() );
     entities.Remove( entity );
 }
 //---------------------------------
@@ -102,9 +106,13 @@ void Scene::Update(float elapsed)
 //---------------------------------
 void Scene::Render()
 {
-	currentCamera->Prepare();
+	for( unsigned int nCam = 0; nCam < cameras.Size(); nCam++ )
+	{
+		currentCamera = cameras [ nCam ];
+		currentCamera->Prepare();
 
-	for( unsigned int index = 0; index < entities.Size(); index++ ) entities[ index ]->Render();
+		for( unsigned int index = 0; index < entities.Size(); index++ ) entities[ index ]->Render();
+	}
 }
 //---------------------------------
 //

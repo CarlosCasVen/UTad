@@ -28,6 +28,7 @@ const String& Mesh::GetFilename() const
 void Mesh::AddSubmesh(Ptr<Submesh> submesh)
 {
 	submeshes.Add( submesh );
+	submesh->Rebuild();
 }
 //---------------------------------
 //
@@ -76,38 +77,66 @@ void Mesh::Render()
 //---------------------------------
 Mesh::Mesh(const String& filename) : filename( filename )
 {
-	String dataMesh = String::Read( filename );
-	
-	rapidjson::Document jDoc;
-	jDoc.Parse<0>( dataMesh.ToCString() );
-	rapidjson::Value& buffers = jDoc["submeshes"];
-	Array<int> indices;
-	Array<float> coords;
-	Array<int> colours;
+	rapidjson::Document jsonDoc;
+    String jsonDocStr;
 
-	for( unsigned int numSub = 0; numSub < jDoc["submeshes"].Size(); numSub++ ) 
-	{
-		buffers = jDoc["submeshes"][ numSub ];
-		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
-		{
-			indices.Add( buffers[ index ].GetInt() );			
-		}
-		
-		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
-		{
-			coords.Add( buffers[ index ].GetDouble() );	
-		}
-
-		for( unsigned int index = 0; index < buffers["indices"].Size(); index++ )
-		{
-			colours.Add( buffers[ index ].GetInt() ); 	
-		}
+	this->filename = filename;
 	
-	]
+	if (filename.Length() == 0)
+		return;
+
+	jsonDocStr = String::Read(filename);
+
+	if (jsonDoc.Parse<0>(jsonDocStr.ToCString()).HasParseError() == true)
+        return;
+
+	rapidjson::Value& submeshesJson = jsonDoc["submeshes"];
+
+    if (submeshesJson.IsArray()) {
+		for (rapidjson::SizeType i = 0; i < submeshesJson.Size(); i++) {
+			String textureJson = submeshesJson[i]["texture"].GetString();
+
+			Ptr<Texture> t = Texture::Create(textureJson);
+			Ptr<Submesh> s = Submesh::Create(t);
+
+			rapidjson::Value& indicesJson = submeshesJson[i]["indices"];
+            if (indicesJson.IsArray()) {
+				for (rapidjson::SizeType j = 0; j < indicesJson.Size(); j+=3)
+                    s->AddTriangle(indicesJson[j].GetInt(), indicesJson[j+1].GetInt(), indicesJson[j+2].GetInt());
+            }
+
+            rapidjson::Value& coordsJson = submeshesJson[i]["coords"];
+            if (coordsJson.IsArray()) {
+				for (rapidjson::SizeType j = 0; j < coordsJson.Size(); j+=3) {
+					Vector3 vector((float)coordsJson[j].GetDouble(), (float)coordsJson[j+1].GetDouble(), (float)coordsJson[j+2].GetDouble());
+
+                    rapidjson::Value& texCoordsJson = submeshesJson[i]["texcoords"];                 
+                    float u;
+                    float v;
+
+                    if (j % 2 == 0) {
+                        u = (float)texCoordsJson[j/2].GetDouble();
+                        v = (float)texCoordsJson[j/2+1].GetDouble();
+                    }
+                    else {
+                        u = (float)texCoordsJson[j/2+1].GetDouble();
+                        v = (float)texCoordsJson[j/2+2].GetDouble();
+                    }
+                    
+                    Vertex vertex(vector, u, v);
+                    s->AddVertex(vertex);                                       
+                }
+            }           
+
+			AddSubmesh(s);
+		}
+	}
 }
 //---------------------------------
 //
 //---------------------------------
 Mesh::~Mesh()
 {
+	submeshes.Clear();
+	filename = "";
 }
