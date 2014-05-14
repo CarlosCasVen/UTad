@@ -7,7 +7,7 @@
 //---------------------------------
 Ptr<Model> Model::Create(Ptr<Mesh> mesh)
 {   
-    if( mesh != NULL ) 
+    if( mesh != nullptr ) 
     {
         return Ptr<Model>( new Model( mesh ) );
     }

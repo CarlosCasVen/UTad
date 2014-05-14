@@ -33,12 +33,6 @@
     <ClCompile Include="..\src\resourcemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\matrix4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\quat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\submesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

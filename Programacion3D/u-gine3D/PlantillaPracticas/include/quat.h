@@ -103,5 +103,218 @@ inline Quat Quat::Slerp(const Quat& other, float t) const {
 }
 
 
+//---------------------------------
+//
+//---------------------------------
+inline Quat::Quat()
+{
+    SetX( 0.0f );
+    SetY( 0.0f );
+    SetZ( 0.0f );
+    SetW( 1.0f );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat::Quat(const Quat& q)
+{
+    SetX( q.X() );
+    SetY( q.Y() );
+    SetZ( q.Z() );
+    SetW( q.W() );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat::Quat(float x, float y, float z, float w)
+{
+    SetX( x );
+    SetY( y );
+    SetZ( z );
+    SetW( w );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat::Quat(const RotAxis& rotaxis)
+{
+    SetAxis( rotaxis );
+}
+//---------------------------------
+//
+//---------------------------------
+inline bool Quat::operator==(const Quat& other) const
+{
+    return X() == other.X() &&
+           Y() == other.Y() &&
+           Z() == other.Z() &&
+           W() == other.W();
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat& Quat::operator=(const Quat& other)
+{
+    SetX( other.X() );
+    SetY( other.Y() );
+    SetZ( other.Z() );
+    SetW( other.W() );
+    return *this;
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat Quat::operator+(const Quat& other) const
+{
+    return Quat( X() + other.X(), Y() + other.Y(), Z() + other.Z(), W() + other.W() );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat Quat::operator*(const Quat& other) const
+{
+    return Quat(
+                W() * other.X() + X() * other.W() + Y() * other.Z() - Z() * other.Y(),
+                W() * other.Y() + Y() * other.W() + Z() * other.X() - X() * other.Z(),
+                W() * other.Z() + Z() * other.W() + X() * other.Y() - Y() * other.X(),
+                W() * other.W() - X() * other.X() - Y() * other.Y() - Z() * other.Z() 
+               );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Vector3 Quat::operator*(const Vector3& vec) const
+{
+    Quat quatVect( vec.X(), vec.Y(), vec.Z(), 0 );
+    Quat quatResult = *this * quatVect * Conjugate();
 
+    return Vector3( 
+                    quatResult.X(),
+                    quatResult.Y(),
+                    quatResult.W()            
+                   );
+
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat Quat::operator*(float scale) const
+{
+    return Quat( 
+                X() * scale,
+                Y() * scale,
+                Z() * scale,
+                W() * scale
+               );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat Quat::operator/(float scale) const
+{
+	return Quat( 
+                X() / scale,
+                Y() / scale,
+                Z() / scale,
+                W() / scale
+               );
+}
+//---------------------------------
+//
+//---------------------------------
+inline Quat Quat::Conjugate() const
+{
+    return Quat( -X(), -Y(), -Z(), W() );
+}
+//---------------------------------
+//
+//---------------------------------
+inline RotAxis Quat::Axis() const
+{
+	float div = sqrtf( X() * X() + Y() * Y() + Z() * Z() );
+
+	div == 0.0 ? div = 1.0f / 0.00000000001f : div = 1.0f / div; 
+
+    return RotAxis(
+					static_cast<float>( DegACos( static_cast<double>( w ) ) * 2 ),
+					Vector3(
+							X() * div,
+							Y() * div,
+							Z() * div
+							)
+				  );
+}
+//---------------------------------
+//
+//---------------------------------
+inline void Quat::SetAxis(const RotAxis& rotaxis)
+{
+   SetX( rotaxis.Axis().X() * static_cast<float>( DegSin( static_cast<double>( rotaxis.Angle() / 2.0f ) ) ) );
+   SetY( rotaxis.Axis().Y() * static_cast<float>( DegSin( static_cast<double>( rotaxis.Angle() / 2.0f ) ) ) );
+   SetZ( rotaxis.Axis().Z() * static_cast<float>( DegSin( static_cast<double>( rotaxis.Angle() / 2.0f ) ) ) );
+   SetW( static_cast<float>( DegCos( static_cast<double>( rotaxis.Angle() / 2.0f ) ) ) ); 
+}
+//---------------------------------
+//
+//---------------------------------
+inline float Quat::Dot(const Quat& other) const
+{
+    return X() * other.X() + Y() * other.Y() + Z() * other.Z() + W() * other.W();
+}
+//---------------------------------
+//
+//---------------------------------
+inline const float& Quat::X() const
+{
+    return x;
+}
+//---------------------------------
+//
+//---------------------------------
+inline const float& Quat::Y() const
+{
+    return y;
+}
+//---------------------------------
+//
+//---------------------------------
+inline const float& Quat::Z() const
+{
+    return z;
+}
+//---------------------------------
+//
+//---------------------------------
+inline const float& Quat::W() const
+{
+    return w;
+}
+//---------------------------------
+//
+//---------------------------------
+inline void Quat::SetX(float x)
+{
+    this->x = x;
+}
+//---------------------------------
+//
+//---------------------------------
+inline void Quat::SetY(float y)
+{
+    this->y = y;
+}
+//---------------------------------
+//
+//---------------------------------
+inline void Quat::SetZ(float z)
+{
+    this->z = z;
+}
+//---------------------------------
+//
+//---------------------------------
+inline void Quat::SetW(float w)
+{
+    this->w = w;
+}
 #endif // UGINE_QUAT_H

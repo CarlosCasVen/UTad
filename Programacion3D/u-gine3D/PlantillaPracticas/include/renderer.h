@@ -42,6 +42,8 @@ public:
 	bool LinkProgram(uint32 program);
 	void UseProgram(uint32 program);
 	const String& GetProgramError();
+
+    uint32 CreateShader(const String& source, uint32 type);
 protected:
 	Renderer();
 	virtual ~Renderer() {}

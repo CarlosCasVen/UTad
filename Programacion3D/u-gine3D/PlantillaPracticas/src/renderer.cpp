@@ -1,4 +1,5 @@
 #include "../include/renderer.h"
+#include "../include/matrix4.h"
 #include "../lib/glew/glew.h"
 #include "../lib/glfw/glfw.h"
 
@@ -12,23 +13,28 @@ Ptr<Renderer> Renderer::instance = NULL;
 
 Renderer::Renderer() {
    
-   /* defaultProgram = CreateBuffer();
+    String vertexShader   = String::Read( VERTEX_SHADER_PATH   );
+    String fragmentShader = String::Read( FRAGMENT_SHADER_PATH );
 
-    CreateVertexShader  ( VERTEX_SHADER_PATH   );
-    CreateFragmentShader( FRAGMENT_SHADER_PATH );
+    uint16 vertexId   = CreateVertexShader  ( vertexShader   );
+    uint16 fragmentId = CreateFragmentShader( fragmentShader );
 
-    AttachShader( GL_VERTEX_SHADER  , defaultProgram );
-    AttachShader( GL_FRAGMENT_SHADER, defaultProgram );
+    defaultProgram = CreateProgram();
+
+    AttachShader( defaultProgram, vertexId   );
+    AttachShader( defaultProgram, fragmentId );
+
+    FreeShader( vertexId   );
+    FreeShader( fragmentId );
 
     if( !LinkProgram( defaultProgram ) )
     {
         String s = GetProgramError();
         FreeProgram( defaultProgram );
-        FreeShader ( defaultProgram );
         return;
     }
 
-    UseProgram( defaultProgram );*/
+    UseProgram( defaultProgram );
 
 }
 
@@ -40,8 +46,7 @@ void Renderer::Setup3D() {
 }
 
 void Renderer::SetMVP(const float* m) {
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(m);
+	glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, m);
 }
 
 void Renderer::SetViewport(int x, int y, int w, int h) {
@@ -128,11 +133,13 @@ void Renderer::SetIndexBufferData(const void* data, uint32 dataSize) {
 }
 
 void Renderer::DrawBuffer(uint32 numIndices, int coordsOffset, int texCoordsOffset, uint16 stride) {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer(3, GL_FLOAT, stride, (const void*)coordsOffset);
-	glTexCoordPointer(2, GL_FLOAT, stride, (const void*)texCoordsOffset);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
+	glEnableVertexAttribArray( vposLoc );
+	glEnableVertexAttribArray( vtexLoc );
+	
+    glVertexAttribPointer( vposLoc, 3, GL_FLOAT, 0, stride, (const void*)coordsOffset    );
+	glVertexAttribPointer( vtexLoc, 2, GL_FLOAT, 0, stride, (const void*)texCoordsOffset );
+	
+    glDrawElements   ( GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
 }
 
 uint32 Renderer::CreateVertexShader(const String& source) {
@@ -142,14 +149,14 @@ uint32 Renderer::CreateVertexShader(const String& source) {
     const char* string      = source.ToCString();
     char       log[1024];
 
-    glCreateShader ( GL_VERTEX_SHADER );
-    glShaderSource ( shader , 1, ( const GLchar** ) &string, NULL );
+    shader = glCreateShader ( GL_VERTEX_SHADER );
+    glShaderSource ( shader , 1, &string, NULL );
     glCompileShader( shader );
     glGetShaderiv  ( shader, GL_COMPILE_STATUS, &error );  
 
     if( error == GL_FALSE )
     {
-        glGetShaderInfoLog( shader, sizeof(log), NULL, ( GLchar* ) log);
+        glGetShaderInfoLog( shader, sizeof(log), NULL, log);
         FreeShader        ( shader ); 
 
         programError = String( log );
@@ -166,8 +173,8 @@ uint32 Renderer::CreateFragmentShader(const String& source) {
     const char* string      = source.ToCString();
     char        log[1024];
 
-    glCreateShader( GL_FRAGMENT_SHADER );
-    glShaderSource ( shader , 1, ( const GLchar** ) &string, NULL );
+    shader = glCreateShader( GL_FRAGMENT_SHADER );
+    glShaderSource ( shader , 1, &string, NULL );
     glCompileShader( shader );
     glGetShaderiv  ( shader, GL_COMPILE_STATUS, &error );  
 
@@ -188,7 +195,7 @@ void Renderer::FreeShader(uint32 shader) {
 }
 
 uint32 Renderer::CreateProgram() {
-   return static_cast<uint32>( glCreateProgram() );
+   return glCreateProgram();
 	
 }
 
@@ -221,25 +228,17 @@ bool Renderer::LinkProgram(uint32 program) {
 }
 
 void Renderer::UseProgram(uint32 program) {
-    uint32 aux = program;
-
-    if( program == 0 ) 
-    {
-        glUseProgram( defaultProgram );
-        aux = defaultProgram;
-    }
-    else
-    {
-        glUseProgram( program );
-    }
-
-    mvpLoc          = glGetUniformLocation( defaultProgram, "MPV"         );
-    texSamplerLoc   = glGetUniformLocation( defaultProgram, "texSampler"  );
-    vposLoc         = glGetUniformLocation( defaultProgram, "vpos"        );
-    vtexLoc         = glGetUniformLocation( defaultProgram, "vtex"        );
     
-    //glEnableVertexAttribArray( texSamplerLoc    );
-    glUniform1d              ( texSamplerLoc, 0 );
+    if( program == 0 )  program = defaultProgram;
+    
+    glUseProgram( program );
+
+    mvpLoc          = glGetUniformLocation( program, "MVP"          );
+    texSamplerLoc   = glGetUniformLocation( program, "texSampler"   );
+    vposLoc			= glGetAttribLocation ( program, "vpos"         );
+	vtexLoc			= glGetAttribLocation ( program, "vtex"         );
+    
+    glUniform1i( texSamplerLoc, 0 );
 }
 
 const String& Renderer::GetProgramError() {

@@ -77,60 +77,56 @@ void Mesh::Render()
 //---------------------------------
 Mesh::Mesh(const String& filename) : filename( filename )
 {
-	rapidjson::Document jsonDoc;
-    String jsonDocStr;
+    String content = String::Read( filename );
 
-	this->filename = filename;
-	
-	if (filename.Length() == 0)
-		return;
+    rapidjson::Document json;
 
-	jsonDocStr = String::Read(filename);
+    if( json.Parse<0>( content.ToCString() ).HasParseError() ) return;
 
-	if (jsonDoc.Parse<0>(jsonDocStr.ToCString()).HasParseError() == true)
-        return;
+    rapidjson::Value& sub = json[ "submeshes" ];
 
-	rapidjson::Value& submeshesJson = jsonDoc["submeshes"];
+    for( unsigned int index = 0; index < sub.Size(); index++ )
+    {
+        String tex = sub[ index ][ "texture" ].GetString();
 
-    if (submeshesJson.IsArray()) {
-		for (rapidjson::SizeType i = 0; i < submeshesJson.Size(); i++) {
-			String textureJson = submeshesJson[i]["texture"].GetString();
+        rapidjson::Value& indexes     = sub[ index ][ "indices"   ];
+        rapidjson::Value& coords      = sub[ index ][ "coords"    ];
+        rapidjson::Value& texCoords   = sub[ index ][ "texcoords" ];
 
-			Ptr<Texture> t = Texture::Create(textureJson);
-			Ptr<Submesh> s = Submesh::Create(t);
+        Ptr< Texture > pTex = Texture::Create( tex  );
+        Ptr< Submesh > pSub = Submesh::Create( pTex );
 
-			rapidjson::Value& indicesJson = submeshesJson[i]["indices"];
-            if (indicesJson.IsArray()) {
-				for (rapidjson::SizeType j = 0; j < indicesJson.Size(); j+=3)
-                    s->AddTriangle(indicesJson[j].GetInt(), indicesJson[j+1].GetInt(), indicesJson[j+2].GetInt());
-            }
+        for( unsigned int nIndex = 0; nIndex < indexes.Size(); nIndex += 3 )
+        {
+            pSub->AddTriangle( indexes[ nIndex ].GetInt(), indexes[ nIndex + 1 ].GetInt(), indexes[ nIndex + 2 ].GetInt() );
+        }
 
-            rapidjson::Value& coordsJson = submeshesJson[i]["coords"];
-            if (coordsJson.IsArray()) {
-				for (rapidjson::SizeType j = 0; j < coordsJson.Size(); j+=3) {
-					Vector3 vector((float)coordsJson[j].GetDouble(), (float)coordsJson[j+1].GetDouble(), (float)coordsJson[j+2].GetDouble());
+        Array< Vector3 > vertexPositions;
 
-                    rapidjson::Value& texCoordsJson = submeshesJson[i]["texcoords"];                 
-                    float u;
-                    float v;
+        for( unsigned int nCoords = 0; nCoords < coords.Size(); nCoords += 3 )
+        {
+            vertexPositions.Add( 
+                                Vector3(
+                                        static_cast<float>( coords[ nCoords     ].GetDouble() ), 
+                                        static_cast<float>( coords[ nCoords + 1 ].GetDouble() ), 
+                                        static_cast<float>( coords[ nCoords + 2 ].GetDouble() ) 
+                                        )
+                               );
+        }
 
-                    if (j % 2 == 0) {
-                        u = (float)texCoordsJson[j/2].GetDouble();
-                        v = (float)texCoordsJson[j/2+1].GetDouble();
-                    }
-                    else {
-                        u = (float)texCoordsJson[j/2+1].GetDouble();
-                        v = (float)texCoordsJson[j/2+2].GetDouble();
-                    }
-                    
-                    Vertex vertex(vector, u, v);
-                    s->AddVertex(vertex);                                       
-                }
-            }           
+        for( unsigned int nTex = 0; nTex < texCoords.Size(); nTex += 2 )
+        {
+            pSub->AddVertex( 
+                            Vertex( 
+                                    vertexPositions[ nTex / 2 ], 
+                                    static_cast<float>( texCoords[ nTex     ].GetDouble() ), 
+                                    static_cast<float>( texCoords[ nTex + 1 ].GetDouble() ) 
+                                   )
+                           );
+        }
 
-			AddSubmesh(s);
-		}
-	}
+        AddSubmesh( pSub );
+    }
 }
 //---------------------------------
 //
