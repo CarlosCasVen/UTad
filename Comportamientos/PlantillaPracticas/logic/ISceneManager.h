@@ -19,6 +19,8 @@ public:
     virtual void NextScene    () = 0;
     virtual void PreviousScene() = 0;
     virtual void SetScene     ( unsigned int index ) = 0;
+
+    virtual bool IsFinish() const = 0;
 };
 
 

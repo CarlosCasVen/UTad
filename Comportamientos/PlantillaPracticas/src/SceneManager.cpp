@@ -38,6 +38,7 @@ TError SceneManager::Init()
 
     CreateScene( (*m_scenes)[m_indexCurrentScene] );
 
+    m_finish = false;
 
     return error;
 }
@@ -92,9 +93,21 @@ void SceneManager::PreviousScene()
 //-------------------------------------
 void SceneManager::SetScene( unsigned int index )
 {
-	m_previousScene = m_currentScene;
-	m_indexCurrentScene = index;
-    CreateScene( (*m_scenes)[m_indexCurrentScene] ); 
+    if( index == 0xffffffff ) m_finish = true;
+    else
+    {
+	    m_previousScene = m_currentScene;
+	    m_indexCurrentScene = index;
+        CreateScene( (*m_scenes)[m_indexCurrentScene] ); 
+    }
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+bool SceneManager::IsFinish() const
+{
+    return m_finish;
 }
 
 //-------------------------------------

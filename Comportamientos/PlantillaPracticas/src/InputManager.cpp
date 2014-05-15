@@ -670,33 +670,6 @@ bool InputManager::IsXboxUp( eInputCode vkCode )
 
 int InputManager::FromKeyToXboxStruct ( eInputCode key )
 {
-	switch( key )
-	{
-/*	case Button_A:
-		return XINPUT_GAMEPAD_A;
-	case Button_B:
-		return XINPUT_GAMEPAD_B;
-	case Button_Y:
-		return XINPUT_GAMEPAD_Y;
-	case Button_X:
-		return XINPUT_GAMEPAD_X;
-	case Button_RB:
-		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
-	case Button_LB:
-		return XINPUT_GAMEPAD_RIGHT_SHOULDER;
-	case Button_Start:
-		return XINPUT_GAMEPAD_START;
-	case Button_Back:
-		return XINPUT_GAMEPAD_BACK;
-	case Button_Right:
-		return XINPUT_GAMEPAD_DPAD_RIGHT;
-	case Button_Left:
-		return XINPUT_GAMEPAD_DPAD_LEFT;
-	case Button_Up:
-		return XINPUT_GAMEPAD_DPAD_UP;
-	case Button_Down:
-		return XINPUT_GAMEPAD_DPAD_DOWN;*/
-	default:
 		return -1;
-	}
+	
 }

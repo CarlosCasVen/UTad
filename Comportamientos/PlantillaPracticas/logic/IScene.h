@@ -5,6 +5,7 @@
 
 class Sprite;
 class IEntity;
+class LabelComponent;
 
 class IScene
 {
@@ -19,6 +20,8 @@ public:
     virtual void RemoveEntity( IEntity* entity )                     = 0;
     virtual void AddSprite   ( Sprite* sprite, Scene::Layer layer  ) = 0;
     virtual void RemoveSprite( Sprite* sprite )						 = 0;
+    virtual void AddFont   ( LabelComponent* labelComponent )        = 0;
+	virtual void RemoveFont( LabelComponent* labelComponent )        = 0;
 
 };
 

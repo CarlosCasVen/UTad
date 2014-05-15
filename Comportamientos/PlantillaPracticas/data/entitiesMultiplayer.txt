@@ -1,5 +1,5 @@
 {
-	"Image" : "data/background.png", 
+	"Image" : "data/space.jpg", 
 	"Entities" : [
 					{ "Entity" : "EPlayer",
 					  "Params" : { "Image" : "data/alien.png",
@@ -14,7 +14,8 @@
 								  "LastFps"  : 0,
 								  "FPS" : 10,
 								  "Collision" : 3,
-								  "Live" : 10
+								  "Live" : 100,
+								  "r" : 100, "g" : 150, "b" : 50
 								  }  
 					},
 					{ "Entity" : "EPlayer",
@@ -30,7 +31,8 @@
 								  "LastFps"  : 0,
 								  "FPS" : 15,
 								  "Collision" : 3,
-								  "Live" : 5
+								  "Live" : 100,
+								  "r" : 100, "g" : 150, "b" : 50
 								  }  
 					}
 				]

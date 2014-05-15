@@ -7,6 +7,7 @@
 
 class Sprite;
 class IScene;
+class ISample;
 
 
 class BulletEntity : public BaseEntity
@@ -30,6 +31,8 @@ private:
     void DoDamage( BaseEntity* entityToDamage );
 
     const IEntity* m_creator;
+    ISample*       m_shoot;
+    ISample*       m_explosion;
 
 };
 

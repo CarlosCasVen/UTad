@@ -52,6 +52,7 @@
 #include "StaticObstacleEntity.h"
 #include "BulletEntity.h"
 #include "FinishSceneEntity.h"
+#include "DynamicObstacleEntity.h"
 
 //COMPONENT
 #include "BaseComponent.h"
@@ -65,6 +66,8 @@
 #include "AnimatorComponent.h"
 #include "WaveMovementComponent.h"
 #include "TeamComponent.h"
+#include "LabelComponent.h"
+#include "BoundEliminatorComponent.h"
 
 //SCENES
 #include "BaseScene.h"

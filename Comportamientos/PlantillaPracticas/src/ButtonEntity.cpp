@@ -50,19 +50,44 @@ TError ButtonEntity::Init()
         return error;
     }
 
+    LabelComponent* label   = IComponentFactory::Instance().GetComponent<LabelComponent>( error );
+
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( label );
+        return error;
+    }
+
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( bound );
+        return error;
+    }
+
     if( GetParams().HasMember( "Image"     ) )    sprite->SetImage   ( String( GetParams()["Image"].GetString() ) );
     if( GetParams().HasMember( "X"         ) && 
         GetParams().HasMember( "Y"         ) ) 
     {		
         sprite->SetPosition( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
-		bound->SetMinBound(  GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
-		bound->SetMaxBound(  GetParams()["X"].GetDouble() + sprite->GetImage()->GetWidth(), GetParams()["Y"].GetDouble() + sprite->GetImage()->GetHeight() );
+		bound->SetMinBound ( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
+		bound->SetMaxBound ( GetParams()["X"].GetDouble() + sprite->GetImage()->GetWidth(), GetParams()["Y"].GetDouble() + sprite->GetImage()->GetHeight() );
+        label->SetPosition ( GetParams()["X"].GetDouble(), GetParams()["Y"].GetDouble() );
     }
     if( GetParams().HasMember( "NextScene"  ) )    m_sceneIndex = GetParams()["NextScene"].GetInt();
+    if( GetParams().HasMember( "Label"      ) )    label->SetLabel( String( GetParams()["Label"].GetString() ) ); 
+    if( GetParams().HasMember( "Font"       ) )    label->SetFont ( &String( GetParams()["Font"].GetString() ) ); 
+    if( GetParams().HasMember( "r"          ) &&
+        GetParams().HasMember( "g"          ) &&
+        GetParams().HasMember( "b"          ) )
+    {
+        if( GetParams().HasMember( "a"      ) )     label->SetColor( GetParams()["r"].GetInt(), GetParams()["g"].GetInt(), GetParams()["b"].GetInt(), GetParams()["a"].GetInt() );
+        else                                        label->SetColor( GetParams()["r"].GetInt(), GetParams()["g"].GetInt(), GetParams()["b"].GetInt()                            );
+    }
 
     AddComponent( bound );
     AddComponent( input );
     AddComponent( sprite );
+    AddComponent( label );
 
     BaseEntity::Init();
 

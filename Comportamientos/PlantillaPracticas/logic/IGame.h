@@ -13,6 +13,8 @@ public:
 	virtual void Update( double elapsedTime ) = 0;
 	virtual void Render()					  = 0;
 
+    virtual bool IsFinish() const = 0;
+
 };
 
 

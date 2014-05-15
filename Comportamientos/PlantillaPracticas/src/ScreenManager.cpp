@@ -48,6 +48,16 @@ double ScreenManager::TransformToWorldPointY( double y )
     return y / m_percentY;
 }
 
+double ScreenManager::GetWidth () const
+{
+    return Screen::Instance().GetWidth();
+}
+
+double ScreenManager::GetHeight() const
+{
+    return Screen::Instance().GetHeight();
+}
+
 ScreenManager::ScreenManager()
 {
     m_percentX = m_percentY = 1;
@@ -56,3 +66,4 @@ ScreenManager::ScreenManager()
 ScreenManager::~ScreenManager()
 {
 }
+

@@ -17,6 +17,9 @@ public:
 
     virtual double TransformToWorldPointX( double x ) = 0;
     virtual double TransformToWorldPointY( double y ) = 0;
+
+    virtual double GetWidth () const = 0;
+    virtual double GetHeight() const = 0;
 };  
 
 

@@ -6,6 +6,7 @@
 WaveMovementComponent::WaveMovementComponent()
 {
     m_incrementX = m_incrementY = 0;
+    SetType( EWaveMovement );
 }
 	
 WaveMovementComponent::~WaveMovementComponent()   
@@ -24,10 +25,10 @@ void WaveMovementComponent::End()
 
 void WaveMovementComponent::Update( double elapsedTime )
 {
-    m_x = sinh( m_incrementX ) * m_distanceX;
-    m_y = sinh( m_incrementY ) * m_distanceY;
-    m_incrementX += m_speedX;
-    m_incrementY += m_speedY;
+    m_x += DegCos( m_incrementX ) * m_distanceX * elapsedTime;
+    m_y += DegSin( m_incrementY ) * m_distanceY * elapsedTime;
+    m_incrementX += m_speedX * elapsedTime;
+    m_incrementY += m_speedY * elapsedTime;
 }
 
 void WaveMovementComponent::SetSpeed( double speedX,  double speedY )

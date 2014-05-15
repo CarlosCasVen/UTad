@@ -18,7 +18,7 @@ TError BSOEntity::Init()
      {    
          String c = GetParams()["Sample"].GetString();
          const String* path = &c;
-         m_sample = ISoundFactory::Instance().CreateSample( ISample::ELoaded, path ,error );
+         m_sample = ISoundFactory::Instance().CreateSample( ISample::EStream, path ,error );
          m_sample->Init();
      }
 

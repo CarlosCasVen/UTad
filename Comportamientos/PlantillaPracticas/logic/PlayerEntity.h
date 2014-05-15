@@ -30,7 +30,8 @@ private:
     void CreateBullet( BulletParams params );   
 
     eInputCode   m_up, m_down, m_right, m_left, m_shoot;
-    BulletParams m_paramsBullet;
+    BulletParams m_paramsBullet;   
+    String       m_label;
 };
 
 

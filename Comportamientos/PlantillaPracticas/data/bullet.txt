@@ -1,5 +1,8 @@
 { 
 	"Image" : "data/ball.png",
 	"Collision" : 3,
-	"Damage" : 1
+	"Damage" : 1,
+	"ScaleX" : 0.5, "ScaleY" : 0.5,
+	"ShootSound": "data/shoot.wav",
+	"ExplosionSound" : "data/explosion.aiff"
 }

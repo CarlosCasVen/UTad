@@ -68,6 +68,14 @@ TError BulletEntity::Init()
         return error;
     }
 
+    BoundEliminatorComponent* eliminator = IComponentFactory::Instance().GetComponent<BoundEliminatorComponent>  ( error );
+    
+    if( error != OK )
+    {
+        IComponentFactory::Instance().RemoveComponent( eliminator );
+        return error;
+    }
+
     String content = String::Read( PATH_BULLET );
     rapidjson::Document document;
     document.Parse<0>( (char*) content.ToCString() );
@@ -77,7 +85,20 @@ TError BulletEntity::Init()
 
     collision->SetSprite( sprite->GetSprite() );
 
-    if( document.HasMember( "Collision" ) )   collision->SetCollisionMode( (Sprite::CollisionMode)document["Collision"].GetInt() );    
+    if( document.HasMember( "ScaleX"    ) && 
+        document.HasMember( "ScaleY"    ) )    sprite->SetScale( document["ScaleX"].GetDouble(), document["ScaleY"].GetDouble() );
+
+    if( document.HasMember( "Collision" ) )   collision->SetCollisionMode( (Sprite::CollisionMode)document["Collision"].GetInt() );  
+    if( document.HasMember( "Damage"    ) )   damage->SetDamage          ( document["Damage"].GetInt()                           );  
+        
+    eliminator->SetSprite( sprite->GetSprite() );
+    eliminator->SetMinBound( 0, 0 );
+    eliminator->SetMaxBound( 
+                             ScreenManager::Instance().GetWidth () - sprite->GetImage()->GetWidth () * sprite->GetScaleX(),
+                             ScreenManager::Instance().GetHeight() - sprite->GetImage()->GetHeight() * sprite->GetScaleY() 
+                            );
+
+
     team->SetTeam( 2 );
     AddComponent( sprite );
     AddComponent( movement );
@@ -85,11 +106,28 @@ TError BulletEntity::Init()
     AddComponent( collision );
     AddComponent( team );
     AddComponent( damage );
+    AddComponent( eliminator );
 
     ICollisionManager::Instance().RegisterCollider( (ICollisionListener*)collision );
 
     BaseEntity::Init();
 
+    if( document.HasMember( "ShootSound"      ) ) 
+    {
+        String c = document["ShootSound"].GetString();
+        const String* path = &c;
+        m_shoot = ISoundFactory::Instance().CreateSample( ISample::ELoaded, path, error );
+        m_shoot->Init();
+    }
+    if( document.HasMember( "ExplosionSound"  ) ) 
+    {
+        String c = document["ExplosionSound"].GetString();
+        const String* path = &c;
+        m_explosion =  ISoundFactory::Instance().CreateSample( ISample::ELoaded, path, error );
+        m_explosion->Init();
+    }
+
+    ISoundManager::Instance().PlaySample( m_shoot );
     return error;
 }
 
@@ -121,6 +159,8 @@ String ParseBullet( TError& error, rapidjson::Document& document )
 void BulletEntity::End()
 {
     BaseEntity::End();
+    ISoundFactory::Instance().RemoveSample( m_shoot      );
+    ISoundFactory::Instance().RemoveSample( m_explosion );
 }
 
 //-------------------------------------
@@ -160,6 +200,7 @@ void BulletEntity::Update( double elapsedTime )
                 GetParentScene()->RemoveSprite( sprite->GetSprite() );
                 GetParentScene()->RemoveEntity( this );
                 destroyed = true;
+                ISoundManager::Instance().PlaySample( m_explosion );
             }
         }
     }

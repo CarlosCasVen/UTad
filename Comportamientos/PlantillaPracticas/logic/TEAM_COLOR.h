@@ -1,0 +1,3 @@
+TEAM_COLOR( 0, 255, 0, 0 )
+TEAM_COLOR( 1, 0, 0, 255 )
+TEAM_COLOR( 2, 0, 255, 0 )

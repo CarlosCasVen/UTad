@@ -18,6 +18,9 @@ public:
     virtual double TransformToWorldPointX( double x );
     virtual double TransformToWorldPointY( double y );
 
+    virtual double GetWidth () const;
+    virtual double GetHeight() const;
+
 private:
     ScreenManager ();
     ~ScreenManager();

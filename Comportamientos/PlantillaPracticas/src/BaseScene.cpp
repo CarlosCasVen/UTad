@@ -64,6 +64,9 @@ void BaseScene::End()
 		IEntityFactory::Instance().RemoveEntity( entityToDelete );
 	}
 
+    m_labels.Clear();
+    m_labelsToDelete.Clear();
+
 	DEL( m_scene );
 }
 
@@ -74,6 +77,7 @@ void BaseScene::Update( double elapsedTime )
 {
 	DestroyEntities();
     DestroySprites ();
+    DestroyLabels  ();
     AddEntities    ();
 
     for( unsigned int i = 0; i < m_entities.Size(); i++ ) m_entities[i]->Update( elapsedTime );
@@ -88,6 +92,7 @@ void BaseScene::Update( double elapsedTime )
 void BaseScene::Render()
 {
     m_scene->Render();
+    for( unsigned int i = 0; i < m_labels.Size(); i++ ) m_labels[ i ]->Render();
 }
 
 //-------------------------------------
@@ -160,8 +165,36 @@ void BaseScene::AddEntities()
     m_entitiesToAdd.Clear();
 }
 
+//-------------------------------------
+//
+//-------------------------------------
 void BaseScene::DestroySprites()
 {
     for( unsigned int i = 0 ; i < m_spriteToDelete.Size(); i++ ) m_scene->DeleteSprite( m_spriteToDelete[i] );
     m_spriteToDelete.Clear();
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::AddFont( LabelComponent* labelComponent )
+{
+    m_labels.Add( labelComponent );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::RemoveFont( LabelComponent* labelComponent )
+{
+    m_labelsToDelete.Add( labelComponent );
+}
+
+//-------------------------------------
+//
+//-------------------------------------
+void BaseScene::DestroyLabels()
+{
+    for( unsigned int i = 0 ; i <  m_labelsToDelete.Size(); i++ ) m_labels.Remove( m_labelsToDelete[ i] );
+    m_labelsToDelete.Clear();
 }

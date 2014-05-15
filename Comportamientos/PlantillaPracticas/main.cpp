@@ -15,13 +15,12 @@ int	main(int	argc,	char*	argv[])	{
 
 	glfwSetMousePos(400, 300);
 
-	while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ))
-	{	
-  
-		Screen::Instance().Refresh();
+    while(Screen::Instance().IsOpened()	&& !Screen::Instance().KeyPressed( GLFW_KEY_ESC ) && !IGame::Instance().IsFinish() )
+	{			
         IGame::Instance().Update( Screen::Instance().ElapsedTime() );
         IGame::Instance().Render();
-	}
+        Screen::Instance().Refresh();
+    }
 
     IGame::Instance().End();
     ResourceManager::Instance().FreeResources();

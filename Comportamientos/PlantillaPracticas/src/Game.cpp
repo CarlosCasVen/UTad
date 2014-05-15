@@ -74,3 +74,11 @@ void Game::Render()
 {
     ISceneManager::Instance().Render();
 }
+
+//-------------------------------------
+//
+//-------------------------------------
+bool Game::IsFinish() const
+{
+    return ISceneManager::Instance().IsFinish();
+}

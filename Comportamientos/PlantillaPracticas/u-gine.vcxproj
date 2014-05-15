@@ -27,6 +27,7 @@
     <ClCompile Include="src\BaseScene.cpp" />
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\BoundComponent.cpp" />
+    <ClCompile Include="src\BoundEliminatorComponent.cpp" />
     <ClCompile Include="src\BSOEntity.cpp" />
     <ClCompile Include="src\BulletEntity.cpp" />
     <ClCompile Include="src\camera.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="src\collisionPixelData.cpp" />
     <ClCompile Include="src\ComponentFactory.cpp" />
     <ClCompile Include="src\DamageComponent.cpp" />
+    <ClCompile Include="src\DynamicObstacleEntity.cpp" />
     <ClCompile Include="src\emitter.cpp" />
     <ClCompile Include="src\EntityFactory.cpp" />
     <ClCompile Include="src\Event.cpp" />
@@ -50,6 +52,7 @@
     <ClCompile Include="src\isometricMap.cpp" />
     <ClCompile Include="src\isometricScene.cpp" />
     <ClCompile Include="src\isometricSprite.cpp" />
+    <ClCompile Include="src\LabelComponent.cpp" />
     <ClCompile Include="src\leaks.cpp" />
     <ClCompile Include="src\leaks_windows.cpp" />
     <ClCompile Include="src\listener.cpp" />
@@ -142,12 +145,14 @@
     <ClInclude Include="logic\BaseSample.h" />
     <ClInclude Include="logic\BaseScene.h" />
     <ClInclude Include="logic\BoundCompoment.h" />
+    <ClInclude Include="logic\BoundEliminatorComponent.h" />
     <ClInclude Include="logic\BSOEntity.h" />
     <ClInclude Include="logic\BulletEntity.h" />
     <ClInclude Include="logic\ButtonEntity.h" />
     <ClInclude Include="logic\CollisionManagerL.h" />
     <ClInclude Include="logic\ComponentFactory.h" />
     <ClInclude Include="logic\DamageComponent.h" />
+    <ClInclude Include="logic\DynamicObstacleEntity.h" />
     <ClInclude Include="logic\ENTITY_TYPES.h" />
     <ClInclude Include="logic\CollisionComponent.h" />
     <ClInclude Include="logic\FinishSceneEntity.h" />
@@ -157,6 +162,7 @@
     <ClInclude Include="logic\IScreenManager.h" />
     <ClInclude Include="logic\ISoundFactory.h" />
     <ClInclude Include="logic\ISoundManager.h" />
+    <ClInclude Include="logic\LabelComponent.h" />
     <ClInclude Include="logic\LoadedSample.h" />
     <ClInclude Include="logic\MoveComponent.h" />
     <ClInclude Include="logic\ScreenManager.h" />
@@ -189,6 +195,7 @@
     <ClInclude Include="logic\StaticObstacleEntity.h" />
     <ClInclude Include="logic\StreamSample.h" />
     <ClInclude Include="logic\TeamComponent.h" />
+    <ClInclude Include="logic\TEAM_COLOR.h" />
     <ClInclude Include="logic\WaveMovementComponent.h" />
     <ClInclude Include="openal\AL\al.h" />
     <ClInclude Include="openal\AL\alc.h" />

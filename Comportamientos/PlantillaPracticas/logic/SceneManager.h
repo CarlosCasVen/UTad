@@ -18,6 +18,8 @@ public:
     virtual void PreviousScene();
     virtual void SetScene     ( unsigned int index );
 
+    virtual bool IsFinish() const;
+
 private:
     SceneManager ();
     ~SceneManager();
@@ -31,6 +33,7 @@ private:
     const rapidjson::Value*   m_scenes;
     rapidjson::Document       m_document;
     unsigned long int         m_id;
+    bool                      m_finish;
 
     friend class ISceneManager;
 };

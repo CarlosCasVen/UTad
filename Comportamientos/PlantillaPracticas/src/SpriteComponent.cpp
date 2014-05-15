@@ -173,8 +173,8 @@ Sprite* SpriteComponent::GetSprite()
 void SpriteComponent::SetScale( double x, double y )
 {
      IScreenManager& manager = IScreenManager::Instance();
-     double xTrans = manager.TransformToScreenPointX( m_sprite->GetScaleX() );
-     double yTrans = manager.TransformToScreenPointY( m_sprite->GetScaleY() );
+     double xTrans = manager.TransformToScreenPointX( x );
+     double yTrans = manager.TransformToScreenPointY( y );
 
      if( m_sprite ) m_sprite->SetScale( xTrans, yTrans );
 }

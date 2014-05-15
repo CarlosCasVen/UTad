@@ -1,18 +1,24 @@
 {
-	"Image" : "data/background.png", 
+	"Image" : "data/space.jpg", 
 	"Entities" : [
 					{ "Entity" : "EButton",
 					  "Params" : { "Image" : "data/box.jpg",
 								  "X" : 910 , 
 								  "Y" : 300, 
-								  "NextScene" : 1
+								  "NextScene" : -1,
+								  "Label" 	: "Exit",
+								  "Font"	  : "data/monospaced.png",
+								  "r" : 100, "g" : 150, "b" : 50
 								  }  
 					},
 					{ "Entity" : "EButton",
 					  "Params" : { "Image" : "data/box.jpg",
 								  "X" : 910 , 
 								  "Y" : 200,  
-								  "NextScene" : 1
+								  "NextScene" : 1,
+								  "Label" 	  : "Start",
+								  "Font"	  : "data/monospaced.png",
+								  "r" : 100, "g" : 150, "b" : 50
 								  }  
 					}
 				]

@@ -282,6 +282,15 @@
     <ClCompile Include="src\FinishSceneEntity.cpp">
       <Filter>Source Files\Logic\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\LabelComponent.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoundEliminatorComponent.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DynamicObstacleEntity.cpp">
+      <Filter>Source Files\Logic\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\affector.h">
@@ -624,6 +633,18 @@
       <Filter>Header Files\Logic\Components</Filter>
     </ClInclude>
     <ClInclude Include="logic\FinishSceneEntity.h">
+      <Filter>Header Files\Logic\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LabelComponent.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\BoundEliminatorComponent.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\TEAM_COLOR.h">
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\DynamicObstacleEntity.h">
       <Filter>Header Files\Logic\Entities</Filter>
     </ClInclude>
   </ItemGroup>

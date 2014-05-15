@@ -23,6 +23,8 @@ public:
         EAnimator,
         ELabel,
         ETeam,
+        EBoundEliminator,
+        EWaveMovement,
         EInvalid,
     };
     
